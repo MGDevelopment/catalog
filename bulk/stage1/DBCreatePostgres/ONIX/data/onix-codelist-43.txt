@@ -1,0 +1,6 @@
+01	Proprietary	For example, a publisher's own identifier
+03	GTIN-13	Formerly known as the EAN-13 (unhyphenated)
+06	DOI	
+09	PII	Publisher item identifier
+10	SICI	For serial items only
+15	ISBN-13	(unhyphenated)

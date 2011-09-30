@@ -1,0 +1,23 @@
+BEGIN
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('1',  'es', 'spa');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('3',  'es', 'spa');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('AL', 'de', 'ger');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('AR', 'ar', 'ara');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('CA', 'ca', 'cat');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('CN', 'zn', 'chi');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('ES', 'es', 'spa');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('FI', 'fi', 'fin');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('FR', 'fr', 'fre');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('GR', 'el', 'gre');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('ID', 'id', 'ind');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('IE', 'ia', 'ina');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('IN', 'en', 'eng');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('IT', 'it', 'ita');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('JA', 'ja', 'jpn');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('PT', 'pt', 'por');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('RU', 'ru', 'rus');
+    INSERT INTO DBE_LanguageTranslation(Idioma, LanguageCode, LanguageCode3) VALUES('UC', 'uk', 'urk');
+--    VALUES('NG', '', '');
+--    VALUES('OT', '', '');
+    COMMIT;
+END;

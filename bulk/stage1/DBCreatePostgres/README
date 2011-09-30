@@ -1,0 +1,25 @@
+Estos scripts se encargan de crear el esquema de base de datos y de
+insertar los registros minimos para que el sistema funcione.
+
+La duracion total del proceso es de 10 minutos aproximadamente.
+
+Hay dos listas en particular que se extraen de diferentes lugares y
+corresponden con los directorios:
+
+- ISO639 (lista de idiomas)
+- ONIX (tablas definidas en la especificacion)
+
+Cada uno de estos tiene su README de como generar. El output de los
+scripts es un archivo de la forma "TMK_eCommerce_Create_{{step}}.sql"
+que se debe copiar a este directorio.
+
+El archivo TMK_eCommerce_Create_3.sql se debe copiar con el script de
+generacion que deja la herramienta de edicion del modelo de datos.
+
+Hay dos scripts que permiten facilitar las tareas:
+
+1) TMK_eCommerce_Drop.sh - permite destruir usuario, db y esquema para
+   poder reiniciar el proceso de generacion.
+
+2) TMK_eCommerce_Create.sh - crea el usuario, db, esquema y carga los
+   datos de base.

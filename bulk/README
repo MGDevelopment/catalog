@@ -1,0 +1,20 @@
+En este directorio se encuentran los procesos de importacion masiva.
+
+Hay etapas en el proceso, que siguen la secuencia de como se incorporara
+la funcionalidad desde el sistema actual.
+
+Cada etapa tendra una combinacion de las siguientes tareas:
+
+- exportacion de Oracle
+- creacion de esquema en Postgres
+- importacion de datos en Postgres
+- generacion adicional de datos en Postgres
+  Esto cubre datos necesarios propios del esquema (ej: nuevos URLs)
+- generacion adicional de datos nuevo sistema
+  Esto cubre datos necesarios propios del nuevo sistema (ej: base de
+  datos de busqueda)
+
+Las etapas definidas son:
+
+- stage1 - importacion inicial para generacion de contenido
+

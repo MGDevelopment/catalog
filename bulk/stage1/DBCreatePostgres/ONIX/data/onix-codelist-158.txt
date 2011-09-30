@@ -1,0 +1,26 @@
+01	Front cover	
+02	Back cover	
+03	Cover / pack	Not limited to front or back
+04	Contributor picture	Photograph or portrait of contributor(s)
+05	Series image / artwork	
+06	Series logo	
+07	Product image / artwork	
+08	Product logo	
+09	Publisher logo	
+10	Imprint logo	
+11	Contributor interview	
+12	Contributor presentation	Contributor presentation and/or commentary
+13	Contributor reading	
+14	Contributor event schedule	Link to a schedule in iCalendar format
+15	Sample content	For example: sample chapter text, page images, screenshots
+16	Widget	A 'look inside' feature presented as a small embeddable application
+17	Review	Use the <TextContent> composite for review quotes carried in the ONIX record. Use the <CitedContent> composite for a third-party review which is referenced from the ONIX record. Use <SupportingResource> only for a review which is offered for reproduction as part of promotional material for the product.
+18	Other commentary / discussion	
+19	Reading group guide	
+20	Teacher's guide	
+21	Feature article	Feature article provided by publisher
+22	Character 'interview'	Fictional character 'interview'
+23	Wallpaper / screensaver	
+24	Press release	
+25	Table of contents	A table of contents held on a webpage, not in the ONIX record
+26	Trailer	A promotional video, similar to a movie trailer (sometimes referred to as a "book trailer")

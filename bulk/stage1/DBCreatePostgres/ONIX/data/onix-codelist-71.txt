@@ -1,0 +1,10 @@
+00	Unspecified - see text	Restriction must be described in <SalesRestrictionDetail> (ONIX 2.1) or <SalesRestrictionNote> (ONIX 3.0)
+01	Retailer exclusive / own brand	For sale only through designated retailer. Retailer must be identified or named in an instance of the <SalesOutlet> composite. Use only when it is not possible to assign the more explicit code 04 or 05.
+02	Office supplies edition	For editions sold only though office supplies wholesalers. Retailer(s) and/or distributor(s) may be identified or named in an instance of the <SalesOutlet> composite.
+03	Internal publisher use only: do not list	For an ISBN that is assigned for a publisher's internal purposes
+04	Retailer exclusive	For sale only through designated retailer, though not under retailer's own brand/imprint. Retailer must be identified or named in an instance of the <SalesOutlet> composite.
+05	Retailer own brand	For sale only through designated retailer under retailer's own brand/imprint. Retailer must be identified or named in an instance of the <SalesOutlet> composite.
+06	Library edition	For sale to libraries only; not for sale through retail trade
+07	Schools only edition	For sale directly to schools only; not for sale through retail trade
+08	Indiziert	Indexed for the German market - in Deutschland indiziert
+09	Not for sale to libraries	Expected to apply in particular to digital products for consumer sale where the publisher does not permit the product to be supplied to libraries who provide an ebook loan service

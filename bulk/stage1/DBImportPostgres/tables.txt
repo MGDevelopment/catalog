@@ -1,0 +1,64 @@
+# users
+Users
+UserName
+UserRecordReferences
+UserCredentials
+# collections
+Collections
+CollectionIdentifiers
+CollectionTitles
+CollectionTitleElements
+# contributors
+Contributors
+ContributorIdentifiers
+# imprints
+Imprints
+ImprintIdentifiers
+# publishers
+Publishers
+PublisherIdentifiers
+PublisherWebsites
+# subjects
+Subjects
+SubjectIdentifiers
+# products
+Products
+ProductRecordReferences
+ProductOriginMessages
+ProductIdentifiers
+ProductForm
+ProductFormFeatures
+ProductFormMeasures
+ProductCollections
+ProductTitles
+ProductTitleElements
+ProductContributors
+ProductEditions
+ProductLanguages
+ProductExtents
+ProductSubjects
+ProductAudiences
+ProductAudienceRanges
+ProductContents
+ProductContentContributors
+ProductContentTitles
+ProductContentTitleElements
+ProductImprints
+ProductPublishers
+ProductPublication
+ProductSupplyMarket
+ProductSupplyPublishingDetail
+ProductSupplyPublishingDetailDates
+ProductSupplyDetail
+ProductSupplyDetailPrice
+# URLs
+URLs
+# entities
+Entities
+EntityTexts
+EntityTextAudiences
+EntityTextDates
+EntityRelatedEntities
+EntitySnapshotRatings
+EntityRatings
+EntityURLs

@@ -1,0 +1,112 @@
+{
+    "db"                    : {
+        "odbc"              : "DSN=Tematika",
+        "password"          : "test"
+    },
+    "options"               : {
+        "encoding.input"    : "ISO-8859-1",
+        "encoding.output"   : "UTF-8",
+        "format.date"       : "%Y-%m-%d",
+        "format.time"       : "%H:%M:%S",
+        "format.datetime"   : "%Y-%m-%dT%H:%M:%S",
+        "query.dir"         : "./query",
+        "query.extension"   : "sql",
+        "output.dir"        : "./data",
+        "output.extension"  : "txt",
+        "zip.dir"           : "./zip",
+        "zip.extension"     : "gz",
+        "zip.program"       : "\\usr\\local\\wbin\\gzip.exe",
+        "step.default"      : "export"
+    },
+    "macros"                : {
+        "OriginId"          : "1",
+        "MessageId"         : "0",
+        "SubjectTypePrefix" : "com.ilhsa.category.",
+        "ProductIdType"     : "120",
+        "ContributorIdType" : "119",
+        "CollectionIdType"  : "117",
+        "SubjectIdType"     : "118",
+        "ImprintIdType"     : "119",
+        "PublisherIdType"   : "119"
+    },
+    "queries"               : [
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // delete sorted and tmp files
+        //
+        {   "name"          : "Files.del.tmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/*.tmp" },
+        {   "name"          : "Files.del.sorted",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/*.sorted" },
+        {   "name"          : "Files.del.uniq",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/*.uniq" },
+
+
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // numbering schemes destruction
+        //
+        {   "name"          : "Numbering Schemes - Destroy------",
+            "type"          : "label" },
+        /////// Products
+        {   "name"          : "Products-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Products" },
+        /////// Contributors
+        {   "name"          : "Contributors-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Contributors" },
+        /////// Imprints
+        {   "name"          : "Imprints-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Imprints" },
+        /////// Publishers
+        {   "name"          : "Publishers-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Publishers" },
+        /////// Collections
+        {   "name"          : "Collections-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Collections" },
+        /////// Subjects
+        {   "name"          : "Subjects-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Subjects" },
+        /////// Users
+        {   "name"          : "Users-Numbering.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_Users" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // translation tables destruction
+        //
+        {   "name"          : "Translation Tables - Destroy----",
+            "type"          : "label" },
+        /////// Currency Translation
+        {   "name"          : "DBE_CurrencyTranslation.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_CurrencyTranslation" },
+        /////// Language Translation
+        {   "name"          : "DBE_LanguageTranslation.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_LanguageTranslation" }
+
+        ,
+        {   "name"          : "Entities-PreCalc.Destroy",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_EntitiesPreCalc" }
+
+    ]
+}

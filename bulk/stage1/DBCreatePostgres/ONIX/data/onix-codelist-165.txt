@@ -1,0 +1,3 @@
+01	Supplier's sales classification	A rating applied by a supplier (typically a wholesaler) to indicate its assessment of the expected or actual sales performance of a product
+02	Supplier's bonus eligibility	A supplier's coding of the eligibility of a product for a bonus scheme on overall sales
+03	Publisher's sales classification	A rating applied by the publisher to indicate a sales category (eg backlist/frontlist, core stock etc). Use only when the publisher is not the 'supplier'

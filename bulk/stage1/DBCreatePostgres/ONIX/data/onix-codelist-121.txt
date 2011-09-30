@@ -1,0 +1,158 @@
+Afak	Afaka	script is not supported by Unicode
+Arab	Arabic	
+Armi	Imperial Aramaic	
+Armn	Armenian	
+Avst	Avestan	
+Bali	Balinese	
+Bamu	Bamun	
+Bass	Bassa Vah	script is not supported by Unicode
+Batk	Batak	
+Beng	Bengali	
+Blis	Blissymbols	script is not supported by Unicode
+Bopo	Bopomofo	
+Brah	Brahmi	
+Brai	Braille	
+Bugi	Buginese	
+Buhd	Buhid	
+Cakm	Chakma	script is not supported by Unicode
+Cans	Unified Canadian Aboriginal Syllabics	
+Cari	Carian	
+Cham	Cham	
+Cher	Cherokee	
+Cirt	Cirth	script is not supported by Unicode
+Copt	Coptic	
+Cprt	Cypriot	
+Cyrl	Cyrillic	
+Cyrs	Cyrillic (Old Church Slavonic variant)	script is not supported by Unicode
+Deva	Devanagari (Nagari)	
+Dsrt	Deseret (Mormon)	
+Dupl	Duployan shorthand, Duployan stenography	script is not supported by Unicode
+Egyd	Egyptian demotic	script is not supported by Unicode
+Egyh	Egyptian hieratic	script is not supported by Unicode
+Egyp	Egyptian hieroglyphs	
+Elba	Elbasan	script is not supported by Unicode
+Ethi	Ethiopic (Ge'ez)	
+Geok	Khutsuri (Asomtavruli and Khutsuri)	script is not supported by Unicode
+Geor	Georgian (Mkhedruli)	
+Glag	Glagolitic	
+Goth	Gothic	
+Gran	Grantha	script is not supported by Unicode
+Grek	Greek	
+Gujr	Gujarati	
+Guru	Gurmukhi	
+Hang	Hangul (Hangul, Hangeul)	
+Hani	Han (Hanzi, Kanji, Hanja)	
+Hano	Hanunoo (Hanun&oacute;o)	
+Hans	Han (Simplified variant)	
+Hant	Han (Traditional variant)	
+Hebr	Hebrew	
+Hira	Hiragana	
+Hmng	Pahawh Hmong	script is not supported by Unicode
+Hrkt	(alias for Hiragana + Katakana)	
+Hung	Old Hungarian	script is not supported by Unicode
+Inds	Indus (Harappan)	script is not supported by Unicode
+Ital	Old Italic (Etruscan, Oscan, etc)	
+Java	Javanese	
+Jpan	(alias for Han + Hiragana + Katakana)	
+Jurc	Jurchen	script is not supported by Unicode
+Kali	Kayah Likayah li	
+Kana	Katakana	
+Khar	Kharoshthi	
+Khmr	Khmer	
+Knda	Kannada	
+Kore	Korean (alias for Hangul + Han)	
+Kpel	Kpelle	script is not supported by Unicode
+Kthi	Kaithi	
+Lana	Lanna, Tai Tham	
+Laoo	Lao	
+Latf	Latin (Fraktur variant)	script is not supported by Unicode
+Latg	Latin (Gaelic variant)	script is not supported by Unicode
+Latn	Latin	
+Lepc	Lepcha (R&oacute;ng)	
+Limb	Limbu	
+Lina	Linear A	script is not supported by Unicode
+Linb	Linear B	
+Lisu	Lisu (Fraser)	
+Loma	Loma	script is not supported by Unicode
+Lyci	Lycian	
+Lydi	Lydian	
+Mand	Mandaic, Mandaean	
+Mani	Manichaean	script is not supported by Unicode
+Maya	Mayan hieroglyphs	script is not supported by Unicode
+Mend	Mende	script is not supported by Unicode
+Merc	Meroitic Cursive	script is not supported by Unicode
+Mero	Meroitic Hieroglyphs	script is not supported by Unicode
+Mlym	Malayalam	
+Mong	Mongolian	
+Moon	Moon (Moon code, Moon script, Moon type)	script is not supported by Unicode
+Mroo	Mro	script is not supported by Unicode
+Mtei	Meitei Mayek (Meithei, Meetei)	
+Mymr	Myanmar (Burmese)	
+Narb	Old North Arabian (Ancient North Arabian)	script is not supported by Unicode
+Nbat	Nabatean	script is not supported by Unicode
+Nkgb	Nakhi Geba ('Na-'Khi &sup2;Ggo-&sup1;baw, Naxi Geba)	script is not supported by Unicode
+Nkoo	N'Ko	
+Nshu	N&uuml;shu	script is not supported by Unicode
+Ogam	Ogham	
+Olck	Ol Chiki (Ol Cemet', Ol, Santali)	
+Orkh	Old Turkic, Orkhon Runic	
+Orya	Oriya	
+Osma	Osmanya	
+Palm	Palmyrene	script is not supported by Unicode
+Perm	Old Permic	script is not supported by Unicode
+Phag	Phags-pa	
+Phli	Inscriptional Pahlavi	
+Phlp	Psalter Pahlavi	script is not supported by Unicode
+Phlv	Book Pahlavi	script is not supported by Unicode
+Phnx	Phoenician	
+Plrd	Miao (Pollard Phonetic)	script is not supported by Unicode
+Prti	Inscriptional Parthian	
+Qaaa	Reserved for private use (start)	
+Qabx	Reserved for private use (end)	
+Rjng	Rejang, Redjang, Kaganga	
+Roro	Rongorongo	script is not supported by Unicode
+Runr	Runic	
+Samr	Samaritan	
+Sara	Sarati	script is not supported by Unicode
+Sarb	Old South Arabian	
+Saur	Saurashtra	
+Sgnw	SignWriting	script is not supported by Unicode
+Shaw	Shavian (Shaw)	
+Shrd	Sharada	script is not supported by Unicode
+Sind	Sindhi, Khudawadi	script is not supported by Unicode
+Sinh	Sinhala	
+Sora	Sora Sompeng	script is not supported by Unicode
+Sund	Sundanese	
+Sylo	Syloti Nagri	
+Syrc	Syriac	
+Syre	Syriac (Estrangelo variant)	
+Syrj	Syriac (Western variant)	
+Syrn	Syriac (Eastern variant)	
+Tagb	Tagbanwa	
+Takr	Takri	script is not supported by Unicode
+Tale	Tai Le	
+Talu	New Tai Lue	
+Taml	Tamil	
+Tang	Tangut	script is not supported by Unicode
+Tavt	Tai Viet	
+Telu	Telugu	
+Teng	Tengwar	script is not supported by Unicode
+Tfng	Tifinagh (Berber)	
+Tglg	Tagalog (Baybayin, Alibata)	
+Thaa	Thaana	
+Thai	Thai	
+Tibt	Tibetan	
+Ugar	Ugaritic	
+Vaii	Vai	
+Visp	Visible Speech	script is not supported by Unicode
+Wara	Warang Citi (Varang Kshiti)	script is not supported by Unicode
+Wole	Woleai	script is not supported by Unicode
+Xpeo	Old Persian	
+Xsux	Cuneiform, Sumero-Akkadian	
+Yiii	Yi	
+Zinh	Code for inherited script	
+Zmth	Mathematical notation	script is not supported by Unicode
+Zsym	Symbols	script is not supported by Unicode
+Zxxx	Code for unwritten languages	script is not supported by Unicode
+Zyyy	Code for undetermined script	
+Zzzz	Code for uncoded script	

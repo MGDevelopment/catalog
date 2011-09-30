@@ -1,0 +1,6 @@
+01	File format	Resource Version Feature Value carries a code from List 178
+02	Image height in pixels	Resource Version Feature Value carries an integer
+03	Image width in pixels	Resource Version Feature Value carries an integer
+04	Filename	Resource Version Feature Value carries the filename of the supporting resource
+05	Download file size in Mbytes	Resource Version Feature Value carries a decimal number only
+06	MD5 hash value	MD5 hash value of the resource file. <ResourceVersionFeatureValue> should contain the hash value (as 32 hexadecimal digits). Can be used as a cryptographic check on the integrity of a resource after it has been retrieved

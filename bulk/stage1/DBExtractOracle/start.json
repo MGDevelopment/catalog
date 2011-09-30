@@ -1,0 +1,215 @@
+{
+    "db"                    : {
+        "odbc"              : "DSN=Tematika",
+        "password"          : "test"
+    },
+    "options"               : {
+        "encoding.input"    : "ISO-8859-1",
+        "encoding.output"   : "UTF-8",
+        "format.date"       : "%Y-%m-%d",
+        "format.time"       : "%H:%M:%S",
+        "format.datetime"   : "%Y-%m-%dT%H:%M:%S",
+        "query.dir"         : "./query",
+        "query.extension"   : "sql",
+        "output.dir"        : "./data",
+        "output.extension"  : "txt",
+        "zip.dir"           : "./zip",
+        "zip.extension"     : "gz",
+        "zip.program"       : "\\usr\\local\\wbin\\gzip.exe",
+        "step.default"      : "export"
+    },
+    "macros"                : {
+        "OriginId"          : "1",
+        "MessageId"         : "0",
+        "SubjectTypePrefix" : "com.ilhsa.category.",
+        "ProductIdType"     : "120",
+        "ContributorIdType" : "119",
+        "CollectionIdType"  : "117",
+        "SubjectIdType"     : "118",
+        "ImprintIdType"     : "119",
+        "PublisherIdType"   : "119"
+    },
+    "queries"               : [
+        {   "name"          : "setup message",
+            "message"       : """Antes de comenzar, los archivos de ejecucion (*.json)
+necesitan que se configuren ciertas variables en la
+seccion macros con Ids de la base de produccion como
+fue generada.
+
+Verificar eso primero y luego ejecutar agregando el
+parametro -s1 (para arrancar desde el siguiente paso).
+""",
+            "stop"          : true,
+            "type"          : "message" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // First Names, Last Names and Honorary Titles
+        //
+        {   "name"          : "First/Last Names & Titles--------",
+            "type"          : "label" },
+        // honorary titles (sir, lord, dr., etc) table list
+        {   "name"          : "DBE_Titles.ForceDrop",
+            "type"          : "execute" },
+        {   "name"          : "DBE_Titles.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_Titles.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_Titles.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Titles" },
+        // first name table list
+        {   "name"          : "DBE_LastNamesTmp.ForceDrop",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LastNamesTmp.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LastNamesTmp.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LastNames.ForceDrop",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LastNames.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LastNames.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LastNames.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_LastNames" },
+        {   "name"          : "DBE_LastNamesTmp.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_LastNamesTmp" },
+        {   "name"          : "DBE_LastNames.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_LastNames" },
+        // first name table list
+        {   "name"          : "DBE_FirstNamesTmp.ForceDrop",
+            "type"          : "execute" },
+        {   "name"          : "DBE_FirstNamesTmp.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_FirstNamesTmp.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_FirstNames.ForceDrop",
+            "type"          : "execute" },
+        {   "name"          : "DBE_FirstNames.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_FirstNames.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_FirstNames.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_FirstNames" },
+        {   "name"          : "DBE_FirstNamesTmp.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_FirstNamesTmp" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // translation tables
+        //
+        {   "name"          : "Translation Tables---------------",
+            "type"          : "label" },
+        /////// language
+        {   "name"          : "DBE_LanguageTranslation.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LanguageTranslation.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_LanguageTranslation.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_LanguageTranslation" },
+        /////// Currency Translation
+        {   "name"          : "DBE_CurrencyTranslation.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_CurrencyTranslation.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_CurrencyTranslation.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_CurrencyTranslation" },
+        /////// ISBN Translation
+        {   "name"          : "DBE_ISBN_Replace.ForceDrop",
+            "type"          : "execute" },
+        {   "name"          : "DBE_ISBN_Replace.Create",
+            "type"          : "execute" },
+        {   "name"          : "DBE_ISBN_Replace.Populate",
+            "type"          : "execute" },
+        {   "name"          : "DBE_ISBN_Replace.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_ISBN_Replace" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // numbering schemes creation and population
+        //
+        {   "name"          : "Numbering Schemes----------------",
+            "type"          : "label" },
+        /////// Subjects
+        {   "name"          : "Subjects-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Subjects-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Subjects-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Subjects" },
+        /////// Collections
+        {   "name"          : "Collections-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Collections-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Collections-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Collections" },
+        /////// Publishers
+        {   "name"          : "Publishers-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Publishers-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Publishers-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Publishers" },
+        /////// Imprints
+        {   "name"          : "Imprints-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Imprints-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Imprints-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Imprints" },
+        /////// Contributors
+        {   "name"          : "Contributors-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Contributors-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Contributors-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Contributors" },
+        /////// Products
+        {   "name"          : "Products-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Products-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Products-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Products" },
+        /////// Users
+        {   "name"          : "Users-Numbering.Create",
+            "type"          : "execute" },
+        {   "name"          : "Users-Numbering.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Users-Numbering.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_Users" },
+        ////////////////////////////////////////////////////////////
+        //
+        // Entities - temporary preparation
+        //
+        {   "name"          : "Entities - Preparation-----------",
+            "type"          : "label" },
+        {   "name"          : "Entities-PreCalc.Create",
+            "type"          : "execute" },
+        {   "name"          : "Entities-PreCalc.CreateIdx",
+            "type"          : "execute" }
+
+
+
+    ]
+}

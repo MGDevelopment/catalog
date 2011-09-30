@@ -1,0 +1,15 @@
+IMPORTANTE: Revisar el documento de importacion de datos de Etapa 1 (disponible
+en el sitio para ver la informacion detallada de los pasos a ejecutar).
+
+La importacion de Etapa 1 requiere la ejecucion de cuatro pasos:
+
+1) Creacion de la base de datos en Postgres (DBCreatePostgres)
+
+2) Se deben revisar los IDs de algunas entidades y actualizar la configuracion
+   del proceso de exportacion de Oracle (paso 3) ya que el mismo debe emitir
+   informacion con esos Ids
+
+3) Exportacion de datos desde Oracle (DBExportOracle)
+
+4) Importacion de datos a Postgres (DBImportPostgres)
+

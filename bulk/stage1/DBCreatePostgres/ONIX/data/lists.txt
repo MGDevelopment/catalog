@@ -1,0 +1,138 @@
+   1	Notification or update type code	2	data/onix-codelist-1.txt
+  10	Epublication type code	3	data/onix-codelist-10.txt
+ 100	Discount code type	2	data/onix-codelist-100.txt
+ 101	Person name identifier type	2	data/onix-codelist-101.txt
+ 102	Sales outlet identifier type	2	data/onix-codelist-102.txt
+  11	Epublication format code	2	data/onix-codelist-11.txt
+  12	Trade category code	2	data/onix-codelist-12.txt
+ 121	Text script code - ISO 15924	4	data/onix-codelist-121.txt
+  13	Series identifier type code	2	data/onix-codelist-13.txt
+ 139	ONIX sales outlet IDs	3	data/onix-codelist-139.txt
+  14	Text case flag	2	data/onix-codelist-14.txt
+ 140	US CPSIA choking hazard warning code	2	data/onix-codelist-140.txt
+ 141	Barcode indicator	2	data/onix-codelist-141.txt
+ 142	Position on product	2	data/onix-codelist-142.txt
+ 143	US CPSIA choking hazard warning code	2	data/onix-codelist-143.txt
+ 144	Epub technical protection	2	data/onix-codelist-144.txt
+ 145	Usage type	2	data/onix-codelist-145.txt
+ 146	Usage status	2	data/onix-codelist-146.txt
+ 147	Unit of usage	2	data/onix-codelist-147.txt
+ 148	Collection type	2	data/onix-codelist-148.txt
+ 149	Title element level	2	data/onix-codelist-149.txt
+  15	Title type code	2	data/onix-codelist-15.txt
+ 150	Product form	2	data/onix-codelist-150.txt
+ 151	Contributor place relator	2	data/onix-codelist-151.txt
+ 152	Illustrated / not illustrated	2	data/onix-codelist-152.txt
+ 153	Text type	2	data/onix-codelist-153.txt
+ 154	Content audience	2	data/onix-codelist-154.txt
+ 155	Content date role	2	data/onix-codelist-155.txt
+ 156	Cited content type	2	data/onix-codelist-156.txt
+ 157	Content source type	2	data/onix-codelist-157.txt
+ 158	Resource content type	2	data/onix-codelist-158.txt
+ 159	Resource mode	2	data/onix-codelist-159.txt
+  16	Work identifier type code	2	data/onix-codelist-16.txt
+ 160	Resource feature type	2	data/onix-codelist-160.txt
+ 161	Resource form	2	data/onix-codelist-161.txt
+ 162	Resource version feature type	2	data/onix-codelist-162.txt
+ 163	Publishing date role	2	data/onix-codelist-163.txt
+ 164	Work relation code	2	data/onix-codelist-164.txt
+ 165	Supplier own code type	2	data/onix-codelist-165.txt
+ 166	Supply date role	2	data/onix-codelist-166.txt
+ 167	Price condition type	2	data/onix-codelist-167.txt
+ 168	Price condition quantity type	2	data/onix-codelist-168.txt
+ 169	Quantity unit	2	data/onix-codelist-169.txt
+  17	Contributor role code	3	data/onix-codelist-17.txt
+ 171	Tax type	2	data/onix-codelist-171.txt
+ 172	Currency zone	3	data/onix-codelist-172.txt
+ 173	Price date role	2	data/onix-codelist-173.txt
+ 174	Printed on product	2	data/onix-codelist-174.txt
+ 175	Product form detail	4	data/onix-codelist-175.txt
+ 176	Product form feature value - operating system	2	data/onix-codelist-176.txt
+ 177	Person / organization date role	2	data/onix-codelist-177.txt
+ 178	Supporting resource file format	4	data/onix-codelist-178.txt
+ 179	Price code type	2	data/onix-codelist-179.txt
+  18	Person / organization name type	2	data/onix-codelist-18.txt
+ 184	EU Toy Safety Directive hazard warning	2	data/onix-codelist-184.txt
+  19	Unnamed person(s)	2	data/onix-codelist-19.txt
+   2	Product composition	2	data/onix-codelist-2.txt
+  21	Edition type code	3	data/onix-codelist-21.txt
+  22	Language role code	2	data/onix-codelist-22.txt
+  23	Extent type code	2	data/onix-codelist-23.txt
+  24	Extent unit code	2	data/onix-codelist-24.txt
+  25	Illustration and other content type code	2	data/onix-codelist-25.txt
+  26	Main subject scheme identifier code	2	data/onix-codelist-26.txt
+  27	Subject scheme identifier code	2	data/onix-codelist-27.txt
+  28	Audience code	2	data/onix-codelist-28.txt
+  29	Audience code type	2	data/onix-codelist-29.txt
+   3	Record source type code	2	data/onix-codelist-3.txt
+  30	Audience range qualifier	2	data/onix-codelist-30.txt
+  31	Audience range precision	2	data/onix-codelist-31.txt
+  32	Complexity scheme identifier	2	data/onix-codelist-32.txt
+  33	Other text type code	2	data/onix-codelist-33.txt
+  34	Text format code	2	data/onix-codelist-34.txt
+  35	Text link type code	2	data/onix-codelist-35.txt
+  36	Front cover image file format code	2	data/onix-codelist-36.txt
+  37	Front cover image file link type code	2	data/onix-codelist-37.txt
+  38	Image/audio/video file type code	2	data/onix-codelist-38.txt
+  39	Image/audio/video file format code	2	data/onix-codelist-39.txt
+  40	Image/audio/video file link type	2	data/onix-codelist-40.txt
+  41	Prize or award achievement code	2	data/onix-codelist-41.txt
+  42	Text item type code	2	data/onix-codelist-42.txt
+  43	Text item identifier type code	2	data/onix-codelist-43.txt
+  44	Name code type	2	data/onix-codelist-44.txt
+  45	Publishing role code	2	data/onix-codelist-45.txt
+  46	Sales rights type code	2	data/onix-codelist-46.txt
+  47	Rights region	3	data/onix-codelist-47.txt
+  48	Measure type code	2	data/onix-codelist-48.txt
+   5	Product identifier type code	2	data/onix-codelist-5.txt
+  50	Measure unit code	2	data/onix-codelist-50.txt
+  51	Product relation code	2	data/onix-codelist-51.txt
+  52	Supply-to region code	3	data/onix-codelist-52.txt
+  53	Returns conditions code type	2	data/onix-codelist-53.txt
+  54	Availability status code	2	data/onix-codelist-54.txt
+  55	Date format	2	data/onix-codelist-55.txt
+  56	Audience restriction flag	1	data/onix-codelist-56.txt
+  57	Unpriced item type code	2	data/onix-codelist-57.txt
+  58	Price type code	2	data/onix-codelist-58.txt
+  59	Price type qualifier	2	data/onix-codelist-59.txt
+   6	Barcode indicator	2	data/onix-codelist-6.txt
+  60	Unit of pricing code	2	data/onix-codelist-60.txt
+  61	Price status code	2	data/onix-codelist-61.txt
+  62	Tax rate, coded	1	data/onix-codelist-62.txt
+  64	Publishing status	2	data/onix-codelist-64.txt
+  65	Product availability	2	data/onix-codelist-65.txt
+  66	BISAC returnable indicator	1	data/onix-codelist-66.txt
+  67	Market date role	2	data/onix-codelist-67.txt
+  68	Market publishing status	2	data/onix-codelist-68.txt
+  69	Agent role	2	data/onix-codelist-69.txt
+   7	Product form code	2	data/onix-codelist-7.txt
+  70	Stock quantity code type	2	data/onix-codelist-70.txt
+  71	Sales restriction type code	2	data/onix-codelist-71.txt
+  72	Thesis type code	2	data/onix-codelist-72.txt
+  73	Website role	2	data/onix-codelist-73.txt
+  75	Person date role	3	data/onix-codelist-75.txt
+  76	Product form feature value - DVD region codes	1	data/onix-codelist-76.txt
+  77	North American school or college grade	2	data/onix-codelist-77.txt
+  78	Product form detail	4	data/onix-codelist-78.txt
+  79	Product form feature type	2	data/onix-codelist-79.txt
+   8	Book form detail	2	data/onix-codelist-8.txt
+  80	Product packaging type	2	data/onix-codelist-80.txt
+  81	Product content type	2	data/onix-codelist-81.txt
+  82	Bible contents	2	data/onix-codelist-82.txt
+  83	Bible version	3	data/onix-codelist-83.txt
+  84	Study Bible type	3	data/onix-codelist-84.txt
+  85	Bible purpose	2	data/onix-codelist-85.txt
+  86	Bible text organization	3	data/onix-codelist-86.txt
+  87	Bible reference location	3	data/onix-codelist-87.txt
+  89	Religious text feature type	2	data/onix-codelist-89.txt
+   9	Product classification type code	2	data/onix-codelist-9.txt
+  90	Religious text feature code	2	data/onix-codelist-90.txt
+  91	Country code - ISO 3166-1	2	data/onix-codelist-91.txt
+  92	Supplier identifier type	2	data/onix-codelist-92.txt
+  93	Supplier role	2	data/onix-codelist-93.txt
+  94	Default linear unit	2	data/onix-codelist-94.txt
+  95	Default unit of weight	2	data/onix-codelist-95.txt
+  96	Currency code - ISO 4217	3	data/onix-codelist-96.txt
+  97	Bible text feature	2	data/onix-codelist-97.txt
+  98	Product form feature value - binding or page edge color	3	data/onix-codelist-98.txt
+  99	Product form feature value - special cover material	2	data/onix-codelist-99.txt

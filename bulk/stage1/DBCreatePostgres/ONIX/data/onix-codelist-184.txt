@@ -1,0 +1,5 @@
+00	No warning	Use to provide positive indication that no warnings are applicable
+01	Carries 'CE' logo	
+02	Carries minimum age warning	Use to specify age (in years, or years and months). Provide specific wording in <ProductFormFeatureDescription>.
+03	Carries EU Toy Safety Directive 'Unsuitable for children ages 0-3' warning logo	Carries logo, and must be accompanied by the default warning 'Not suitable for children under 36 months' (or its approved equivalent in a language other than English, as appropriate), unless specific wording is provided in <ProductFormFeatureDescription>. If specific alternative wording is carried in <ProductFormFeatureDescription>, this must be used in place of the default text
+04	Carries EU Toy Safety Directive hazard warning	Exact text of warning must be included in <ProductFormFeatureDescription>

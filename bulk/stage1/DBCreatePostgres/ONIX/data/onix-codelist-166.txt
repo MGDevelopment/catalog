@@ -1,0 +1,3 @@
+02	Embargo date	If there is an embargo on retail sales before a certain date, the date from which the embargo is lifted and retail sales are permitted
+08	Expected availability date	The date on which physical stock is expected to be available to be shipped to retailers, or a digital product is expected to be released
+18	Last date for returns	Last date when returns will be accepted, generally for a product which is being remaindered or put out of print

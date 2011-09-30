@@ -1,0 +1,2 @@
+01	Lexile code	DEPRECATED in ONIX 3 - use <Audience> instead
+02	Lexile number	DEPRECATED in ONIX 3 - use <Audience> instead

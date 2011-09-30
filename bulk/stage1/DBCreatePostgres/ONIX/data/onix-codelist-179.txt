@@ -1,0 +1,1 @@
+01	Proprietary	A publisher or retailer's proprietary code list which identifies particular codes with particular price points, price tiers or bands.

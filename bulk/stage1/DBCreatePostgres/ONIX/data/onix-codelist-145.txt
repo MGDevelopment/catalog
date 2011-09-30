@@ -1,0 +1,7 @@
+01	Preview	Preview before purchase
+02	Print	Print paper copy of extract
+03	Copy / paste	Make digital copy of extract
+04	Share	Share product across multiple concurrent devices
+05	Text to speech	'Read aloud' with text to speech functionality
+06	Lend	Lendable to other device owner or account holder (primary copy becomes unusable while copy is 'on loan')
+07	Time-limited license	E-publication license is time limited. Use with 02 from List 146 and a number of days in <EpubUsageLimit>

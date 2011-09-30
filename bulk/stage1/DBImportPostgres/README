@@ -1,0 +1,21 @@
+La importacion de los datos en Postgres requiere un tiempo aproximado de 90 minutos
+durante los cuales se ejecutan 4 pasos:
+
+0) copiar los archivos .txt.gz (que dejo el paso de exportacion de Oracle) al
+   directorio zip
+
+1) extraccion de los archivos. Crea los archivos data/*.txt desde los zip/*.tar.gz.
+
+   EJECUTAR: ./1-extract.sh
+
+2) conversion del formato de archivo. Convierte los CR-LF de Windows a LF de Unix.
+
+   EJECUTAR: ./2-convert.sh
+
+   REQUIERE dos2unix instalado
+
+3) importar los data/*.txt a la base de datos. Deja arhcivos dbcmd/*.input y
+   dbcmd/*.output (solo de los errores)
+
+   EJECUTAR: ./3-import.sh
+

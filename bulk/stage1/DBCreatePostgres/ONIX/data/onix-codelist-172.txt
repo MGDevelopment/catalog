@@ -1,0 +1,1 @@
+EUR	Eurozone	Countries that at the time being have the Euro as their national currency. Deprecated in ONIX 3

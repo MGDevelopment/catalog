@@ -1,0 +1,595 @@
+{
+    "db"                    : {
+        "odbc"              : "DSN=Tematika",
+        "password"          : "test"
+    },
+    "options"               : {
+        "encoding.input"    : "ISO-8859-1",
+        "encoding.output"   : "UTF-8",
+        "format.date"       : "%Y-%m-%d",
+        "format.time"       : "%H:%M:%S",
+        "format.datetime"   : "%Y-%m-%dT%H:%M:%S",
+        "query.dir"         : "./query",
+        "query.extension"   : "sql",
+        "output.dir"        : "./data",
+        "output.extension"  : "txt",
+        "zip.dir"           : "./zip",
+        "zip.extension"     : "gz",
+        "zip.program"       : "\\usr\\local\\wbin\\gzip.exe",
+        "step.default"      : "export"
+    },
+    "macros"                : {
+        "OriginId"          : "1",
+        "MessageId"         : "0",
+        "URLPatternId"      : "1",
+        "SubjectTypePrefix" : "com.ilhsa.category.",
+        "ProductIdType"     : "120",
+        "ContributorIdType" : "119",
+        "CollectionIdType"  : "117",
+        "SubjectIdType"     : "118",
+        "ImprintIdType"     : "119",
+        "PublisherIdType"   : "119",
+        "ONIX-ISBN-10"      : "1",
+        "ONIX-GTIN-13"      : "2",
+        "ONIX-UPC"          : "3",
+        "ONIX-ISBN-13"      : "6",
+        "ONIX-YS"           : "117",
+        "ONIX-ilhsa.com"    : "118"
+    },
+    "queries"               : [
+        {   "name"          : "setup message",
+            "message"       : """Antes de comenzar, los archivos de ejecucion (*.json)
+necesitan que se configuren ciertas variables en la
+seccion macros con Ids de la base de produccion como
+fue generada.
+
+Verificar eso primero y luego ejecutar agregando el
+parametro -s1 (para arrancar desde el siguiente paso).
+""",
+            "stop"          : true,
+            "type"          : "message" },
+        {   "name"          : "setup message",
+            "message"       : """Realizar la ejecucion en dos pasos.
+
+La Base de Datos no parece soportar la operacion continuada.
+
+Por ese motivo, ejecutar este script hasta el paso 
+[Products-RcoTmpRela.Check] del [BLOCK 5 - P.23] (localizarlo
+ejecutando con el parametro -l). Luego, esperar 5 minutos y ejecutar
+el resto. Utilizar los parametros -s [start step] y -e [end step]
+para controlar la ejecucion.
+
+Para continuar indique el parametro -s 2.
+""",
+            "stop"          : true,
+            "type"          : "message" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Users
+        //
+        /////// Users
+        {   "name"          : "Users----------------------------",
+            "type"          : "label" },
+        {   "name"          : "Users" },
+        {   "name"          : "UserRecordReferences" },
+        {   "name"          : "UserCredentials" },
+        {   "name"          : "UserName" },
+
+
+//        {   "name"          : "Users",
+//            "fields"        : {
+//                "PASSWORD"  : "fields.password"
+//            },
+//            "query"         : "SELECT * FROM SOCIOS_TMK WHERE ROWNUM < 50"
+//        },
+
+
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Subjects DUMP
+        //
+        {   "name"          : "Subjects-------------------------",
+            "type"          : "label" },
+        {   "name"          : "Subjects" },
+        {   "name"          : "SubjectIdentifiers" },
+        {   "name"          : "Subjects-Entities-PreCalc",
+            "type"          : "execute" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Collections DUMP
+        //
+        {   "name"          : "Collections----------------------",
+            "type"          : "label" },
+        {   "name"          : "Collections" },
+        {   "name"          : "CollectionIdentifiers" },
+        {   "name"          : "CollectionTitles" },
+        {   "name"          : "CollectionTitleElements" },
+        {   "name"          : "Collections-Entities-PreCalc",
+            "type"          : "execute" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Publishers DUMP
+        //
+        {   "name"          : "Publishers-----------------------",
+            "type"          : "label" },
+        {   "name"          : "Publishers" },
+        {   "name"          : "PublisherIdentifiers" },
+        {   "name"          : "PublisherWebsites" },
+        {   "name"          : "Publishers-Entities-PreCalc",
+            "type"          : "execute" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Imprints DUMP
+        //
+        {   "name"          : "Imprints-------------------------",
+            "type"          : "label" },
+        {   "name"          : "Imprints" },
+        {   "name"          : "ImprintIdentifiers" },
+        {   "name"          : "Imprints-Entities-PreCalc",
+            "type"          : "execute" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Contributors DUMP
+        //
+        {   "name"          : "Contributors---------------------",
+            "type"          : "label" },
+        {   "name"          : "Contributors-PreCalc.Create",
+            "type"          : "execute" },
+        {   "name"          : "Contributors-PreCalc.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Contributors-PreCalc.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_ContributorPreCalc" },
+        {   "name"          : "Contributors" },
+        {   "name"          : "Contributors-Entities-PreCalc",
+            "type"          : "execute" },
+        {   "name"          : "Contributors-PreCalc.Destroy",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_ContributorPreCalc" },
+        {   "name"          : "ContributorIdentifiers" },
+                // ContributorWebsites
+                // ContributorPlaces
+                // ContributorDates
+        // Contributors texts
+        {   "name"          : "EntityTexts-Contributors.extract",
+            "headers"       : false,
+            // save to a temp file
+            "output"        : "data/EntityTexts-Contributors.extract.1.tmp",
+            "fields"        : {
+                "TEXTCONTENT"       : "fields.escapeControlChars"
+            } },
+        {   "name"          : "EntityTexts-Contributors.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "input"         : "data/EntityTexts-Contributors.extract.1.tmp",
+            "output"        : "data/EntityTexts-Contributors.extract.2.tmp" },
+        {   "name"          : "EntityTexts-Contributors.coallesce",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/coallesce.awk -v count=9 -v groupBy=1,2,3,4,5 -v sequencer=6 -v coallesceOn=9",
+            "input"         : "data/EntityTexts-Contributors.extract.2.tmp",
+            "output"        : "data/EntityTexts-Contributors.extract.sorted" },
+        {   "name"          : "EntityTexts-Contributors.deltmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/EntityTexts-Contributors.extract.1.tmp data/EntityTexts-Contributors.extract.2.tmp" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Products DUMP
+        //
+        {   "name"          : "Products-------------------------",
+            "type"          : "label" },
+        {   "name"          : "Products" },
+        {   "name"          : "Products-Entities-PreCalc",
+            "type"          : "execute" },
+        /////// product control
+        {   "name"          : "Product Control------------------",
+            "type"          : "label" },
+        {   "name"          : "ProductRecordReferences" },
+        {   "name"          : "ProductOriginMessages" },
+        /////// P.2 - Product Identifiers
+        {   "name"          : "Product Identifiers--------------",
+            "type"          : "label" },
+        {   "name"          : "ProductIdentifiers.extract",
+            "headers"       : false,
+            "output"        : "data/ProductIdentifiers.tmp" },
+        {   "name"          : "ProductIdentifiers.generate",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/ProductIdentifiers.generate.awk -v isbn10Type={{ONIX-ISBN-10}} -v isbn13Type={{ONIX-ISBN-13}}",
+            "input"         : "data/ProductIdentifiers.tmp",
+            "output"        : "data/ProductIdentifiers.txt" },
+        {   "name"          : "ProductIdentifiers.deltmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/ProductIdentifiers.tmp" },
+        ////////////////////////////////////////////////////////////
+        //
+        // Entities
+        //
+        {   "name"          : "Entities-------------------------",
+            "type"          : "label" },
+        {   "name"          : "Entities-PreCalc.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_EntitiesPreCalc" },
+        {   "name"          : "Entities" },
+        {   "name"          : "Entities-PreCalc.Destroy",
+            "type"          : "noop",
+            "query"         : "DROP TABLE DBE_EntitiesPreCalc" },
+        ////////////////////////////////////////////////////////////
+        //
+        // BLOCK 1
+        //
+        /////// BLOCK 1 - P.3 - Product Form
+        {   "name"          : "Products - BLOCK 1 - P.3---------",
+            "type"          : "label" },
+        {   "name"          : "ProductForm-PreCalc.Create",
+            "type"          : "execute" },
+        {   "name"          : "ProductForm-PreCalc.Populate",
+            "type"          : "execute" },
+        {   "name"          : "ProductForm-PreCalc.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_ProductFormPreCalc" },
+        {   "name"          : "ProductForm" },
+        {   "name"          : "ProductForm-PreCalc.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_ProductFormPreCalc" },
+                // ProductFormContentTypes
+        {   "name"          : "ProductFormFeatures" },
+        {   "name"          : "ProductFormMeasures-PreCalc.Create",
+            "type"          : "execute" },
+        {   "name"          : "ProductFormMeasures-PreCalc.Populate",
+            "type"          : "execute" },
+        {   "name"          : "ProductFormMeasures-PreCalc.Check",
+            "type"          : "tblnotempty",
+            "table"         : "DBE_ProductFormMeasuresPreCalc" },
+        {   "name"          : "ProductFormMeasures" },
+        {   "name"          : "ProductFormMeasures-PreCalc.Drop",
+            "type"          : "execute",
+            "query"         : "DROP TABLE DBE_ProductFormMeasuresPreCalc" },
+                // ProductFormEpubTechnicalProtections
+                // ProductFormEpubUsageConstraints
+                // ProductFormEpubUsageConstraintLimits
+        /////// BLOCK 1 - P.4 - Product Parts
+                // not used
+        /////// BLOCK 1 - P.5 - Collections
+        {   "name"          : "Products - BLOCK 1 - P.5---------",
+            "type"          : "label" },
+        {   "name"          : "ProductCollections" },
+        /////// BLOCK 1 - P.6 - Title Detail
+        {   "name"          : "Products - BLOCK 1 - P.6---------",
+            "type"          : "label" },
+        {   "name"          : "ProductTitles",
+            "fields"        : {
+                "EFFECTIVETITLE"        : "fields.nullAsEmptyStringWithSwap",
+                "SHADOWEFFECTIVETITLE"  : "fields.nullAsEmptyStringWithSwap"
+            } },
+        {   "name"          : "ProductTitleElements",
+            "fields"        : {
+                "TITLETEXT" : "fields.nullAsEmptyStringWithSwap",
+                "SUBTITLE"  : "fields.nullAsEmptyStringWithSwap"
+            } },
+        /////// BLOCK 1 - P.7 - Autorship
+        {   "name"          : "Products - BLOCK 1 - P.7---------",
+            "type"          : "label" },
+        {   "name"          : "ProductContributors.extract",
+            "output"        : "data/ProductContributors.tmp" },
+        {   "name"          : "ProductContributors.renumber",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/ProductContributors.awk",
+            "input"         : "data/ProductContributors.tmp",
+            "output"        : "data/ProductContributors.txt" },
+        /////// BLOCK 1 - P.8 - Conference
+                // not used
+        /////// BLOCK 1 - P.9 - Edition
+        {   "name"          : "Products - BLOCK 1 - P.9---------",
+            "type"          : "label" },
+        {   "name"          : "ProductEditions" },
+        /////// BLOCK 1 - P.10 - Language
+        {   "name"          : "Products - BLOCK 1 - P.10--------",
+            "type"          : "label" },
+        {   "name"          : "ProductLanguages" },
+        /////// BLOCK 1 - P.11 - Extents and Other Content
+        {   "name"          : "Products - BLOCK 1 - P.11--------",
+            "type"          : "label" },
+        {   "name"          : "ProductExtents" },
+                // ProductIllustrations
+        /////// BLOCK 1 - P.12 - Subjects
+        //////{   "name"          : "ProductSubjects.Create",
+        //////    "type"          : "execute" },
+        //////{   "name"          : "ProductSubjects.Populate",
+        //////    "type"          : "execute" },
+        //////{   "name"          : "ProductSubjects.Check",
+        //////    "type"          : "tblnotempty",
+        //////    "table"         : "DBE_ProductSubjects" },
+        //////{   "name"          : "ProductSubjects.Drop",
+        //////    "type"          : "execute",
+        //////    "query"         : "DROP TABLE DBE_ProductSubjects" },
+        {   "name"          : "Products - BLOCK 1 - P.12--------",
+            "type"          : "label" },
+        {   "name"          : "ProductSubjects.extract.1",
+            "output"        : "data/ProductSubjects.extract.1.tmp" },
+        {   "name"          : "ProductSubjects.extract.2",
+            "output"        : "data/ProductSubjects.extract.2.tmp" },
+        {   "name"          : "ProductSubjects.extract.3",
+            "output"        : "data/ProductSubjects.extract.3.tmp" },
+        {   "name"          : "ProductSubjects.extract.4",
+            "output"        : "data/ProductSubjects.extract.4.tmp" },
+        {   "name"          : "ProductSubjects.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "params"        : "data/ProductSubjects.extract.1.tmp data/ProductSubjects.extract.2.tmp data/ProductSubjects.extract.3.tmp data/ProductSubjects.extract.4.tmp",
+            "output"        : "data/ProductSubjects.txt" },
+        /////// BLOCK 1 - P.13 - Audience
+        {   "name"          : "Products - BLOCK 1 - P.13--------",
+            "type"          : "label" },
+        {   "name"          : "ProductAudiences" },
+        {   "name"          : "ProductAudienceRanges" },
+        ////////////////////////////////////////////////////////////
+        //
+        // BLOCK 2
+        //
+        /////// BLOCK 2 - P.14 - Supporting Text
+        {   "name"          : "Products - BLOCK 2 - P.14--------",
+            "type"          : "label" },
+        {   "name"          : "EntityTexts-Product.extract",
+            "headers"       : false,
+            // save to a temp file
+            "output"        : "data/EntityTexts-Product.extract.1.tmp",
+            "fields"        : {
+                "TEXTCONTENT"       : "fields.escapeControlChars"
+            } },
+        {   "name"          : "EntityTexts-Product.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "input"         : "data/EntityTexts-Product.extract.1.tmp",
+            "output"        : "data/EntityTexts-Product.extract.2.tmp" },
+        {   "name"          : "EntityTexts-Product.coallesce",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/coallesce.awk -v count=9 -v groupBy=1,2,3,4,5 -v sequencer=6 -v coallesceOn=9",
+            "input"         : "data/EntityTexts-Product.extract.2.tmp",
+            "output"        : "data/EntityTexts-Product.extract.sorted" },
+        {   "name"          : "EntityTexts-Product.deltmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/EntityTexts-Product.extract.1.tmp data/EntityTexts-Product.extract.2.tmp" },
+        {   "name"          : "EntityTexts-ProductContributors.extract",
+            "headers"       : false,
+            // save to a temp file
+            "output"        : "data/EntityTexts-ProductContributors.extract.1.tmp",
+            "fields"        : {
+                "TEXTCONTENT"       : "fields.escapeControlChars"
+            } },
+        {   "name"          : "EntityTexts-ProductContributors.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "input"         : "data/EntityTexts-ProductContributors.extract.1.tmp",
+            "output"        : "data/EntityTexts-ProductContributors.extract.2.tmp" },
+        {   "name"          : "EntityTexts-ProductContributors.coallesce",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/coallesce.awk -v count=9 -v groupBy=1,2,3,4,5 -v sequencer=6 -v coallesceOn=9",
+            "input"         : "data/EntityTexts-ProductContributors.extract.2.tmp",
+            "output"        : "data/EntityTexts-ProductContributors.extract.sorted" },
+        {   "name"          : "EntityTexts-ProductContributors.deltmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/EntityTexts-ProductContributors.extract.1.tmp data/EntityTexts-ProductContributors.extract.2.tmp" },
+
+
+
+        /////// BLOCK 2 - P.15 - Links and Resources
+        //
+        ////// TODO - PENDING
+        //
+
+
+
+        ////////////////////////////////////////////////////////////
+        //
+        // BLOCK 3
+        //
+        {   "name"          : "Products - BLOCK 3 - P.18--------",
+            "type"          : "label" },
+        {   "name"          : "ProductContents" },
+        {   "name"          : "ProductContentTitles" },
+        {   "name"          : "ProductContentTitleElements" },
+        {   "name"          : "ProductContentContributors.extract",
+            "output"        : "data/ProductContentContributors.tmp" },
+        {   "name"          : "ProductContentContributors.renumber",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/ProductContentContributors.awk",
+            "input"         : "data/ProductContentContributors.tmp",
+            "output"        : "data/ProductContentContributors.txt" },
+        ////////////////////////////////////////////////////////////
+        //
+        // BLOCK 4
+        //
+        /////// BLOCK 4 - P.19 - Publisher
+        {   "name"          : "Products - BLOCK 4 - P.19--------",
+            "type"          : "label" },
+        {   "name"          : "ProductImprints" },
+        {   "name"          : "ProductPublishers" },
+        {   "name"          : "ProductPublication" },
+        ////////////////////////////////////////////////////////////
+        //
+        // BLOCK 5
+        //
+        /////// BLOCK 5 - P.22 - Related Works
+                // not used
+        /////// BLOCK 5 - P.23 - Related Products
+        {   "name"          : "Products - BLOCK 5 - P.23--------",
+            "type"          : "label" },
+        {   "name"          : "Products-RcoTmpRelacionados.Create",
+            "type"          : "execute" },
+        {   "name"          : "Products-RcoTmpRelacionados.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Products-RcoTmpRelacionados.Check",
+            "type"          : "tblnotempty",
+            "table"         : "TmpRelacionados" },
+        {   "name"          : "Products-RcoTmpRela.Create",
+            "type"          : "execute" },
+        {   "name"          : "Products-RcoTmpRela.Populate",
+            "type"          : "execute" },
+        {   "name"          : "Products-RcoTmpRela.Check",
+            "type"          : "tblnotempty",
+            "table"         : "TmpRela" },
+        {   "name"          : "Products-RelatedEntites.Extract",
+            "headers"       : false,
+            "output"        : "data/Product-RelatedEntities.extract.1.tmp" },
+        {   "name"          : "Products-RelatedEntites.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "input"         : "data/Product-RelatedEntities.extract.1.tmp",
+            "output"        : "data/Product-RelatedEntities.extract.2.tmp" },
+        {   "name"          : "Products-RelatedEntites.reduce",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/Products-RelatedEntities.reduce.awk -v count=6",
+            "input"         : "data/Product-RelatedEntities.extract.2.tmp",
+            "output"        : "data/Product-RelatedEntities.extract.sorted" },
+        {   "name"          : "Products-RelatedEntites.deltmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/Product-RelatedEntities.extract.1.tmp data/Product-RelatedEntities.extract.2.tmp" },
+        {   "name"          : "Products-RcoTmpRelacionados.Destroy",
+            "type"          : "execute",
+            "query"         : "DROP TABLE TmpRelacionados" },
+        {   "name"          : "Products-RcoTmpRela.Destroy",
+            "type"          : "execute",
+            "query"         : "DROP TABLE TmpRela" },
+        ////////////////////////////////////////////////////////////
+        //
+        // BLOCK 6
+        //
+        /////// BLOCK 6 - P.24 - Market
+        {   "name"          : "Products - BLOCK 6 - P.24--------",
+            "type"          : "label" },
+        {   "name"          : "ProductSupplyMarket" },
+        /////// BLOCK 6 - P.25 - Market Publishing Detail
+        {   "name"          : "Products - BLOCK 6 - P.25--------",
+            "type"          : "label" },
+        {   "name"          : "ProductSupplyPublishingDetail" },
+        {   "name"          : "ProductSupplyPublishingDetailDates" },
+        /////// BLOCK 6 - P.26 - Supply
+        {   "name"          : "Products - BLOCK 6 - P.26--------",
+            "type"          : "label" },
+        {   "name"          : "ProductSupplyDetail" },
+        {   "name"          : "ProductSupplyDetailPrice" },
+        ////////////////////////////////////////////////////////////
+        //
+        // Product Extras
+        //
+        /////// Product Extras - Ratings
+        {   "name"          : "Products - Extras - Ratings------",
+            "type"          : "label" },
+        {   "name"          : "EntityRatings",
+            "fields"        : {
+                "COMMENTTEXT"       : "fields.escapeControlChars"
+            } },
+        {   "name"          : "EntitySnapshotRatings" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Entities
+        //
+        /////// Entities texts
+        {   "name"          : "Entities - Texts-----------------",
+            "type"          : "label" },
+        {   "name"          : "EntityTexts.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "params"        : "data/EntityTexts-Contributors.extract.sorted data/EntityTexts-Product.extract.sorted data/EntityTexts-ProductContributors.extract.sorted",
+            "output"        : "data/EntityTexts.sorted" },
+        {   "name"          : "EntityTexts.generate",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/texts.awk -v tfile=data/EntityTexts.txt -v dfile=data/EntityTextDates.txt -v afile=data/EntityTextAudiences.txt",
+            "input"         : "data/EntityTexts.sorted" },
+        /////// Entities Relacionados
+        //
+        // Entities - Vidrieras
+        //
+        {   "name"          : "Vidrieras - RelatedEntities------",
+            "type"          : "label" },
+        {   "name"          : "Vidrieras-RelatedEntites.extract",
+            "headers"       : false,
+            "output"        : "data/Vidrieras-RelatedEntites.extract.tmp" },
+        {   "name"          : "Vidrieras-RelatedEntites.renumber",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/Vidrieras-RelatedEntites.renumber.awk",
+            "input"         : "data/Vidrieras-RelatedEntites.extract.tmp",
+            "output"        : "data/Vidrieras-RelatedEntites.extract.sorted" },
+        {   "name"          : "Vidrieras-RelatedEntites.deltmp",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\rm.exe",
+            "params"        : "-f data/Vidrieras-RelatedEntites.extract.tmp" },
+        //
+        // Entities - Entidades Relacionadas
+        //
+        {   "name"          : "Entities - RelatedEntities-------",
+            "type"          : "label" },
+        {   "name"          : "EntityRelatedEntities.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "params"        : "data/Product-RelatedEntities.extract.sorted data/Vidrieras-RelatedEntites.extract.sorted",
+            "output"        : "data/EntityRelatedEntities.txt" },
+        //
+        // Entities - URLs
+        //
+        {   "name"          : "Entities URLs & URLs-------------",
+            "type"          : "label" },
+        {   "name"          : "EntityURLs.extract.1",
+            "output"        : "data/EntityURLs.extract.1.tmp" },
+        {   "name"          : "EntityURLs.extract.2",
+            "output"        : "data/EntityURLs.extract.2.tmp",
+            "record.header" : "fields.ProductsURL_Header",
+            "record.handler" : "fields.ProductsURL_Record_Product" },
+        {   "name"          : "EntityURLs.extract.3",
+            "output"        : "data/EntityURLs.extract.3.tmp",
+            "record.header" : "fields.ProductsURL_Header",
+            "record.handler" : "fields.ProductsURL_Record_Subject" },
+        {   "name"          : "EntityURLs.sort",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\sort.exe",
+            "params"        : "data/EntityURLs.extract.1.tmp data/EntityURLs.extract.2.tmp data/EntityURLs.extract.3.tmp",
+            "output"        : "data/EntityURLs.extract.sorted" },
+        {   "name"          : "EntityURLs.unique",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\uniq.exe",
+            "input"         : "data/EntityURLs.extract.sorted",
+            "output"        : "data/EntityURLs.extract.uniq" },
+        {   "name"          : "EntityURLs",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/EntityURLs.awk",
+            "input"         : "data/EntityURLs.extract.uniq",
+            "output"        : "data/EntityURLs.txt" },
+        {   "name"          : "URLs",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/URLs.awk -v patternId={{URLPatternId}} ",
+            "input"         : "data/EntityURLs.extract.uniq",
+            "output"        : "data/URLs.txt" }
+
+    ]
+}

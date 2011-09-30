@@ -1,0 +1,39 @@
+10	Text (eye-readable)	Readable text of the main work: this value is required, together with applicable <ProductForm> and <ProductFormDetail> values, to designate an e-book or other digital product whose primary content is eye-readable text
+15	Extensive links between internal content	E-publication is enhanced with a significant number of actionable cross-references, hyperlinked notes and annotations, or with other links between largely textual elements (eg quiz/test questions, 'choose your own ending' etc)
+14	Extensive links to external content	E-publication is enhanced with a significant number of actionable (clickable) web links
+16	Additional eye-readable text not part of main work	E-publication is enhanced with additional textual content such as interview, feature article, essay, bibliography, quiz/test, other background material or text that is not included in a primary or 'unenhanced' version
+17	Promotional text for other book product	eg Teaser chapter
+11	Musical notation	
+07	Still images / graphics	Use only when no more detailed specification is provided
+18	Photographs	Whether in a plate section / insert, or not
+19	Figures, diagrams, charts, graphs	Including other 'mechanical' (ie non-photographic) illustrations
+20	Additional images / graphics not part of main work	E-publication is enhanced with additional images or graphical content such as supplementary photographs that are not included in a primary or 'unenhanced' version
+12	Maps and/or other cartographic content	
+01	Audiobook	Audio recording of a reading of a book or other text
+02	Performance - spoken word	Audio recording of a drama or other spoken word performance
+13	Other speech content	eg an interview, not a 'reading' or 'performance')
+03	Music recording	Audio recording of a music performance, including musical drama and opera
+04	Other audio	Audio recording of other sound, eg birdsong
+21	Partial performance - spoken word	Audio recording of a reading, performance or dramatization of part of the work
+22	Additional audio content not part of main work	Product is enhanced with audio recording of full or partial reading, performance, dramatization, interview, background documentary or other audio content not included in the primary or 'unenhanced' version
+23	Promotional audio for other book product	eg Reading of teaser chapter
+06	Video	Includes Film, video, animation etc. Use only when no more detailed specification is provided. Formerly 'Moving images'
+26	Video recording of a reading	
+27	Performance - visual	Video recording of a drama or other performance, including musical performance
+24	Animated / interactive illustrations	eg animated diagrams, charts, graphs or other illustrations
+25	Narrative animation	eg cartoon, animatic or CGI animation
+28	Other video	Other video content eg interview, not a reading or performance
+29	Partial performance - video	Video recording of a reading, performance or dramatization of part of the work
+30	Additional video content not part of main work	E-publication is enhanced with video recording of full or partial reading, performance, dramatization, interview, background documentary or other content not included in the primary or 'unenhanced' version
+31	Promotional video for other book product	eg Book trailer
+05	Game / Puzzle	No multi-user functionality. Formerly just 'Game'
+32	Contest	Includes some degree of multi-user functionality
+08	Software	Largely 'content free'
+09	Data	Data files
+33	Data set plus software	
+34	Blank pages	Intended to be filled in by the reader
+35	Advertising content	Use only where type of advertising content is not stated
+37	Advertising - first party	'Back ads' - promotional pages for other books (that do not include sample content, cf codes 17, 23)
+36	Advertising - coupons	Eg to obtain discounts on other products
+38	Advertising - third party display	
+39	Advertising - third party textual	

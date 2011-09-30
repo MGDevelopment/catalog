@@ -1,0 +1,11 @@
+01	Publication date	Nominal date of publication
+02	Embargo date	If there is an embargo on retail sales in this market before a certain date, the date from which the embargo is lifted and retail sales are permitted
+09	Public announcement date	Date when a new product may be announced to the general public
+10	Trade announcement date	Date when a new product may be announced for trade only
+11	Date of first publication	Date when the work incorporated in a product was first published
+12	Last reprint date	Date when a product was last reprinted
+13	Out-of-print / deletion date	Date when a product was declared out-of-print or deleted
+16	Last reissue date	Date when a product was last reissued
+19	Publication date of print counterpart	Date of publication of a printed book which is the print counterpart to a digital edition
+20	Date of first publication in original language	Year when the original language version of work incorporated in a product was first published (note, use only when different from code 11)
+21	Forthcoming reissue date	Date when a product will be reissued

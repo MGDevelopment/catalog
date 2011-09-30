@@ -1,0 +1,45 @@
+La exportacion de los datos de Oracle requiere un tiempo aproximado de 4 horas
+durante los cuales se ejecutan varios pasos:
+
+0) crear los objetos de base de datos que se encuentran en el directorio "DB Objects"
+
+1) verificar los Ids de configuracion de process.json segun la informacion cargada
+   en Postgres en el paso DBCreatePostgres
+
+1) iniciar el proceso de exportacion. PRESTAR atencion a los mensajes
+
+   EJECUTAR: python exporter.py -c start.json
+
+2.1) realizar el proceso de extraccion, parte 1
+
+   EJECUTAR: python exporter.py -c process.json -s {{paso inicial}} -e {{paso final}}
+
+   Donde {{paso inicial}} y {{paso final}} se definen segun los mensajes.
+
+2.2) realizar el proceso de extraccion, parte 2
+
+   EJECUTAR: python exporter.py -c process.json -e {{paso final + 1}}
+
+   Donde {{paso final + 1}} se define segun el valor de {{paso final}} del paso anterior.
+
+2.3) verificar la correcta extraccion de data/ProductPublication.txt. Si esta vacio (file
+     size 0), regenerar haciendo:
+
+   EJECUTAR: python exporter.py -c process.json -l
+
+             ver el paso que realiza ProductPublication
+
+   EJECUTAR: python exporter.py -c process.json -S {{paso ProductPublication}}
+
+3) Comprimir los archivos
+
+   EJECUTAR: python exporter.py -c zip.json
+
+   Copiar los archivos al servidor donde seran requeridos para importar en Postgres
+
+4) Luego de finalizada la carga en Postgres de forma exitosa
+
+   EJECUTAR: python exporter.py -c end.json
+
+   Esto limpia tablas temporarias y archivos temporarios
+
