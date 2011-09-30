@@ -1,0 +1,3041 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram version="1.0" type="POSTGRES" versionMajor="8" versionMinor="4" groupSchema="false">
+<Table id="0" name="Origins" schema="" database="">
+<Text>This table registers the different data Origins (ex: ILHSA) and states if the Origin works as a Sender, Receiver and/or Fulfillment center. It also indicates the Data Interchange type and certain parameters.</Text>
+<Column id="1" name="OriginId" type="integer" length="16" nulls="false"/>
+<Column id="2" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="3" name="Description" type="varchar" length="256" nulls="false"/>
+<Column id="4" name="InterchangeType" type="char" length="4" nulls="false"/>
+<Column id="5" name="InterchangeCode" type="varchar" length="256" nulls="true"/>
+<Column id="6" name="InterchangeUser" type="varchar" length="256" nulls="true"/>
+<Column id="7" name="InterchangePassword" type="varchar" length="256" nulls="true"/>
+<Column id="8" name="FlagSender" type="boolean" length="25" nulls="false"/>
+<Column id="9" name="FlagReceiver" type="boolean" length="25" nulls="false"/>
+<Column id="10" name="FlagFulfillment" type="boolean" length="25" nulls="false"/>
+<Column id="11" name="FlagEnabled" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="12" name="InterchangeTypes" schema="" database="">
+<Text>Registers all the enabled Interchange Formats (ex: ONIX).</Text>
+<Column id="13" name="InterchangeType" type="char" length="4" nulls="false"/>
+<Column id="14" name="Name" type="varchar" length="32" nulls="false"/>
+<Column id="15" name="Description" type="varchar" length="256" nulls="false"/>
+<Column id="16" name="FlagEnabled" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="17" name="Products" schema="" database="">
+<Text>This table stores the list of products.</Text>
+<Column id="18" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="19" name="LanguageCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">Primary language of the work (ISO 639-1). If it is not specified (in titles and such, the default of the message is used).</CP>
+</Column>
+<Column id="20" name="ReplaceWithThisId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">If this field has a value, then this ProductId must be replaced with the stated value. This is useful to data curation from different providers.</CP>
+</Column>
+<Column id="21" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="22" name="FlagDeleted" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">Indicates all Origins have deleted the product.</CP>
+</Column>
+<Column id="23" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="24" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="25" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="26" name="ProductRecordReferences" schema="" database="">
+<Text>This table registers the posible Origins for each Product. Only one Origin can be Primary for a Product. The Primary is the product that is put to sale (this is important for pricing and things like that). This mechanism provides for a method to handle the situation when multiple Providers supply the same product. This table stores ONIX 3.0 tag P.1.1.</Text>
+<Column id="27" name="OriginId" type="integer" length="25" nulls="false"/>
+<Column id="28" name="RecordReference" type="varchar" length="256" nulls="false"/>
+<Column id="29" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="30" name="FlagPrimarySource" type="boolean" length="255" nulls="false"/>
+<Column id="31" name="FlagDeleted" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">Indicates if the Origin has reported the deletion of the Product.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="32" name="OriginMessages" schema="" database="">
+<Text>Each message (file) received is registered in this table, together with processing status.</Text>
+<Column id="33" name="OriginId" type="integer" length="25" nulls="false"/>
+<Column id="34" name="IdMessage" type="integer" length="25" nulls="false"/>
+<Column id="35" name="TypeInterchange" type="char" length="4" nulls="false"/>
+<Column id="36" name="MessageStatus" type="char" length="2" nulls="false"/>
+<Column id="37" name="Note" type="varchar" length="512" nulls="true"/>
+<Column id="38" name="MessageDate" type="timestamp" length="25" nulls="false"/>
+<Column id="39" name="ReceiveDate" type="timestamp" length="25" nulls="false"/>
+<Column id="40" name="StatusDate" type="timestamp" length="25" nulls="false"/>
+<Column id="41" name="FileName" type="varchar" length="256" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="42" name="MessageStatus" schema="" database="">
+<Text>This table registers the available Processing Statuses for different Interchange Types (ex: PE=pending, ER=error, PR=processed)</Text>
+<Column id="43" name="TypeInterchange" type="char" length="4" nulls="false"/>
+<Column id="44" name="MessageStatus" type="char" length="2" nulls="false"/>
+<Column id="45" name="Name" type="varchar" length="32" nulls="false"/>
+<Column id="46" name="Description" type="varchar" length="256" nulls="false"/>
+<Column id="47" name="FlagEnabled" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="48" name="ProductIdentifiers" schema="" database="">
+<Text>This table registers the different (globally valid) identifiers a product can have. It's used also to detect products reported by different Origins. It corresponds with ONIX 3.0 tags P.2.1 to P.2.3.
+</Text>
+<Column id="49" name="IdentifierTypeId" type="integer" length="2" nulls="false">
+<CP name="COMMENTS">According to Identifiers Table Pattern on ONIX 3.0 List 5.</CP>
+</Column>
+<Column id="50" name="IDValue" type="varchar" length="256" nulls="false"/>
+<Column id="51" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="52" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="53" name="ProductForm" schema="" database="">
+<Text>This table records part of the factual description of the product. It corresponds with many of the tags defined in ONIX 3.0 as group P.3.</Text>
+<Column id="54" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="55" name="ProductComposition" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 2</CP>
+</Column>
+<Column id="56" name="ProductForm" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 150</CP>
+</Column>
+<Column id="57" name="ProductFormDetail" type="char" length="4" nulls="true">
+<CP name="COMMENTS">ONIX List 175</CP>
+</Column>
+<Column id="58" name="ProductPackaging" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 80</CP>
+</Column>
+<Column id="59" name="ProductFormDescription" type="varchar" length="255" nulls="true"/>
+<Column id="60" name="TradeCategory" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 12</CP>
+</Column>
+<Column id="61" name="PrimaryContentType" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 81. If the ProductFormContentType table gets loaded and this field is empty, the lowest valued record must be set in this field.</CP>
+</Column>
+<Column id="62" name="CountryOfManufacture" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 91</CP>
+</Column>
+<Column id="63" name="MapScale" type="numeric" length="25" nulls="true">
+<CP name="PRECISION">7</CP>
+<CP name="SCALE">0</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="64" name="ProductFormFeatures" schema="" database="">
+<Text>This table records part of the factual description of the product. It corresponds with the tags defined in ONIX 3.0 as P.3.4 to P.3.6.</Text>
+<Column id="65" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="66" name="FeatureType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 79</CP>
+</Column>
+<Column id="67" name="Value" type="varchar" length="64" nulls="true">
+<CP name="COMMENTS">ONIX Lists 76, 98, 99, 143 or 176</CP>
+</Column>
+<Column id="68" name="Description" type="varchar" length="256" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="69" name="ProductFormContentTypes" schema="" database="">
+<Text>This table records parts of the factual description of the product. It correspondes with the tag P.3.11 defined in ONIX 3.0.</Text>
+<Column id="70" name="ProductId" type="int" length="25" nulls="false"/>
+<Column id="71" name="ContentType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 81</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="72" name="ProductFormMeasures" schema="" database="">
+<Text>This table records part of the factual description of the product. It corresponds with the tags defined in ONIX 3.0 as P.3.12 to P.3.14.</Text>
+<Column id="73" name="ProductId" type="int" length="25" nulls="false"/>
+<Column id="74" name="MeasureType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 48</CP>
+</Column>
+<Column id="75" name="Measurement" type="numeric" length="25" nulls="false">
+<CP name="PRECISION">10</CP>
+<CP name="SCALE">3</CP>
+</Column>
+<Column id="76" name="UnitCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 50</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="77" name="ProductFormEpubTechnicalProtections" schema="" database="">
+<Text>This table records part of the factual description of the product. It corresponds with tag P.3.16 of ONIX 3.0.</Text>
+<Column id="78" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="79" name="TechnicalProtection" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 144</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="80" name="ProductFormEpubUsageConstraints" schema="" database="">
+<Text>This table records part of the factual description of the product. It corresponds with the tags P.3.17 and P.3.18 of ONIX 3.0</Text>
+<Column id="81" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="82" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="83" name="Type" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 145</CP>
+</Column>
+<Column id="84" name="Status" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 146</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="85" name="ProductFormEpubUsageConstraintLimits" schema="" database="">
+<Text>This table records part of the factual description of the product. It corresponds with the tags P.3.19 and P.3.20 of ONIX 3.0</Text>
+<Column id="86" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="87" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="88" name="Unit" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 147</CP>
+</Column>
+<Column id="89" name="Quantity" type="numeric" length="25" nulls="false">
+<CP name="PRECISION">10</CP>
+<CP name="SCALE">3</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="90" name="Collections" schema="" database="">
+<Text>This table describes the Collection entities. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX Group P.5.</Text>
+<Column id="91" name="CollectionId" type="integer" length="25" nulls="false"/>
+<Column id="92" name="CollectionType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 148</CP>
+</Column>
+<Column id="93" name="SourceName" type="varchar" length="64" nulls="true">
+<CP name="COMMENTS">Name of the organization that created the collection.</CP>
+</Column>
+<Column id="94" name="Name" type="varchar" length="256" nulls="false">
+<CP name="COMMENTS">Internal name for company use</CP>
+</Column>
+<Column id="95" name="ReplaceWithThisId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">If this field has a value, then this CollectionId must be replaced with the stated value. This is useful to data curation from different providers.</CP>
+</Column>
+<Column id="96" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="97" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="98" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="99" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="100" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="101" name="CollectionIdentifiers" schema="" database="">
+<Text>This table describes the Ids for Collection entities. It is self-populated by fields P.5.3 to P.5.5 as a result of ONIX 3.0 file processing.</Text>
+<Column id="102" name="IdentifierTypeId" type="integer" length="64" nulls="false">
+<CP name="COMMENTS">According to Identifiers Table Pattern on ONIX 3.0 List 13.</CP>
+</Column>
+<Column id="103" name="IDValue" type="varchar" length="256" nulls="false"/>
+<Column id="104" name="CollectionId" type="integer" length="25" nulls="false"/>
+<Column id="105" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="106" name="CollectionTitles" schema="" database="">
+<Text>This table describes titles for the Collection entities. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX tag P.5.6.</Text>
+<Column id="107" name="CollectionId" type="integer" length="25" nulls="false"/>
+<Column id="108" name="TitleType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 15</CP>
+</Column>
+<Column id="109" name="EffectiveLanguageCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">If FlagFixed = true, this field is assigned by the user, otherwise is copied from ShadowEffectiveLanguageCode.</CP>
+</Column>
+<Column id="110" name="EffectiveTitle" type="varchar" length="1024" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated with the CollectionTitleElements. The goal of the field is to have an easy to access full title (that can be fragmented).</CP>
+</Column>
+<Column id="111" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the EffectiveTitle is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="112" name="ShadowEffectiveLanguageCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">This field is taken from the language attribute of the title elements (if present) or inherited from the product default. ONIX List 74 (ISO 639-2/B) converted to ISO 639-1 (2 chars).</CP>
+</Column>
+<Column id="113" name="ShadowEffectiveTitle" type="varchar" length="1024" nulls="false">
+<CP name="COMMENTS">The calculated (from fragments) full title.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="114" name="CollectionTitleElements" schema="" database="">
+<Text>This table describes titles for the Collection entities. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX tags P.5.7 to P.5.13.</Text>
+<Column id="115" name="CollectionId" type="integer" length="25" nulls="false"/>
+<Column id="116" name="TitleType" type="char" length="2" nulls="false"/>
+<Column id="117" name="EntryOrder" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">Sequential number assigned to each element informed by Onix.</CP>
+</Column>
+<Column id="118" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="119" name="TitleElementLevel" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 149</CP>
+</Column>
+<Column id="120" name="PartNumber" type="varchar" length="64" nulls="true"/>
+<Column id="121" name="YearOfAnnual" type="varchar" length="64" nulls="true"/>
+<Column id="122" name="TitleText" type="varchar" length="512" nulls="true"/>
+<Column id="123" name="TitlePrefix" type="varchar" length="64" nulls="true"/>
+<Column id="124" name="TitleWithoutPrefix" type="varchar" length="512" nulls="true"/>
+<Column id="125" name="Subtitle" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="126" name="ProductCollections" schema="" database="">
+<Text>This table holds the relation between Products and the Collections they belong to. It is formed by the ONIX tags in group P.5.</Text>
+<Column id="127" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="128" name="CollectionId" type="integer" length="25" nulls="false"/>
+<Column id="129" name="OriginalCollectionId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original CollectionId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="130" name="ProductTitleElements" schema="" database="">
+<Text>This table describes titles for the Product entities. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX tags P.6.2 to P.6.8.</Text>
+<Column id="131" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="132" name="TitleType" type="char" length="2" nulls="false"/>
+<Column id="133" name="EntryOrder" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">Sequential number assigned to each element informed by Onix.</CP>
+</Column>
+<Column id="134" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="135" name="TitleElementLevel" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 149</CP>
+</Column>
+<Column id="136" name="PartNumber" type="varchar" length="64" nulls="true"/>
+<Column id="137" name="YearOfAnnual" type="varchar" length="64" nulls="true"/>
+<Column id="138" name="TitleText" type="varchar" length="512" nulls="true"/>
+<Column id="139" name="TitlePrefix" type="varchar" length="64" nulls="true"/>
+<Column id="140" name="TitleWithoutPrefix" type="varchar" length="512" nulls="true"/>
+<Column id="141" name="Subtitle" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="142" name="ProductTitles" schema="" database="">
+<Text>This table describes titles for the Product entities. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX tag P.6.</Text>
+<Column id="143" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="144" name="TitleType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 15</CP>
+</Column>
+<Column id="145" name="EffectiveLanguageCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">This field is taken from the language attribute of the title elements (if present) or inherited from the product default. ONIX List 74 (ISO 639-2/B) converted to ISO 639-1 (2 chars).</CP>
+</Column>
+<Column id="146" name="EffectiveTitle" type="varchar" length="1024" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated with the CollectionTitleElements. The goal of the field is to have an easy to access full title.</CP>
+</Column>
+<Column id="147" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the EffectiveTitle is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="148" name="ShadowLanguageCode" type="char" length="2" nulls="false"/>
+<Column id="149" name="ShadowTitle" type="varchar" length="1024" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="150" name="ProductContributors" schema="" database="">
+<Text>This table holds the relation between Products and the Contributors the took part in the creation of the Product. It is formed by the ONIX tags in group P.7.</Text>
+<Column id="151" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="152" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="153" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="154" name="ContributorRole" type="char" length="3" nulls="false"/>
+<Column id="155" name="OriginalContributorId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original ContributorId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="156" name="Contributors" schema="" database="">
+<Text>This table describes the Contributor entities. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX Group P.7.</Text>
+<Column id="157" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="158" name="PersonName" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated with the Contributor name parts. The goal of the field is to have an easy to access full name.</CP>
+</Column>
+<Column id="159" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the EffectiveName is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="160" name="ShadowPersonName" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">See FlagIsCorporate</CP>
+</Column>
+<Column id="161" name="PersonNameInverted" type="varchar" length="512" nulls="true">
+<CP name="COMMENTS">See FlagIsCorporate</CP>
+</Column>
+<Column id="162" name="FlagIsCorporate" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">This flag is true if PersonName and PersonNameInverted are Corporate names (comming from ONIX tags P.7.19 and P.7.20 instead of P.7.9 and P.7.10 and associated fields).</CP>
+</Column>
+<Column id="163" name="TitlesBeforeNames" type="varchar" length="256" nulls="true"/>
+<Column id="164" name="NamesBeforeKey" type="varchar" length="256" nulls="true"/>
+<Column id="165" name="PrefixToKey" type="varchar" length="256" nulls="true"/>
+<Column id="166" name="KeyNames" type="varchar" length="256" nulls="true"/>
+<Column id="167" name="NamesAfterKey" type="varchar" length="256" nulls="true"/>
+<Column id="168" name="SuffixToKey" type="varchar" length="256" nulls="true"/>
+<Column id="169" name="LettersAfterNames" type="varchar" length="256" nulls="true"/>
+<Column id="170" name="TitlesAfterNames" type="varchar" length="256" nulls="true"/>
+<Column id="171" name="ReplaceWithThisId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">If this field has a value, then this ContributorId must be replaced with the stated value. This is useful to data curation from different providers.</CP>
+</Column>
+<Column id="172" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="173" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="174" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="175" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="176" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="177" name="ContributorIdentifiers" schema="" database="">
+<Text>This table describes the Ids for Contributor entities. It is self-populated by fields P.7.6 to P.7.8 as a result of ONIX 3.0 file processing.</Text>
+<Column id="178" name="IdentifierTypeId" type="integer" length="64" nulls="false">
+<CP name="COMMENTS"> According to Identifiers Table Pattern on ONIX 3.0 List 44.</CP>
+</Column>
+<Column id="179" name="IDValue" type="varchar" length="256" nulls="false"/>
+<Column id="180" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="181" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="182" name="ContributorDates" schema="" database="">
+<Text>This table stores Contributor Dates as indicated by ONIX 3.0 tags P.7.37 to P.7.39. The supported date formats are "00" to "05". The date is stored using "1" as value for fields not specified. For example, "05" for 1999 will be stored as 1999-01-01. The Quarter, Season and Week are calculated from the stated date.</Text>
+<Column id="183" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="184" name="DateRole" type="char" length="2" nulls="false"/>
+<Column id="185" name="DateFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 55</CP>
+</Column>
+<Column id="186" name="DateValue" type="date" length="25" nulls="false"/>
+<Column id="187" name="FlagFixed" type="boolean" length="25" nulls="false"/>
+<Column id="188" name="ShadowDateFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 55</CP>
+</Column>
+<Column id="189" name="ShadowDateValue" type="date" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="190" name="ContributorWebsites" schema="" database="">
+<Text>This table stores Contributor Websites as indicated by ONIX 3.0 tags P.7.43 to P.7.45.</Text>
+<Column id="191" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="192" name="WebsiteRole" type="char" length="2" nulls="false"/>
+<Column id="193" name="WebsiteLink" type="varchar" length="512" nulls="false"/>
+<Column id="194" name="Description" type="varchar" length="512" nulls="true"/>
+<Column id="195" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the Effective* fields are set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="196" name="EffectiveLink" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated from the corresponding field.</CP>
+</Column>
+<Column id="197" name="EffectiveDescription" type="varchar" length="512" nulls="true">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated from the corresponding field.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="198" name="EntityTexts" schema="" database="">
+<Text>This table stores the texts for many entities (Products, Collections, Contributors, etc).
+
+Defined values for EntityType are:
+
+- PROD (Table Products, Id ProductId)
+- CONT (Table Contributors, Id ContributorId)
+- COLL (Table Collections, Id CollectionId)
+- PUBL (Table Publishers, Id PublisherId)
+- IMPR (Table Imprints, Id ImprintId)
+- SUBJ (Table Subjects, Id SubjectId)
+- PAGE (Table Pages, Id PageId) - static pages</Text>
+<Column id="199" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="200" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="201" name="EntryCode" type="varchar" length="4" nulls="false">
+<CP name="COMMENTS">Specific code for the entry. From many sources, ex: ONIX List 153, ONIX List 17, etc.</CP>
+</Column>
+<Column id="202" name="EntryId" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">This Id field can be used to identify a Text for a given Entity. It is assigned from a sequence. It will be useful when editing manual content to reference a particular entry.</CP>
+</Column>
+<Column id="203" name="TextLanguage" type="char" length="2" nulls="false"/>
+<Column id="204" name="TextFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 34</CP>
+</Column>
+<Column id="205" name="TextContent" type="text" length="25" nulls="false"/>
+<Column id="206" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the Effective* fields are set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="207" name="ShadowTextLanguage" type="char" length="2" nulls="false"/>
+<Column id="208" name="ShadowTextFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated with the TextContent. The goal of the field is to have an easy to access text. ONIX List 34</CP>
+</Column>
+<Column id="209" name="ShadowTextContent" type="text" length="25" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated with the TextFormat. The goal of the field is to have an easy to access content format.</CP>
+</Column>
+<Column id="210" name="InRelationWithEntityType" type="char" length="4" nulls="true">
+<CP name="COMMENTS">When the entry is associated with an &lt;entiy, entity&gt; relation, this will hold the secondary entity type. For example, used for texts in the relation &lt; Product, Contributor&gt;.</CP>
+</Column>
+<Column id="211" name="InRelationWithEntityId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">When the entry is associated with an &lt;entiy, entity&gt; relation, this will hold the secondary entity id. For example, used for texts in the relation &lt; Product, Contributor&gt;.</CP>
+</Column>
+<Column id="212" name="CorporateSource" type="varchar" length="256" nulls="true"/>
+<Column id="213" name="SourceTitle" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="214" name="ContributorPlaces" schema="" database="">
+<Text>This table stores the places related to a Contributor. It is generated from ONIX 3.0 tags P.7.48 to P.7.50.</Text>
+<Column id="215" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="216" name="PlaceRelator" type="char" length="2" nulls="false"/>
+<Column id="217" name="CountryCode" type="char" length="2" nulls="true"/>
+<Column id="218" name="RegionCode" type="varchar" length="32" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="219" name="ProductEditions" schema="" database="">
+<Text>This table stores the Edition related info carried on by ONIX 3.0 tags P.9.1 to P.9.4.</Text>
+<Column id="220" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="221" name="EditionType" type="char" length="3" nulls="true"/>
+<Column id="222" name="EditionNumber" type="integer" length="25" nulls="true"/>
+<Column id="223" name="VersionNumber" type="integer" length="25" nulls="true"/>
+<Column id="224" name="Statement" type="varchar" length="256" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="225" name="ProductLanguages" schema="" database="">
+<Text>This table stores Product Languages as indicated by ONIX 3.0 tags P.10.1 to P.10.4.</Text>
+<Column id="226" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="227" name="LanguageRole" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 22</CP>
+</Column>
+<Column id="228" name="LanguageCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 74 (ISO 639-2/B) converted to ISO 639-1 (2 chars).</CP>
+</Column>
+<Column id="229" name="CountryCode" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 91</CP>
+</Column>
+<Column id="230" name="ScriptCode" type="char" length="4" nulls="true">
+<CP name="COMMENTS">ONIX List 121</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="231" name="ProductExtents" schema="" database="">
+<Text>This table stores the Product Extents as specified by ONIX 3.0 tags P.11.1 to P.11.4.</Text>
+<Column id="232" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="233" name="ExtentType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 23</CP>
+</Column>
+<Column id="234" name="ExtentValue" type="numeric" length="25" nulls="false">
+<CP name="PRECISION">10</CP>
+<CP name="SCALE">3</CP>
+</Column>
+<Column id="235" name="ExtentValueRoman" type="varchar" length="16" nulls="true"/>
+<Column id="236" name="ExtentUnit" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 24</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="237" name="ProductIllustrations" schema="" database="">
+<Text>This table stores Products Illustration information as specified by ONIX 3.0 tags P.11.5 to P.11.7.</Text>
+<Column id="238" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="239" name="Illustrated" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 152</CP>
+</Column>
+<Column id="240" name="NumberOfIllustrations" type="integer" length="25" nulls="true"/>
+<Column id="241" name="IllustrationsNote" type="varchar" length="256" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="242" name="ProductSubjects" schema="" database="">
+<Text>This table stores the relation between Products and Subjects as specified by ONIX tags P.12.1 to P.12.6.</Text>
+<Column id="243" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="244" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="245" name="SubjectId" type="integer" length="25" nulls="false"/>
+<Column id="246" name="FlagMainSubject" type="boolean" length="25" nulls="false"/>
+<Column id="247" name="OriginalSubjectId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original SubjectId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="248" name="Subjects" schema="" database="">
+<Text>This table stores the Subject entities as implied by ONIX 3.0 tags P.12.2 to P.12.6. This entities are auto-generated from the Product references when needed.</Text>
+<Column id="249" name="SubjectId" type="integer" length="25" nulls="false"/>
+<Column id="250" name="Title" type="varchar" length="256" nulls="false"/>
+<Column id="251" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the ShadowTitle is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="252" name="ShadowTitle" type="varchar" length="256" nulls="false"/>
+<Column id="253" name="ReplaceWithThisId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">If this field has a value, then this SubjectId must be replaced with the stated value. This is useful to data curation from different providers.</CP>
+</Column>
+<Column id="254" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="255" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="256" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="257" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="258" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="259" name="SubjectIdentifiers" schema="" database="">
+<Text>This table describes the Ids for Subject entities. It is self-populated by fields P.12.2 to P.12.5 as a result of ONIX 3.0 file processing.</Text>
+<Column id="260" name="IdentifierTypeId" type="integer" length="64" nulls="false">
+<CP name="COMMENTS">According to Identifiers Table Pattern on ONIX 3.0 List 27.</CP>
+</Column>
+<Column id="261" name="IDValue" type="varchar" length="256" nulls="false"/>
+<Column id="262" name="SubjectId" type="integer" length="25" nulls="false"/>
+<Column id="263" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Column id="264" name="SchemeVersion" type="varchar" length="16" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="265" name="ProductAudiences" schema="" database="">
+<Text>This table stores the Product Audiences as defined in ONIX 3.0 tag P.13.1.</Text>
+<Column id="266" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="267" name="AudienceCode" type="char" length="2" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="268" name="ProductAudienceRanges" schema="" database="">
+<Text>This table stores a Product Audience Ranges as defined by ONIX 3.0 tags P.13.5 to P.13.9.
+
+When the AudienceRangePrecision is "01" (Exact) then the same value is copied in FromValue and ToValue. Otherwhise, the FromValue and ToValue are filled depending on the RangePrecision.</Text>
+<Column id="269" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="270" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="271" name="RangeQualifier" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 30</CP>
+</Column>
+<Column id="272" name="FromValue" type="varchar" length="16" nulls="true"/>
+<Column id="273" name="ToValue" type="varchar" length="16" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="274" name="EntityTextAudiences" schema="" database="">
+<Text>This table stores the Audience Codes for Entity Texts.</Text>
+<Column id="275" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="276" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="277" name="EntryCode" type="varchar" length="4" nulls="false"/>
+<Column id="278" name="EntryId" type="integer" length="25" nulls="false"/>
+<Column id="279" name="AudienceCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 154</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="280" name="EntityTextDates" schema="" database="">
+<Text>This table stores the Dates for Entity Texts. The supported date formats are "00" to "05". The date is stored using "1" as value for fields not specified. For example, "05" for 1999 will be stored as 1999-01-01. The Quarter, Season and Week are calculated from the stated date.</Text>
+<Column id="281" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="282" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="283" name="EntryCode" type="varchar" length="4" nulls="false"/>
+<Column id="284" name="EntryId" type="integer" length="25" nulls="false"/>
+<Column id="285" name="DateRole" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 155</CP>
+</Column>
+<Column id="286" name="DateFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 55</CP>
+</Column>
+<Column id="287" name="DateValue" type="date" length="25" nulls="false"/>
+<Column id="288" name="FlagFixed" type="boolean" length="25" nulls="false"/>
+<Column id="289" name="ShadowDateFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 55</CP>
+</Column>
+<Column id="290" name="ShadowDateValue" type="date" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="291" name="EntityResources" schema="" database="">
+<Text>This table stores links to resources for many entities (Products, Collections, Contributors, etc).
+
+Defined values for EntityType are:
+
+- PROD (Table Products, Id ProductId)
+- CONT (Table Contributors, Id ContributorId)
+- COLL (Table Collections, Id CollectionId)
+- PUBL (Table Publishers, Id PublisherId)
+- IMPR (Table Imprints, Id ImprintId)
+- SUBJ (Table Subjects, Id SubjectId)
+- PAGE (Table Pages, Id PageId) - static pages</Text>
+<Column id="292" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="293" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="294" name="ContentType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 158</CP>
+</Column>
+<Column id="295" name="EntryId" type="integer" length="25" nulls="false"/>
+<Column id="296" name="ResourceMode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 159</CP>
+</Column>
+<Column id="297" name="ResourceForm" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 161</CP>
+</Column>
+<Column id="298" name="ResourceLink" type="varchar" length="512" nulls="false"/>
+<Column id="299" name="FlagLocalCopy" type="boolean" length="25" nulls="false"/>
+<Column id="300" name="FlagFixed" type="boolean" length="25" nulls="false"/>
+<Column id="301" name="ShadowResourceForm" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 161</CP>
+</Column>
+<Column id="302" name="ShadowResourceLink" type="varchar" length="512" nulls="false"/>
+<Column id="303" name="ShadowFlagLocalCopy" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="304" name="EntityResourceAudiences" schema="" database="">
+<Text>This table stores the Audience Codes for Entity Resources.</Text>
+<Column id="305" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="306" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="307" name="ContentType" type="char" length="2" nulls="false"/>
+<Column id="308" name="EntryId" type="integer" length="25" nulls="false"/>
+<Column id="309" name="AudienceCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 154</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="310" name="EntityResourceFeatures" schema="" database="">
+<Text>This table stores the Features for Entity Resources.</Text>
+<Column id="311" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="312" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="313" name="ContentType" type="char" length="2" nulls="false"/>
+<Column id="314" name="EntryId" type="integer" length="25" nulls="false"/>
+<Column id="315" name="FeatureType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 160</CP>
+</Column>
+<Column id="316" name="FeatureValue" type="varchar" length="256" nulls="true"/>
+<Column id="317" name="FeatureNote" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="318" name="ProductContents" schema="" database="">
+<Text>This table stores the Product Table of Contents (for Music: the list of songs) as specified in ONIX 3.0 tags P.18.</Text>
+<Column id="319" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="320" name="EntryOrder" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">This defines the sequential order in which the entries must be reported</CP>
+</Column>
+<Column id="321" name="SequenceNumber" type="varchar" length="32" nulls="false">
+<CP name="COMMENTS">Can be something like 1, 2, 3, etc or something like 1, 1.1, 1.1.1, 1.2, etc</CP>
+</Column>
+<Column id="322" name="TextItemType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 42</CP>
+</Column>
+<Column id="323" name="NumberOfPages" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">For Music and Video, the length in seconds</CP>
+</Column>
+<Column id="324" name="ComponentTypeName" type="varchar" length="32" nulls="true"/>
+<Column id="325" name="ComponentNumber" type="varchar" length="32" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="326" name="ProductContentContributors" schema="" database="">
+<Text>This table holds the relation between Product Content entries and the Contributors the took part in the creation of the entry. It is formed by the ONIX tags in group P.18.</Text>
+<Column id="327" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="328" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="329" name="EntrySequence" type="varchar" length="25" nulls="true">
+<CP name="COMMENTS">This field is not named EntryOrder because we are inheriting a field with that name in the Primary Key</CP>
+</Column>
+<Column id="330" name="ContributorId" type="integer" length="25" nulls="false"/>
+<Column id="331" name="ContributorRole" type="char" length="3" nulls="false">
+<CP name="COMMENTS">ONIX List 17</CP>
+</Column>
+<Column id="332" name="OriginalContributorId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original ContributorId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="333" name="ProductContentTitles" schema="" database="">
+<Text>This table describes titles for the Product Content entries. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX tag P.18.</Text>
+<Column id="334" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="335" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="336" name="TitleType" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 15</CP>
+</Column>
+<Column id="337" name="EffectiveLanguageCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">This field is taken from the language attribute of the title elements (if present) or inherited from the product default. ONIX List 74 (ISO 639-2/B) converted to ISO 639-1 (2 chars).</CP>
+</Column>
+<Column id="338" name="EffectiveTitle" type="varchar" length="1024" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated with the CollectionTitleElements. The goal of the field is to have an easy to access full title.</CP>
+</Column>
+<Column id="339" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the EffectiveTitle is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="340" name="ShadowLanguageCode" type="char" length="2" nulls="false"/>
+<Column id="341" name="ShadowTitle" type="varchar" length="1024" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="342" name="ProductContentTitleElements" schema="" database="">
+<Text>This table describes titles for the Product content entries. It is self-populated as a result of ONIX 3.0 file processing, but it can also be manually created and maintained. When auto-generated, the data comes from ONIX tags P.18.11 to P.18.18.</Text>
+<Column id="343" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="344" name="EntryOrder" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">Sequential number assigned to each element informed by Onix.</CP>
+</Column>
+<Column id="345" name="TitleType" type="char" length="2" nulls="false"/>
+<Column id="346" name="SequenceNumber" type="integer" length="25" nulls="false"/>
+<Column id="347" name="TitleElementLevel" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 149</CP>
+</Column>
+<Column id="348" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="349" name="PartNumber" type="varchar" length="64" nulls="true"/>
+<Column id="350" name="YearOfAnnual" type="varchar" length="64" nulls="true"/>
+<Column id="351" name="TitleText" type="varchar" length="512" nulls="true"/>
+<Column id="352" name="TitlePrefix" type="varchar" length="64" nulls="true"/>
+<Column id="353" name="TitleWithoutPrefix" type="varchar" length="512" nulls="true"/>
+<Column id="354" name="Subtitle" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="355" name="Imprints" schema="" database="">
+<Text>This table stores Imprint information as indicated by ONIX 3.0 tags P.19.4.</Text>
+<Column id="356" name="ImprintId" type="integer" length="25" nulls="false"/>
+<Column id="357" name="Name" type="varchar" length="256" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated from the ShadowName field. The goal of the field is to have an easy to access full name.</CP>
+</Column>
+<Column id="358" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the EffectiveName is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="359" name="ShadowName" type="varchar" length="256" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated from the Name field. The goal of the field is to have an easy to access full name.</CP>
+</Column>
+<Column id="360" name="ReplaceWithThisId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">If this field has a value, then this ImprintId must be replaced with the stated value. This is useful to data curation from different providers.</CP>
+</Column>
+<Column id="361" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="362" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="363" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="364" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="365" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="366" name="ImprintIdentifiers" schema="" database="">
+<Text>This table describes the Ids for Imprint entities. It is self-populated by fields P.19.1 to P.19.3 as a result of ONIX 3.0 file processing.</Text>
+<Column id="367" name="IdentifierTypeId" type="integer" length="64" nulls="false">
+<CP name="COMMENTS">According to Identifiers Table Pattern on ONIX 3.0 List 44.</CP>
+</Column>
+<Column id="368" name="IDValue" type="varchar" length="256" nulls="false"/>
+<Column id="369" name="ImprintId" type="integer" length="25" nulls="false"/>
+<Column id="370" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="371" name="ProductImprints" schema="" database="">
+<Text>This table stores the relation between Products and Imprints as indicated by ONIX 3.0 tags P.19.1 to P.19.4</Text>
+<Column id="372" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="373" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="374" name="ImprintId" type="integer" length="25" nulls="false"/>
+<Column id="375" name="OriginalImprintId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original ImprintId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="376" name="Publishers" schema="" database="">
+<Text>This table stores Publisher information as indicated by ONIX 3.0 tags P.19.9.</Text>
+<Column id="377" name="PublisherId" type="integer" length="25" nulls="false"/>
+<Column id="378" name="Name" type="varchar" length="256" nulls="false">
+<CP name="COMMENTS">if FlagFixed is true, then this field is set by the user. If FlagFixed is false, this field IS NOT EDITABLE and it's autogenerated from the ShadowName field. The goal of the field is to have an easy to access full name.</CP>
+</Column>
+<Column id="379" name="FlagFixed" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">When this field is true, then the EffectiveName is set by the end user and must not be changed or recalculated.</CP>
+</Column>
+<Column id="380" name="ShadowName" type="varchar" length="256" nulls="false"/>
+<Column id="381" name="ReplaceWithThisId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">If this field has a value, then this ImprintId must be replaced with the stated value. This is useful to data curation from different providers.</CP>
+</Column>
+<Column id="382" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="383" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="384" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="385" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="386" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="387" name="PublisherIdentifiers" schema="" database="">
+<Text>This table describes the Ids for Publisher entities. It is self-populated by fields P.19.6 to P.19.8 as a result of ONIX 3.0 file processing.</Text>
+<Column id="388" name="IdentifierTypeId" type="integer" length="64" nulls="false">
+<CP name="COMMENTS">According to Identifiers Table Pattern on ONIX 3.0 List 44.</CP>
+</Column>
+<Column id="389" name="IDValue" type="varchar" length="256" nulls="false"/>
+<Column id="390" name="PublisherId" type="integer" length="25" nulls="false"/>
+<Column id="391" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="392" name="ProductPublishers" schema="" database="">
+<Text>This table stores the relation between Products and Publishers as indicated by ONIX 3.0 tags P.19.5 to P.19.9</Text>
+<Column id="393" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="394" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="395" name="PublisherId" type="integer" length="25" nulls="false"/>
+<Column id="396" name="PublishingRole" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 45</CP>
+</Column>
+<Column id="397" name="OriginalPublisherId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original ImprintId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="398" name="PublisherWebsites" schema="" database="">
+<Text>This table stores Publisher Websites as indicated by ONIX 3.0 tags P.19.10 to P.19.12.</Text>
+<Column id="399" name="PublisherId" type="integer" length="25" nulls="false"/>
+<Column id="400" name="WebsiteRole" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 73</CP>
+</Column>
+<Column id="401" name="WebsiteLink" type="varchar" length="512" nulls="false"/>
+<Column id="402" name="WebsiteDescription" type="varchar" length="512" nulls="true"/>
+<Column id="403" name="FlagFixed" type="boolean" length="25" nulls="false"/>
+<Column id="404" name="ShadowLink" type="varchar" length="512" nulls="false"/>
+<Column id="405" name="ShadowDescription" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="406" name="ProductPublication" schema="" database="">
+<Text>This table stores Publication info for Products as indicated by ONIX 3.0 tags P.19.13 and P.19.14.</Text>
+<Column id="407" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="408" name="CityOfPublication" type="varchar" length="128" nulls="true"/>
+<Column id="409" name="CountryOfPublication" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 91</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="410" name="ProductRelatedWorks" schema="" database="">
+<Text>This table stores the Product Related Works as indicated by ONIX 3.0 tags P.22.</Text>
+<Column id="411" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="412" name="WorkRelationCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 164</CP>
+</Column>
+<Column id="413" name="RelatedProductId" type="integer" length="25" nulls="false"/>
+<Column id="414" name="OriginalRelatedProductId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original ProductId if it was replaced because of the ReplaceWithThisId field was not NULL.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="415" name="CodeTables" schema="" database="">
+<Text>This table is used as a Catalog of every Code Table the system needs. Tables of the same type (ex: Onix 2 digit code tables) can be grouped and stored in the same physical table, other tables can be separately stored. The real store for the table is indicated by fields DataTableName and DataTableSpace.</Text>
+<Column id="416" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="417" name="TableDomain" type="varchar" length="128" nulls="false">
+<CP name="COMMENTS">The table domain (ex: ONIX)</CP>
+</Column>
+<Column id="418" name="TableName" type="varchar" length="128" nulls="false">
+<CP name="COMMENTS">The table name (ex: for ONIX, "44" for List 44).</CP>
+</Column>
+<Column id="419" name="TableDescription" type="varchar" length="512" nulls="true"/>
+<Column id="420" name="FlagONIX30" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">If this field is true, then the table is an ONIX table.</CP>
+</Column>
+<Column id="421" name="FlagGrouped" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">If this flag is true, then the target table (DataTableSchema + DataTableName) require the CodeTableId as part of the index because many tables are stored in that target.</CP>
+</Column>
+<Column id="422" name="DataTableName" type="varchar" length="128" nulls="false"/>
+<Column id="423" name="DataTableSchema" type="varchar" length="128" nulls="false"/>
+<Column id="424" name="DataTableCodeField" type="varchar" length="128" nulls="true"/>
+<Column id="425" name="DataTableNameField" type="varchar" length="128" nulls="true"/>
+<Column id="426" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="427" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="428" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="429" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="430" name="CodeTablesONIX30Char2" schema="" database="">
+<Text>This table stores the 2 Char values of ONIX tables. The values can actualy be augmented with non-ONIX codes.</Text>
+<Column id="431" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="432" name="CodeValue" type="char" length="2" nulls="false"/>
+<Column id="433" name="FlagONIXNative" type="boolean" length="25" nulls="false"/>
+<Column id="434" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="435" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="436" name="CodeTablesONIX30Char2Language" schema="" database="">
+<Text>This table stores language translations for the ONIX codes.</Text>
+<Column id="437" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="438" name="CodeValue" type="char" length="2" nulls="false"/>
+<Column id="439" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="440" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="441" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="442" name="CodeTablesONIX30Char3" schema="" database="">
+<Text>This table stores the 3 Char values of ONIX tables. The values can actualy be augmented with non-ONIX codes.</Text>
+<Column id="443" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="444" name="CodeValue" type="char" length="3" nulls="false"/>
+<Column id="445" name="FlagONIXNative" type="boolean" length="25" nulls="false"/>
+<Column id="446" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="447" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="448" name="CodeTablesONIX30Char3Language" schema="" database="">
+<Text>This table stores language translations for the ONIX codes.</Text>
+<Column id="449" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="450" name="CodeValue" type="char" length="3" nulls="false"/>
+<Column id="451" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="452" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="453" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="454" name="CodeTablesONIX30Char4" schema="" database="">
+<Text>This table stores the 4 Char values of ONIX tables. The values can actualy be augmented with non-ONIX codes.</Text>
+<Column id="455" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="456" name="CodeValue" type="char" length="4" nulls="false"/>
+<Column id="457" name="FlagONIXNative" type="boolean" length="25" nulls="false"/>
+<Column id="458" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="459" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="460" name="CodeTablesONIX30Char4Language" schema="" database="">
+<Text>This table stores language translations for the ONIX codes.</Text>
+<Column id="461" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="462" name="CodeValue" type="char" length="4" nulls="false"/>
+<Column id="463" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="464" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="465" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="466" name="CodeTableLanguageISO639_2_B" schema="" database="">
+<Text>This table stores ONIX list 74 (ISO 639-2/B and the conversion to ISO 639-1).
+
+http://en.wikipedia.org/wiki/List_of_ISO_639-2_codes</Text>
+<Column id="467" name="LanguageCode" type="char" length="3" nulls="false"/>
+<Column id="468" name="LanguageCode2" type="char" length="2" nulls="true"/>
+<Column id="469" name="FlagONIXNative" type="boolean" length="25" nulls="false"/>
+<Column id="470" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="471" name="Description" type="varchar" length="512" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="472" name="ProductSupplyMarket" schema="" database="">
+<Text>This table stores the Product Supply Market as indicated by ONIX 3.0 tags P.24.1 to P.24.12.
+IMPORTANT: there are repetability limitations in this implementation.</Text>
+<Column id="473" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="474" name="CountriesIncluded" type="varchar" length="768" nulls="true">
+<CP name="COMMENTS">ONIX List 91</CP>
+</Column>
+<Column id="475" name="RegionsIncluded" type="varchar" length="128" nulls="true">
+<CP name="COMMENTS">ONIX List 49</CP>
+</Column>
+<Column id="476" name="CountriesExcluded" type="varchar" length="768" nulls="true">
+<CP name="COMMENTS">ONIX List 91</CP>
+</Column>
+<Column id="477" name="RegionsExcluded" type="varchar" length="128" nulls="true">
+<CP name="COMMENTS">ONIX List 49</CP>
+</Column>
+<Column id="478" name="FlagFixed" type="boolean" length="25" nulls="false"/>
+<Column id="479" name="ShadowCountriesIncluded" type="varchar" length="768" nulls="true"/>
+<Column id="480" name="ShadowRegionsIncluded" type="varchar" length="128" nulls="true"/>
+<Column id="481" name="ShadowCountriesExcluded" type="varchar" length="768" nulls="true"/>
+<Column id="482" name="ShadowRegionsExcluded" type="varchar" length="128" nulls="true"/>
+<Column id="483" name="SalesRestrictionType" type="char" length="2" nulls="true"/>
+<Column id="484" name="StartDateFormat" type="char" length="2" nulls="true"/>
+<Column id="485" name="StartDate" type="date" length="25" nulls="true"/>
+<Column id="486" name="EndDateFormat" type="char" length="2" nulls="true"/>
+<Column id="487" name="EndDate" type="date" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="488" name="ProductSupplyPublishingDetail" schema="" database="">
+<Text>This table stores the Product Market Publishing Detail as indicated by ONIX 3.0 tags P.25.1 to P.25.22.</Text>
+<Column id="489" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="490" name="MarketPublishingStatus" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 68</CP>
+</Column>
+<Column id="491" name="MarketPublishingStatusNote" type="varchar" length="512" nulls="true"/>
+<Column id="492" name="FlagNovelty" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">This flag indicates the product is new (less than N days, so sales must be boost). If diff(NOW, Products.CreationDate) &lt; x days, the value is true, false otherwise.</CP>
+</Column>
+<Column id="493" name="InitialPrintRun" type="varchar" length="256" nulls="true"/>
+<Column id="494" name="ReprintDetail" type="varchar" length="256" nulls="true"/>
+<Column id="495" name="CopiesSold" type="varchar" length="256" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="496" name="ProductSupplyPublishingDetailDates" schema="" database="">
+<Text>This table stores Product Publishing Detail Dates as indicated by ONIX 3.0 tags P.25.14 to P.25.16.</Text>
+<Column id="497" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="498" name="DateRole" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 163</CP>
+</Column>
+<Column id="499" name="DateFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 55</CP>
+</Column>
+<Column id="500" name="DateValue" type="date" length="25" nulls="false"/>
+<Column id="501" name="FlagFixed" type="boolean" length="25" nulls="false"/>
+<Column id="502" name="ShadowDateFormat" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 55</CP>
+</Column>
+<Column id="503" name="ShadowDateValue" type="date" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="504" name="ProductSupplyDetail" schema="" database="">
+<Text>This table stores Product Supply Detail as indicated by ONIX 3.0 tags P.26.</Text>
+<Column id="505" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="506" name="SupplierRole" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 93</CP>
+</Column>
+<Column id="507" name="OriginId" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">The supplier of the product (and the id of the one that will handle the Fulfillment)</CP>
+</Column>
+<Column id="508" name="ProductAvailability" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 65, only "10" (Not Yet Available), "21" (In Stock) and "22" (To Order) are supported.</CP>
+</Column>
+<Column id="509" name="FulfillmentType" type="char" length="2" nulls="true">
+<CP name="COMMENTS">Unit type for the Value. "01" for hours, "02" for days or "03" for weeks. Not an ONIX List. Only indicated for ProductAvailability "21" (On Stock) or "22" (To Order), but are specified in different ONIX tags.</CP>
+</Column>
+<Column id="510" name="FulfillmentValue" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">Can be hours, days or weeks, depending on FulfillmetType. Only indicated for ProductAvailability "21" (On Stock) or "22" (To Order), but are specified in different ONIX tags.</CP>
+</Column>
+<Column id="511" name="EmbargoDate" type="date" length="25" nulls="true">
+<CP name="COMMENTS">Sólo se soporta el formato YYYY-MM-DD</CP>
+</Column>
+<Column id="512" name="FlagUnpriced" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="513" name="ProductSupplyDetailPrice" schema="" database="">
+<Text>This table stores Product Supply Detail Price as indicated by ONIX 3.0 tags P.26.</Text>
+<Column id="514" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="515" name="PriceType" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 58</CP>
+</Column>
+<Column id="516" name="PriceQualifier" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 59</CP>
+</Column>
+<Column id="517" name="PricePer" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 60</CP>
+</Column>
+<Column id="518" name="PriceStatus" type="char" length="2" nulls="true">
+<CP name="COMMENTS">ONIX List 61</CP>
+</Column>
+<Column id="519" name="PriceAmount" type="numeric" length="25" nulls="false">
+<CP name="PRECISION">12</CP>
+<CP name="SCALE">2</CP>
+</Column>
+<Column id="520" name="CurrencyCode" type="char" length="3" nulls="false">
+<CP name="COMMENTS">ONIX List 96</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="521" name="EntitySnapshotRatings" schema="" database="">
+<Text>This table stores the most recen snapshot rating for a Entity.</Text>
+<Column id="522" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="523" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="524" name="BestCommentId" type="integer" length="25" nulls="true"/>
+<Column id="525" name="WorstCommentId" type="integer" length="25" nulls="true"/>
+<Column id="526" name="Rating5Count" type="integer" length="25" nulls="false"/>
+<Column id="527" name="Rating4Count" type="integer" length="25" nulls="false"/>
+<Column id="528" name="Rating3Count" type="integer" length="25" nulls="false"/>
+<Column id="529" name="Rating2Count" type="integer" length="25" nulls="false"/>
+<Column id="530" name="Rating1Count" type="integer" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="531" name="EntityRatings" schema="" database="">
+<Text>This table stores User Comnents and Ratings for an Entity.</Text>
+<Column id="532" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="533" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="534" name="RatingId" type="integer" length="25" nulls="false"/>
+<Column id="535" name="UserId" type="integer" length="25" nulls="false"/>
+<Column id="536" name="CommentStatus" type="char" length="2" nulls="false"/>
+<Column id="537" name="CommentText" type="varchar" length="4096" nulls="false"/>
+<Column id="538" name="Rating" type="integer" length="25" nulls="false"/>
+<Column id="539" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="540" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="541" name="Users" schema="" database="">
+<Text>This table stores the Users of the system.</Text>
+<Column id="542" name="UserId" type="integer" length="25" nulls="false"/>
+<Column id="543" name="HashedId" type="varchar" length="32" nulls="false">
+<CP name="COMMENTS">Stores a hashed id that can be exposed without revealing a sequence number.</CP>
+</Column>
+<Column id="544" name="PreferredLanguage" type="char" length="2" nulls="false"/>
+<Column id="545" name="ReplaceWithThisId" type="integer" length="25" nulls="true"/>
+<Column id="546" name="FlagInvisible" type="boolean" length="25" nulls="false"/>
+<Column id="547" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="548" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="549" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="550" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="551" name="EntityTypes" schema="" database="">
+<Text>This table stores the system Entity Types</Text>
+<Column id="552" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="553" name="TableSchema" type="varchar" length="128" nulls="false"/>
+<Column id="554" name="TableName" type="varchar" length="128" nulls="false"/>
+<Column id="555" name="IdField" type="varchar" length="128" nulls="false"/>
+<Column id="556" name="Name" type="varchar" length="64" nulls="false"/>
+<Column id="557" name="Description" type="varchar" length="512" nulls="false"/>
+<Column id="558" name="DescriptionPattern" type="varchar" length="256" nulls="false">
+<CP name="COMMENTS">This field is used to create the Entities.Description field.</CP>
+</Column>
+<Column id="559" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="560" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="561" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="562" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="563" name="Entities" schema="" database="">
+<Text>This table registers the defined entities. When an entry is added in any of the tables, then an entry is added in this table.</Text>
+<Column id="564" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="565" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="566" name="Name" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">This field must be keept up to date with the real Entity Name. For example, if a book changes title, then this field must be updated to.</CP>
+</Column>
+<Column id="567" name="HashedId" type="varchar" length="32" nulls="false">
+<CP name="COMMENTS">Stores a hashed id that can be exposed without revealing a sequence number.</CP>
+</Column>
+<Column id="568" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="569" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="570" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="571" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="572" name="URLPatterns" schema="" database="">
+<Text>List of URL Patterns. Patterns can be assigned to different Entity Types.</Text>
+<Column id="573" name="PatternId" type="integer" length="25" nulls="false"/>
+<Column id="574" name="Name" type="varchar" length="256" nulls="false"/>
+<Column id="575" name="PatternType" type="char" length="2" nulls="false"/>
+<Column id="576" name="LinkPattern" type="varchar" length="512" nulls="false"/>
+<Column id="577" name="Description" type="varchar" length="512" nulls="false"/>
+<Column id="578" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="579" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="580" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="581" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="582" name="URLs" schema="" database="">
+<Text>This table stores the list of all published URLs. By URLs we mean the base of the URL group. For example, a Product has a base URL and then URLs for the images, JSON data, etc. That base is what is registered here.</Text>
+<Column id="583" name="URLId" type="integer" length="25" nulls="false"/>
+<Column id="584" name="LinkBase" type="varchar" length="1024" nulls="false"/>
+<Column id="585" name="SourcePatternId" type="integer" length="25" nulls="false"/>
+<Column id="586" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="587" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="588" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="589" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="590" name="EntityURLs" schema="" database="">
+<Text>This table stores the relation between Entities (Products, Publishers, Authors, etc) and URLs the system publishes.</Text>
+<Column id="591" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="592" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="593" name="URLId" type="integer" length="25" nulls="false"/>
+<Column id="594" name="InitialEntityType" type="char" length="4" nulls="false">
+<CP name="COMMENTS">This value is assigned at creation from EntityType and is never changed, no matter what happens whit the URL.</CP>
+</Column>
+<Column id="595" name="InitialEntityId" type="integer" length="25" nulls="false">
+<CP name="COMMENTS">This value is assigned at creation from EntityId and is never changed, no matter what happens whit the URL.</CP>
+</Column>
+<Column id="596" name="FlagPrimary" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">This flag indicates that this URL is the primary (cannonical) for this Product.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="597" name="EntityTypeURLPatterns" schema="" database="">
+<Text>This table indicates what entities have what URL patterns. This relation provides the mechanism for URL generation when an entity is created.</Text>
+<Column id="598" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="599" name="PatternId" type="integer" length="25" nulls="false"/>
+<Column id="600" name="FlagPrimary" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="601" name="Designs" schema="" database="">
+<Text>This table stores the different designs (look&amp;feel).</Text>
+<Column id="602" name="DesignId" type="integer" length="25" nulls="false"/>
+<Column id="603" name="Name" type="varchar" length="256" nulls="false"/>
+<Column id="604" name="Version" type="integer" length="25" nulls="false"/>
+<Column id="605" name="DesignStatus" type="char" length="2" nulls="false">
+<CP name="COMMENTS">Indicates the status of the design (beta test, production, development, etc)</CP>
+</Column>
+<Column id="606" name="PercentageOnline" type="numeric" length="25" nulls="false">
+<CP name="PRECISION">5</CP>
+<CP name="SCALE">2</CP>
+</Column>
+<Column id="607" name="AWSBucket" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">The AWS S3 Bucket in use by the design</CP>
+</Column>
+<Column id="608" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="609" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="610" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="611" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="612" name="URLPublishedStatus" schema="" database="">
+<Text>This table indicates what URLs are published in what designs.</Text>
+<Column id="613" name="URLId" type="integer" length="25" nulls="false"/>
+<Column id="614" name="DesignId" type="integer" length="25" nulls="false"/>
+<Column id="615" name="PublishedStatus" type="char" length="2" nulls="false"/>
+<Column id="616" name="LastUpdateDate" type="timestamp" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="617" name="EntityTypeURLPatternSelectors" schema="" database="">
+<Text>This table stores selector conditions on URL Patterns for a given EntityType. The need for this table is that a single Entity Type (ex: Product) can group many different things (books, cds, dvds, etc). The Selectors then provide a mechanism to filter out patterns based on Entity subtype (attributes). All Selectors for a given entry are ANDed and hence all must be true for the pattern to be used.</Text>
+<Column id="618" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="619" name="PatternId" type="integer" length="25" nulls="false"/>
+<Column id="620" name="SelectorPath" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">Attribute name (xpath or similar)</CP>
+</Column>
+<Column id="621" name="SelectorOperator" type="char" length="2" nulls="false"/>
+<Column id="622" name="SelectorValue" type="varchar" length="1024" nulls="false"/>
+<Column id="623" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="624" name="EntityRelatedEntities" schema="" database="">
+<Text>This table stores Content relation between Entities (for example, this movie is a remake of this other, this book is a second edition of this other book). This type of relation is about the product themselves (not the content). In particular, for Products it is used as indicated by ONIX 3.0 tags P.23.</Text>
+<Column id="625" name="EntityType" type="char" length="4" nulls="false"/>
+<Column id="626" name="EntityId" type="integer" length="25" nulls="false"/>
+<Column id="627" name="EntityRelationCode" type="char" length="2" nulls="false">
+<CP name="COMMENTS">ONIX List 51. This field is named ProductRelationCode in the spec. The name changed here because of the Entity reuse.</CP>
+</Column>
+<Column id="628" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="629" name="RelatedEntityType" type="char" length="4" nulls="false"/>
+<Column id="630" name="RelatedEntityId" type="integer" length="25" nulls="false"/>
+<Column id="631" name="OriginalRelatedEntityId" type="integer" length="25" nulls="true">
+<CP name="COMMENTS">The original EntityId if it was replaced because of the ReplaceWithThisId field was not NULL. There is no option to replace one entity with another entity of different type, hence no OriginalRelatedEntityType field.</CP>
+</Column>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="632" name="IdentifierTypes" schema="" database="">
+<Text>This table provides a compact coding for the Identifier Type Name (*Identifiers.TypeName). Values should be auto-inserted in this table using a unique ID (sequence). This auto-insert must use the TypeName and set it for fields Name and Value.
+
+ONIX lists have a set of defined values (ex: List 44, value 16 ISNI) and a method to encode proprietary types:
+- Predefined: &lt;ONIXList, Value, FlagProprietary&gt; = &lt; 44, "16", false&gt;
+- Proprietary: &lt;ONIXList, Value, FlagProprietary&gt; = &lt; 44, "com.ilhsa", true&gt;</Text>
+<Column id="633" name="IdentifierTypeId" type="integer" length="25" nulls="false"/>
+<Column id="634" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="635" name="CodeTableId" type="integer" length="2" nulls="false">
+<CP name="COMMENTS">The ONIX list id</CP>
+</Column>
+<Column id="636" name="Value" type="varchar" length="128" nulls="false">
+<CP name="COMMENTS">The ONIX list value (for defined items) or the proprietary name for proprietary items</CP>
+</Column>
+<Column id="637" name="FlagProprietary" type="boolean" length="25" nulls="false"/>
+<Column id="638" name="Description" type="varchar" length="512" nulls="true"/>
+<Column id="639" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="640" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="641" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="642" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="643" name="ProductOriginMessages" schema="" database="">
+<Text>This table registers in what Interchange Messages the Product was received (or updated/deleted).</Text>
+<Column id="644" name="ProductId" type="integer" length="25" nulls="false"/>
+<Column id="645" name="OriginId" type="integer" length="25" nulls="false"/>
+<Column id="646" name="MessageId" type="integer" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="647" name="CodeTablesONIX30Char1" schema="" database="">
+<Text>This table stores the 1 Char values of ONIX tables. The values can actualy be augmented with non-ONIX codes.</Text>
+<Column id="648" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="649" name="CodeValue" type="char" length="1" nulls="false"/>
+<Column id="650" name="FlagONIXNative" type="boolean" length="25" nulls="false"/>
+<Column id="651" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="652" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="653" name="CodeTablesRegion" schema="" database="">
+<Text>This table stores the Region Codes (table 49). The values can actualy be augmented with non-ONIX codes.</Text>
+<Column id="654" name="CodeValue" type="varchar" length="16" nulls="false"/>
+<Column id="655" name="FlagONIXNative" type="boolean" length="25" nulls="false"/>
+<Column id="656" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="657" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="658" name="CodeTablesONIX30Char1Language" schema="" database="">
+<Text>This table stores language translations for the ONIX codes.</Text>
+<Column id="659" name="CodeTableId" type="integer" length="25" nulls="false"/>
+<Column id="660" name="CodeValue" type="char" length="1" nulls="false"/>
+<Column id="661" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="662" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="663" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="664" name="CodeTablesRegionLanguage" schema="" database="">
+<Text>This table stores language translations for the ONIX codes.</Text>
+<Column id="665" name="CodeValue" type="varchar" length="16" nulls="false"/>
+<Column id="666" name="LanguageCode" type="char" length="2" nulls="false"/>
+<Column id="667" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="668" name="Description" type="varchar" length="1024" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="669" name="Pages" schema="" database="">
+<Text>This table registers the static pages of the system.</Text>
+<Column id="670" name="PageId" type="integer" length="25" nulls="false"/>
+<Column id="671" name="Name" type="varchar" length="128" nulls="false"/>
+<Column id="672" name="Description" type="varchar" length="512" nulls="true"/>
+<Column id="673" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="674" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="675" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="676" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="677" name="PageURLs" schema="" database="">
+<Text>This table records the defined URLs for a static page.</Text>
+<Column id="678" name="PageId" type="integer" length="25" nulls="false"/>
+<Column id="679" name="EntryOrder" type="integer" length="25" nulls="false"/>
+<Column id="680" name="URL" type="varchar" length="512" nulls="false"/>
+<Column id="681" name="FlagPrimaryURL" type="boolean" length="25" nulls="false"/>
+<Column id="682" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Column id="683" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="684" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="685" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="686" name="UserCredentials" schema="" database="">
+<Text>This table stores Users Credentials (a user can have credentials for multiple systems).</Text>
+<Column id="687" name="UserId" type="integer" length="25" nulls="false"/>
+<Column id="688" name="CredentialId" type="integer" length="25" nulls="false"/>
+<Column id="689" name="CredentialType" type="char" length="2" nulls="false"/>
+<Column id="690" name="CredentialLoginName" type="varchar" length="256" nulls="false">
+<CP name="COMMENTS">The user name, user id, email, etc of this specific credential.</CP>
+</Column>
+<Column id="691" name="CredentialLoginSecret" type="varchar" length="512" nulls="false">
+<CP name="COMMENTS">The password, secret hash, etc for this credential.</CP>
+</Column>
+<Column id="692" name="FlagEnabled" type="boolean" length="25" nulls="false"/>
+<Column id="693" name="CreationDate" type="timestamp" length="25" nulls="false"/>
+<Column id="694" name="LastUpdateDate" type="timestamp" length="25" nulls="true"/>
+<Column id="695" name="DeletionDate" type="timestamp" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="696" name="UserRecordReferences" schema="" database="">
+<Text>This table describes the Ids for User Entities. It is self-populated at fulfillment with a target User Id (if needed).</Text>
+<Column id="697" name="OriginId" type="integer" length="25" nulls="false"/>
+<Column id="698" name="UserReference" type="varchar" length="256" nulls="false"/>
+<Column id="699" name="UserId" type="integer" length="25" nulls="false"/>
+<Column id="700" name="FlagDeleted" type="boolean" length="25" nulls="false"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Table id="701" name="UserName" schema="" database="">
+<Text>This table stores the User's Name and personal data.</Text>
+<Column id="702" name="UserId" type="integer" length="25" nulls="false"/>
+<Column id="703" name="FirstNames" type="varchar" length="256" nulls="true"/>
+<Column id="704" name="LastNames" type="varchar" length="256" nulls="true"/>
+<Column id="705" name="FlagCompany" type="boolean" length="25" nulls="false">
+<CP name="COMMENTS">If this flag is true, then the Company Name is in LastNames</CP>
+</Column>
+<Column id="706" name="NickName" type="varchar" length="128" nulls="true"/>
+<Column id="707" name="Sex" type="char" length="1" nulls="true"/>
+<Column id="708" name="IdType" type="char" length="4" nulls="true">
+<CP name="COMMENTS">The Type of User Id (ex: DNI, LC, CUIT, Passport, etc)</CP>
+</Column>
+<Column id="709" name="IdNumber" type="varchar" length="32" nulls="true">
+<CP name="COMMENTS">The unique ID of the user (ex: DNI number, CUIT, Passport, etc)</CP>
+</Column>
+<Column id="710" name="BirthDate" type="date" length="25" nulls="true"/>
+<Column id="711" name="CountryOFBirth" type="char" length="2" nulls="true"/>
+<Column id="712" name="CoutryOfResidence" type="varchar" length="25" nulls="true"/>
+<Storage name="TempTable" value="false"/>
+</Table>
+<Relation id="713" name="FK_InterchangeTypes_Origins" cardinality="-1" identifying="false" nulls="false">
+<FK>13</FK>
+<PK>4</PK>
+</Relation>
+<Relation id="714" name="FK_Products_ProductRecordReferences" cardinality="-1" identifying="false" nulls="false">
+<FK>18</FK>
+<PK>29</PK>
+</Relation>
+<Relation id="715" name="FK_Origins_ProductRecordReferences" cardinality="-1" identifying="true" nulls="false">
+<FK>1</FK>
+<PK>27</PK>
+</Relation>
+<Relation id="716" name="FK_Origins_OriginMessages" cardinality="-1" identifying="true" nulls="false">
+<FK>1</FK>
+<PK>33</PK>
+</Relation>
+<Relation id="717" name="FK_MessageStatus_OriginMessages" cardinality="-1" identifying="false" nulls="false">
+<FK>43</FK>
+<FK>44</FK>
+<PK>35</PK>
+<PK>36</PK>
+</Relation>
+<Relation id="718" name="FK_TypesInterchange_MessageStatus" cardinality="-1" identifying="true" nulls="false">
+<FK>13</FK>
+<PK>43</PK>
+</Relation>
+<Relation id="719" name="FK_OriginMessages_ProductOriginMessages" cardinality="-1" identifying="true" nulls="false">
+<FK>33</FK>
+<FK>34</FK>
+<PK>645</PK>
+<PK>646</PK>
+</Relation>
+<Relation id="720" name="FK_Products_ProductIdentifiers" cardinality="-1" identifying="false" nulls="false">
+<FK>18</FK>
+<PK>51</PK>
+</Relation>
+<Relation id="721" name="FK_ProductFormEPubUsageContstraint_ProductFormEPubUsageContstraintLimits" cardinality="-1" identifying="true" nulls="false">
+<FK>81</FK>
+<FK>82</FK>
+<PK>86</PK>
+<PK>87</PK>
+</Relation>
+<Relation id="722" name="FK_ProductForms_ProductFormEPubTechnichalProtections" cardinality="-1" identifying="true" nulls="false">
+<FK>54</FK>
+<PK>78</PK>
+</Relation>
+<Relation id="723" name="FK_ProductForms_ProductFormFeatures" cardinality="-1" identifying="true" nulls="false">
+<FK>54</FK>
+<PK>65</PK>
+</Relation>
+<Relation id="724" name="FK_ProductForms_ProductFormContentTypes" cardinality="-1" identifying="true" nulls="false">
+<FK>54</FK>
+<PK>70</PK>
+</Relation>
+<Relation id="725" name="FK_ProductForms_ProductFormMeasures" cardinality="-1" identifying="true" nulls="false">
+<FK>54</FK>
+<PK>73</PK>
+</Relation>
+<Relation id="726" name="FK_ProductForms_ProductFormEpubUsageConstraints" cardinality="-1" identifying="true" nulls="false">
+<FK>54</FK>
+<PK>81</PK>
+</Relation>
+<Relation id="727" name="FK_Products_ProductForm" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>54</PK>
+</Relation>
+<Relation id="728" name="FK_Collections_CollectionIdentifiers" cardinality="-1" identifying="false" nulls="false">
+<FK>91</FK>
+<PK>104</PK>
+</Relation>
+<Relation id="729" name="FK_Collections_CollectionTitles" cardinality="-1" identifying="true" nulls="false">
+<FK>91</FK>
+<PK>107</PK>
+</Relation>
+<Relation id="730" name="FK_CollectionTitles_CollectionTitleElements" cardinality="-1" identifying="true" nulls="false">
+<FK>107</FK>
+<FK>108</FK>
+<PK>115</PK>
+<PK>116</PK>
+</Relation>
+<Relation id="731" name="FK_Collections_ProductCollections" cardinality="-1" identifying="true" nulls="false">
+<FK>91</FK>
+<PK>128</PK>
+</Relation>
+<Relation id="732" name="FK_Products_ProductCollections" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>127</PK>
+</Relation>
+<Relation id="733" name="FK_ProductTitles_ProductTitleElements" cardinality="-1" identifying="true" nulls="false">
+<FK>143</FK>
+<FK>144</FK>
+<PK>131</PK>
+<PK>132</PK>
+</Relation>
+<Relation id="734" name="FK_Products_ProductTitles" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>143</PK>
+</Relation>
+<Relation id="735" name="FK_Contributors_ContributorIdentifiers" cardinality="-1" identifying="false" nulls="false">
+<FK>157</FK>
+<PK>180</PK>
+</Relation>
+<Relation id="736" name="FK_Contributors_ContributorDates" cardinality="-1" identifying="true" nulls="false">
+<FK>157</FK>
+<PK>183</PK>
+</Relation>
+<Relation id="737" name="FK_Contributors_ContributorWebsites" cardinality="-1" identifying="true" nulls="false">
+<FK>157</FK>
+<PK>191</PK>
+</Relation>
+<Relation id="738" name="FK_Contributors_ProductContributors" cardinality="-1" identifying="true" nulls="false">
+<FK>157</FK>
+<PK>153</PK>
+</Relation>
+<Relation id="739" name="FK_Products_ProductContributors" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>151</PK>
+</Relation>
+<Relation id="740" name="FK_Contributors_ContributorPlaces" cardinality="-1" identifying="true" nulls="false">
+<FK>157</FK>
+<PK>215</PK>
+</Relation>
+<Relation id="741" name="FK_Products_ProductEditions" cardinality="-3" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>220</PK>
+</Relation>
+<Relation id="742" name="FK_Products_ProductLanguages" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>226</PK>
+</Relation>
+<Relation id="743" name="FK_Products_ProductsIllustrations" cardinality="-3" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>238</PK>
+</Relation>
+<Relation id="744" name="FK_Products_ProductsExtents" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>232</PK>
+</Relation>
+<Relation id="745" name="FK_Subjects_ProductSubjects" cardinality="-1" identifying="true" nulls="false">
+<FK>249</FK>
+<PK>245</PK>
+</Relation>
+<Relation id="746" name="FK_Subjects_SubjectIdentifiers" cardinality="-1" identifying="false" nulls="false">
+<FK>249</FK>
+<PK>262</PK>
+</Relation>
+<Relation id="747" name="FK_Products_ProductSubjects" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>243</PK>
+</Relation>
+<Relation id="748" name="FK_Products_ProductAudiences" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>266</PK>
+</Relation>
+<Relation id="749" name="FK_Products_ProductAudienceRanges" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>269</PK>
+</Relation>
+<Relation id="750" name="FK_EntityTexts_EntityTextAudiences" cardinality="-1" identifying="true" nulls="false">
+<FK>199</FK>
+<FK>200</FK>
+<FK>201</FK>
+<FK>202</FK>
+<PK>275</PK>
+<PK>276</PK>
+<PK>277</PK>
+<PK>278</PK>
+</Relation>
+<Relation id="751" name="FK_EntityTexts_EntityTextDates" cardinality="-1" identifying="true" nulls="false">
+<FK>199</FK>
+<FK>200</FK>
+<FK>201</FK>
+<FK>202</FK>
+<PK>281</PK>
+<PK>282</PK>
+<PK>283</PK>
+<PK>284</PK>
+</Relation>
+<Relation id="752" name="FK_EntityResources_EntityResourceAudiences" cardinality="-1" identifying="true" nulls="false">
+<FK>292</FK>
+<FK>293</FK>
+<FK>294</FK>
+<FK>295</FK>
+<PK>305</PK>
+<PK>306</PK>
+<PK>307</PK>
+<PK>308</PK>
+</Relation>
+<Relation id="753" name="FK_EntityResources_EntityResourceFeatures" cardinality="-1" identifying="true" nulls="false">
+<FK>292</FK>
+<FK>293</FK>
+<FK>294</FK>
+<FK>295</FK>
+<PK>311</PK>
+<PK>312</PK>
+<PK>313</PK>
+<PK>314</PK>
+</Relation>
+<Relation id="754" name="FK_Products_ProductContents" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>319</PK>
+</Relation>
+<Relation id="755" name="FK_Contributors_ProductContentContributors" cardinality="-1" identifying="true" nulls="false">
+<FK>157</FK>
+<PK>330</PK>
+</Relation>
+<Relation id="756" name="FK_ProductContents_ProductContentContributors" cardinality="-1" identifying="true" nulls="false">
+<FK>319</FK>
+<FK>320</FK>
+<PK>327</PK>
+<PK>328</PK>
+</Relation>
+<Relation id="757" name="FK_ProductContents_ProductContentTitles" cardinality="-1" identifying="true" nulls="false">
+<FK>319</FK>
+<FK>320</FK>
+<PK>334</PK>
+<PK>335</PK>
+</Relation>
+<Relation id="758" name="FK_ProductContentTitles_ProductContentTitleElements" cardinality="-1" identifying="true" nulls="false">
+<FK>334</FK>
+<FK>335</FK>
+<FK>336</FK>
+<PK>343</PK>
+<PK>344</PK>
+<PK>345</PK>
+</Relation>
+<Relation id="759" name="FK_Imprints_ImprintIdentifiers" cardinality="-1" identifying="false" nulls="false">
+<FK>356</FK>
+<PK>369</PK>
+</Relation>
+<Relation id="760" name="FK_Imprints_ProductImprints" cardinality="-1" identifying="true" nulls="false">
+<FK>356</FK>
+<PK>374</PK>
+</Relation>
+<Relation id="761" name="FK_Products_ProductImprints" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>372</PK>
+</Relation>
+<Relation id="762" name="FK_Publishers_PublisherIdentifiers" cardinality="-1" identifying="false" nulls="false">
+<FK>377</FK>
+<PK>390</PK>
+</Relation>
+<Relation id="763" name="FK_Products_ProductPublishers" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>393</PK>
+</Relation>
+<Relation id="764" name="FK_Publishers_ProductPublishers" cardinality="-1" identifying="true" nulls="false">
+<FK>377</FK>
+<PK>395</PK>
+</Relation>
+<Relation id="765" name="FK_Publishers_PublisherWebsites" cardinality="-1" identifying="true" nulls="false">
+<FK>377</FK>
+<PK>399</PK>
+</Relation>
+<Relation id="766" name="FK_Products_ProductPublication" cardinality="-3" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>407</PK>
+</Relation>
+<Relation id="767" name="FK_Products_ProductRelatedWorks_Source" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>411</PK>
+</Relation>
+<Relation id="768" name="FK_CodeTablesONIX30Char2_CodeTablesONIX30Char2Language" cardinality="-1" identifying="true" nulls="false">
+<FK>431</FK>
+<FK>432</FK>
+<PK>437</PK>
+<PK>438</PK>
+</Relation>
+<Relation id="769" name="FK_CodeTables_CodeTablesONIX30Char2" cardinality="-1" identifying="true" nulls="false">
+<FK>416</FK>
+<PK>431</PK>
+</Relation>
+<Relation id="770" name="FK_CodeTables_CodeTablesONIX30Char3" cardinality="-1" identifying="true" nulls="false">
+<FK>416</FK>
+<PK>443</PK>
+</Relation>
+<Relation id="771" name="FK_CodeTablesONIX30Char3_CodeTablesONIX30Char3Language" cardinality="-1" identifying="true" nulls="false">
+<FK>443</FK>
+<FK>444</FK>
+<PK>449</PK>
+<PK>450</PK>
+</Relation>
+<Relation id="772" name="FK_CodeTables_CodeTablesONIX30Char4" cardinality="-1" identifying="true" nulls="false">
+<FK>416</FK>
+<PK>455</PK>
+</Relation>
+<Relation id="773" name="FK_CodeTablesONIX30Char4_CodeTablesONIX30Char4Language" cardinality="-1" identifying="true" nulls="false">
+<FK>455</FK>
+<FK>456</FK>
+<PK>461</PK>
+<PK>462</PK>
+</Relation>
+<Relation id="774" name="FK_Products_ProductSupplyMarket" cardinality="-3" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>473</PK>
+</Relation>
+<Relation id="775" name="FK_Products_ProductSupplyPublishingDetail" cardinality="-3" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>489</PK>
+</Relation>
+<Relation id="776" name="FK_ProductSupplyPublishingDetail_ProductSupplyPublishingDetailDates" cardinality="-1" identifying="true" nulls="false">
+<FK>489</FK>
+<PK>497</PK>
+</Relation>
+<Relation id="777" name="FK_Products_ProductSupplyDetail" cardinality="-3" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>505</PK>
+</Relation>
+<Relation id="778" name="FK_ProductSupplyDetail_ProductSupplyDetailPrice" cardinality="-3" identifying="true" nulls="false">
+<FK>505</FK>
+<PK>514</PK>
+</Relation>
+<Relation id="779" name="FK_Users_EntityRatings" cardinality="-1" identifying="false" nulls="false">
+<FK>542</FK>
+<PK>535</PK>
+</Relation>
+<Relation id="780" name="FK_EntityTypes_Entities" cardinality="-1" identifying="true" nulls="false">
+<FK>552</FK>
+<PK>564</PK>
+</Relation>
+<Relation id="781" name="FK_Entities_EntitiesURLs" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>591</PK>
+<PK>592</PK>
+</Relation>
+<Relation id="782" name="FK_URLs_EntityURLs" cardinality="-1" identifying="true" nulls="false">
+<FK>583</FK>
+<PK>593</PK>
+<Text/>
+</Relation>
+<Relation id="783" name="FK_URLPatterns_URLs" cardinality="-1" identifying="false" nulls="false">
+<FK>573</FK>
+<PK>585</PK>
+</Relation>
+<Relation id="784" name="FK_EntityTypes_EntityTypeURLPatterns" cardinality="-1" identifying="true" nulls="false">
+<FK>552</FK>
+<PK>598</PK>
+</Relation>
+<Relation id="785" name="FK_URLPatterns_EntityTypeURLPatterns" cardinality="-1" identifying="true" nulls="false">
+<FK>573</FK>
+<PK>599</PK>
+</Relation>
+<Relation id="786" name="FK_URLs_URLPublishedStatus" cardinality="-1" identifying="true" nulls="false">
+<FK>583</FK>
+<PK>613</PK>
+</Relation>
+<Relation id="787" name="FK_Designs_URLPublishedStatus" cardinality="-1" identifying="true" nulls="false">
+<FK>602</FK>
+<PK>614</PK>
+</Relation>
+<Relation id="788" name="FK_EntityTypeURLPatterns_EntityTypeURLPatternSelectors" cardinality="-1" identifying="true" nulls="false">
+<FK>598</FK>
+<FK>599</FK>
+<PK>618</PK>
+<PK>619</PK>
+</Relation>
+<Relation id="789" name="FK_Entities_EntityTexts" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>199</PK>
+<PK>200</PK>
+</Relation>
+<Relation id="790" name="FK_Entities_EntityResources" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>292</PK>
+<PK>293</PK>
+</Relation>
+<Relation id="791" name="FK_Entities_EntityRelatedEntities_Source" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>625</PK>
+<PK>626</PK>
+</Relation>
+<Relation id="792" name="FK_Entities_EntityRelatedEntities_Dest" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>629</PK>
+<PK>630</PK>
+</Relation>
+<Relation id="793" name="FK_Products_ProductRelatedWorks_Dest" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>413</PK>
+</Relation>
+<Relation id="794" name="FK_Products_ProductOriginMessages" cardinality="-1" identifying="true" nulls="false">
+<FK>18</FK>
+<PK>644</PK>
+</Relation>
+<Relation id="795" name="FK_CodeTablesONIX30Char1_CodeTablesONIX30Char1Language" cardinality="-1" identifying="true" nulls="false">
+<FK>648</FK>
+<FK>649</FK>
+<PK>659</PK>
+<PK>660</PK>
+</Relation>
+<Relation id="796" name="FK_CodeTablesRegion_CodeTablesRegionLanguage" cardinality="-1" identifying="true" nulls="false">
+<FK>654</FK>
+<PK>665</PK>
+</Relation>
+<Relation id="797" name="FK_CodeTables_CodeTablesONIX30Char1" cardinality="-1" identifying="true" nulls="false">
+<FK>416</FK>
+<PK>648</PK>
+</Relation>
+<Relation id="798" name="FK_CodeTables_IdentifierTypes" cardinality="-1" identifying="false" nulls="false">
+<FK>416</FK>
+<PK>635</PK>
+</Relation>
+<Relation id="799" name="FK_Pages_PageURLs" cardinality="-1" identifying="true" nulls="false">
+<FK>670</FK>
+<PK>678</PK>
+</Relation>
+<Relation id="800" name="FK_Entities_EntitySnapshotRatings" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>522</PK>
+<PK>523</PK>
+</Relation>
+<Relation id="801" name="FK_Entities_EntityRatings" cardinality="-1" identifying="true" nulls="false">
+<FK>564</FK>
+<FK>565</FK>
+<PK>532</PK>
+<PK>533</PK>
+</Relation>
+<Relation id="802" name="FK_User_UserCredentials" cardinality="-1" identifying="true" nulls="false">
+<FK>542</FK>
+<PK>687</PK>
+</Relation>
+<Relation id="803" name="FK_Users_UserRecordReferences" cardinality="-1" identifying="false" nulls="false">
+<FK>542</FK>
+<PK>699</PK>
+</Relation>
+<Relation id="804" name="FK_Users_UserName" cardinality="-3" identifying="true" nulls="false">
+<FK>542</FK>
+<PK>702</PK>
+</Relation>
+<Note id="805">
+<Text>BLOCK 1 - P.3 - Product Form</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="806">
+<Text>BLOCK 1 - P.5 - Collection</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="807">
+<Text>BLOCK 1 - P.6 - Product Title Detail</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="808">
+<Text>BLOCK 1 - P.7 - Authorship</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="809">
+<Text>The texts for the Contributors go into the EntityTexts table with EntityType = "CONT".
+
+This is to facillitate one implementation of "text edition".</Text>
+<Font>Arial-plain-14</Font>
+</Note>
+<Note id="810">
+<Text>The texts for the Collections go into the EntityTexts table with EntityType = "COLL".
+
+This is to facillitate one implementation of "text edition".</Text>
+<Font>Arial-plain-14</Font>
+</Note>
+<Note id="811">
+<Text>BLOCK 1 - P.9 - Edition
+BLOCK 1 - P.10 - Language</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="812">
+<Text>BLOCK 1 - P.11 - Extents and Other Content</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="813">
+<Text>BLOCK 1 - P.12 - Subject</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="814">
+<Text>The texts for the Subjects go into the EntityTexts table with EntityType = "SUBJ".
+
+This is to facillitate one implementation of "text edition".</Text>
+<Font>Arial-plain-14</Font>
+</Note>
+<Note id="815">
+<Text>BLOCK 1 - P.13 - Audience</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="816">
+<Text>BLOCK 2 - P.14 - Descriptions and Supporting Text
+Used for other Entities with the same purpose</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="817">
+<Text>BLOCK 2 - P.16 - Links to supported resources
+Used for other Entities with the same purpose</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="818">
+<Text>The tables named Entity* in this section are shared by multiple main Entities. The idea being that much code can be shared.</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="819">
+<Text>BLOCK 3 - P.18 - Content</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="820">
+<Text>BLOCK 4 - P.19 - Publisher</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="821">
+<Text>BLOCK 5 - P.22 - Related Works</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="822">
+<Text>BLOCK 6 - P.24 - Market</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="823">
+<Text>BLOCK 6 - P.25 - Market Publishing Detail</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="824">
+<Text>BLOCK 6 - P.26 - Supply</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="825">
+<Text>Product Ratings and Comments</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="826">
+<Text>Otras tablas e información relacionada con los Designs.</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="827">
+<Text>EntityTexts y EntityResources (ver Block 2) se relacionan con la tabla Entities.</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="828">
+<Text>PUBLISHING</Text>
+<Font>Arial-plain-34</Font>
+</Note>
+<Note id="829">
+<Text>CODE TABLES</Text>
+<Font>Arial-plain-34</Font>
+</Note>
+<Note id="830">
+<Text>The Master tables that can be mapped to an Entity are:
+
+- Products (Entity type PROD)
+- Collections (Entity type COLL)
+- Subjects (Entity type SUBJ)
+- Contributors (Entity type CONT)
+- Imprints (Entity type IMPR)
+- Publishers (Entity type PUBL)
+- (static) Pages (Entity type PAGE)</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="831">
+<Text>BLOCK 5 - P.23 - Related Products</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="832">
+<Text>The Master tables that can be mapped to an Entity are:
+
+- Products (Entity type PROD)
+- Collections (Entity type COLL)
+- Subjects (Entity type SUBJ)
+- Contributors (Entity type CONT)
+- Imprints (Entity type IMPR)
+- Publishers (Entity type PUBL)
+- (static) Pages (Entity type PAGE)</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="833">
+<Text>The tables named Entity* in this section are shared by multiple main Entities. The idea being that much code can be shared.
+
+In particular, EntityRelatedEntities can be used to register related products, but also what Subjects (categories) are related to what products and the "On Display" option of the site.</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="834">
+<Text>The "Related Works" relation is reserved only for products because it does not make sense for general entities and is not clear what the criteria will be for putting the relation in one table or the orher.</Text>
+<Font>Arial-plain-22</Font>
+</Note>
+<Note id="835">
+<Text>Data Origins</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="836">
+<Text>Catalog</Text>
+<Font>Arial-plain-26</Font>
+</Note>
+<Note id="837">
+<Text>Pages - Static Pages</Text>
+<Font>Arial-plain-34</Font>
+</Note>
+<Index table="0" name="Origins_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="2" sequence="0" ascending="true"/>
+</Index>
+<Index table="0" name="Origins_Idx_TypeOrigin" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="4" sequence="0" ascending="true"/>
+</Index>
+<Index table="12" name="InterchangeTypes_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="14" sequence="0" ascending="true"/>
+</Index>
+<Index table="17" name="Products_Idx_Replace" schema="" database="">
+<IndexColumn id="20" sequence="0" ascending="true"/>
+</Index>
+<Index table="26" name="ProductRecordReferences_Idx_ProductOrigin" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="27" sequence="1" ascending="true"/>
+<IndexColumn id="29" sequence="0" ascending="true"/>
+</Index>
+<Index table="26" name="ProductRecordReferences_Idx_ReferenceOrigin" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="27" sequence="1" ascending="true"/>
+<IndexColumn id="28" sequence="0" ascending="true"/>
+</Index>
+<Index table="32" name="OriginMessages_Idx_FileNameOrigin" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="33" sequence="1" ascending="true"/>
+<IndexColumn id="41" sequence="0" ascending="true"/>
+</Index>
+<Index table="32" name="OriginMessages_Idx_InterchangeStatusOriginMessage" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="33" sequence="2" ascending="true"/>
+<IndexColumn id="34" sequence="3" ascending="true"/>
+<IndexColumn id="35" sequence="0" ascending="true"/>
+<IndexColumn id="36" sequence="1" ascending="true"/>
+</Index>
+<Index table="32" name="OriginMessages_Idx_MessageDate" schema="" database="">
+<IndexColumn id="38" sequence="0" ascending="true"/>
+</Index>
+<Index table="32" name="OriginMessages_Idx_StatusOrigin" schema="" database="">
+<IndexColumn id="33" sequence="1" ascending="true"/>
+<IndexColumn id="36" sequence="0" ascending="true"/>
+</Index>
+<Index table="42" name="MessageStatus_Idx_TypeName" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="43" sequence="0" ascending="true"/>
+<IndexColumn id="45" sequence="1" ascending="true"/>
+</Index>
+<Index table="48" name="ProductIdentifiers_Idx_ProductIdentifierType" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="49" sequence="2" ascending="true"/>
+<IndexColumn id="50" sequence="1" ascending="true"/>
+<IndexColumn id="51" sequence="0" ascending="true"/>
+</Index>
+<Index table="48" name="ProductIdentifiers_Idx_IdentifierTypeProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="49" sequence="1" ascending="true"/>
+<IndexColumn id="50" sequence="0" ascending="true"/>
+<IndexColumn id="51" sequence="2" ascending="true"/>
+</Index>
+<Index table="90" name="Collections_Idx_NameSource" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="93" sequence="1" ascending="true"/>
+<IndexColumn id="94" sequence="0" ascending="true"/>
+</Index>
+<Index table="90" name="Collections_Idx_TypeId" schema="" database="">
+<IndexColumn id="91" sequence="1" ascending="true"/>
+<IndexColumn id="92" sequence="0" ascending="true"/>
+</Index>
+<Index table="90" name="Collections_Idx_SourceName" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="93" sequence="0" ascending="true"/>
+<IndexColumn id="94" sequence="1" ascending="true"/>
+</Index>
+<Index table="90" name="Collections_Idx_Replace" schema="" database="">
+<IndexColumn id="95" sequence="0" ascending="true"/>
+</Index>
+<Index table="101" name="CollectionIdentifiers_Idx_IdentifierTypeCollection" schema="" database="">
+<IndexColumn id="102" sequence="1" ascending="true"/>
+<IndexColumn id="103" sequence="0" ascending="true"/>
+<IndexColumn id="104" sequence="2" ascending="true"/>
+</Index>
+<Index table="101" name="CollectionIdentifiers_Idx_CollectionIdentifierType" schema="" database="">
+<IndexColumn id="102" sequence="2" ascending="true"/>
+<IndexColumn id="103" sequence="1" ascending="true"/>
+<IndexColumn id="104" sequence="0" ascending="true"/>
+</Index>
+<Index table="106" name="CollectionTitles_Idx_Title" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="110" sequence="0" ascending="true"/>
+</Index>
+<Index table="126" name="ProductCollections_Idx_CollectionProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="127" sequence="1" ascending="true"/>
+<IndexColumn id="128" sequence="0" ascending="true"/>
+</Index>
+<Index table="126" name="ProductCollections_Idx_OriginalCollection" schema="" database="">
+<IndexColumn id="129" sequence="0" ascending="true"/>
+</Index>
+<Index table="142" name="ProductTitles_Idx_Title" schema="" database="">
+<IndexColumn id="146" sequence="0" ascending="true"/>
+</Index>
+<Index table="150" name="ProductContributors_Idx_ContributorProductRole" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="151" sequence="1" ascending="true"/>
+<IndexColumn id="153" sequence="0" ascending="true"/>
+<IndexColumn id="154" sequence="2" ascending="true"/>
+</Index>
+<Index table="150" name="ProductContributors_Idx_RoleContributorProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="151" sequence="2" ascending="true"/>
+<IndexColumn id="153" sequence="1" ascending="true"/>
+<IndexColumn id="154" sequence="0" ascending="true"/>
+</Index>
+<Index table="150" name="ProductContributors_Idx_OriginalContributor" schema="" database="">
+<IndexColumn id="155" sequence="0" ascending="true"/>
+</Index>
+<Index table="156" name="Contributors_Idx_Replace" schema="" database="">
+<IndexColumn id="171" sequence="0" ascending="true"/>
+</Index>
+<Index table="156" name="Contributors_Idx_PersonName" schema="" database="">
+<IndexColumn id="158" sequence="0" ascending="true"/>
+</Index>
+<Index table="156" name="Contributors_Idx_KeyNames" schema="" database="">
+<IndexColumn id="166" sequence="0" ascending="true"/>
+</Index>
+<Index table="156" name="Contributors_Idx_NamesBeforeKey" schema="" database="">
+<IndexColumn id="164" sequence="0" ascending="true"/>
+</Index>
+<Index table="177" name="ContributorIdentifiers_Idx_IdentifierTypeContributor" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="178" sequence="1" ascending="true"/>
+<IndexColumn id="179" sequence="0" ascending="true"/>
+<IndexColumn id="180" sequence="2" ascending="true"/>
+</Index>
+<Index table="177" name="ContributorIdentifiers_Idx_ContributorIdentifierType" schema="" database="">
+<IndexColumn id="178" sequence="2" ascending="true"/>
+<IndexColumn id="179" sequence="1" ascending="true"/>
+<IndexColumn id="180" sequence="0" ascending="true"/>
+</Index>
+<Index table="198" name="EntityTexts_Idx_Entry" schema="" database="">
+<IndexColumn id="202" sequence="0" ascending="true"/>
+</Index>
+<Index table="242" name="ProductSubjects_Idx_SubjectProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="243" sequence="1" ascending="true"/>
+<IndexColumn id="245" sequence="0" ascending="true"/>
+</Index>
+<Index table="242" name="ProductSubjects_Idx_OriginalSubject" schema="" database="">
+<IndexColumn id="247" sequence="0" ascending="true"/>
+</Index>
+<Index table="248" name="Subjects_Idx_Replace" schema="" database="">
+<IndexColumn id="253" sequence="0" ascending="true"/>
+</Index>
+<Index table="248" name="Subjects_Idx_Title" schema="" database="">
+<IndexColumn id="250" sequence="0" ascending="true"/>
+</Index>
+<Index table="259" name="SubjectIdentifiers_Idx_IdentifierTypeSubject" schema="" database="">
+<IndexColumn id="260" sequence="1" ascending="true"/>
+<IndexColumn id="261" sequence="0" ascending="true"/>
+<IndexColumn id="262" sequence="2" ascending="true"/>
+</Index>
+<Index table="259" name="SubjectIdentifiers_Idx_SubjectIdentifierType" schema="" database="">
+<IndexColumn id="260" sequence="2" ascending="true"/>
+<IndexColumn id="261" sequence="1" ascending="true"/>
+<IndexColumn id="262" sequence="0" ascending="true"/>
+</Index>
+<Index table="265" name="ProductAudiences_Idx_AudienceProduct" schema="" database="">
+<IndexColumn id="266" sequence="1" ascending="true"/>
+<IndexColumn id="267" sequence="0" ascending="true"/>
+</Index>
+<Index table="291" name="EntityResources_Idx_EntryId" schema="" database="">
+<IndexColumn id="295" sequence="0" ascending="true"/>
+</Index>
+<Index table="326" name="ProductContentContributors_Idx_ContributorProductRole" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="327" sequence="1" ascending="true"/>
+<IndexColumn id="328" sequence="2" ascending="true"/>
+<IndexColumn id="330" sequence="0" ascending="true"/>
+<IndexColumn id="331" sequence="3" ascending="true"/>
+</Index>
+<Index table="326" name="ProductContentContributors_Idx_RoleContributorProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="327" sequence="2" ascending="true"/>
+<IndexColumn id="328" sequence="3" ascending="true"/>
+<IndexColumn id="330" sequence="1" ascending="true"/>
+<IndexColumn id="331" sequence="0" ascending="true"/>
+</Index>
+<Index table="326" name="ProductContentContributors_Idx_OriginalContributor" schema="" database="">
+<IndexColumn id="332" sequence="0" ascending="true"/>
+</Index>
+<Index table="333" name="ProductContentTitles_Idx_Title" schema="" database="">
+<IndexColumn id="338" sequence="0" ascending="true"/>
+</Index>
+<Index table="355" name="Imprints_Idx_Name" schema="" database="">
+<IndexColumn id="357" sequence="0" ascending="true"/>
+</Index>
+<Index table="355" name="Imprints_Idx_Replace" schema="" database="">
+<IndexColumn id="360" sequence="0" ascending="true"/>
+</Index>
+<Index table="366" name="ImprintIdentifiers_Idx_IdentifierTypeImprint" schema="" database="">
+<IndexColumn id="367" sequence="1" ascending="true"/>
+<IndexColumn id="368" sequence="0" ascending="true"/>
+<IndexColumn id="369" sequence="2" ascending="true"/>
+</Index>
+<Index table="366" name="ImprintIdentifiers_Idx_ImprintIdentifierType" schema="" database="">
+<IndexColumn id="367" sequence="2" ascending="true"/>
+<IndexColumn id="368" sequence="1" ascending="true"/>
+<IndexColumn id="369" sequence="0" ascending="true"/>
+</Index>
+<Index table="371" name="ProductImprints_Idx_ImprintProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="372" sequence="1" ascending="true"/>
+<IndexColumn id="374" sequence="0" ascending="true"/>
+</Index>
+<Index table="371" name="ProductImprints_Idx_OriginalImprint" schema="" database="">
+<IndexColumn id="375" sequence="0" ascending="true"/>
+</Index>
+<Index table="376" name="Publishers_Idx_Name" schema="" database="">
+<IndexColumn id="378" sequence="0" ascending="true"/>
+</Index>
+<Index table="376" name="Publishers_Idx_Replace" schema="" database="">
+<IndexColumn id="381" sequence="0" ascending="true"/>
+</Index>
+<Index table="387" name="PublisherIdentifiers_Idx_IdentifierTypePublisher" schema="" database="">
+<IndexColumn id="388" sequence="1" ascending="true"/>
+<IndexColumn id="389" sequence="0" ascending="true"/>
+<IndexColumn id="390" sequence="2" ascending="true"/>
+</Index>
+<Index table="387" name="PublisherIdentifiers_Idx_PublisherIdentifierType" schema="" database="">
+<IndexColumn id="388" sequence="2" ascending="true"/>
+<IndexColumn id="389" sequence="1" ascending="true"/>
+<IndexColumn id="390" sequence="0" ascending="true"/>
+</Index>
+<Index table="392" name="ProductPublishers_Idx_PublisherProductRole" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="393" sequence="1" ascending="true"/>
+<IndexColumn id="395" sequence="0" ascending="true"/>
+<IndexColumn id="396" sequence="2" ascending="true"/>
+</Index>
+<Index table="392" name="ProductPublishers_Idx_PublisherRoleProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="393" sequence="2" ascending="true"/>
+<IndexColumn id="395" sequence="0" ascending="true"/>
+<IndexColumn id="396" sequence="1" ascending="true"/>
+</Index>
+<Index table="392" name="ProductPublishers_Idx_OriginalPublisher" schema="" database="">
+<IndexColumn id="397" sequence="0" ascending="true"/>
+</Index>
+<Index table="410" name="ProductRelatedWorks_Idx_RelatedProductRelation" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="411" sequence="1" ascending="true"/>
+<IndexColumn id="412" sequence="2" ascending="true"/>
+<IndexColumn id="413" sequence="0" ascending="true"/>
+</Index>
+<Index table="410" name="ProductRelatedWorks_Idx_RelatedRelationProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="411" sequence="2" ascending="true"/>
+<IndexColumn id="412" sequence="1" ascending="true"/>
+<IndexColumn id="413" sequence="0" ascending="true"/>
+</Index>
+<Index table="410" name="ProductRelatedWorks_Idx_OriginalRelatedProduct" schema="" database="">
+<IndexColumn id="414" sequence="0" ascending="true"/>
+</Index>
+<Index table="415" name="CodeTables_Idx_DomainName" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="417" sequence="0" ascending="true"/>
+<IndexColumn id="418" sequence="1" ascending="true"/>
+</Index>
+<Index table="415" name="CodeTables_Idx_NameDomain" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="417" sequence="1" ascending="true"/>
+<IndexColumn id="418" sequence="0" ascending="true"/>
+</Index>
+<Index table="466" name="CodeTableLanguageISO639_2_B_Idx_Code2" schema="" database="">
+<IndexColumn id="468" sequence="0" ascending="true"/>
+</Index>
+<Index table="504" name="ProductSupplyDetail_Idx_OriginProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="505" sequence="1" ascending="true"/>
+<IndexColumn id="507" sequence="0" ascending="true"/>
+</Index>
+<Index table="531" name="EntityRatings_Idx_UserEntityEntry" schema="" database="">
+<IndexColumn id="532" sequence="1" ascending="true"/>
+<IndexColumn id="533" sequence="2" ascending="true"/>
+<IndexColumn id="534" sequence="3" ascending="true"/>
+<IndexColumn id="535" sequence="0" ascending="true"/>
+</Index>
+<Index table="531" name="EntityRatings_Idx_StatusEntityEntry" schema="" database="">
+<IndexColumn id="532" sequence="1" ascending="true"/>
+<IndexColumn id="533" sequence="2" ascending="true"/>
+<IndexColumn id="534" sequence="3" ascending="true"/>
+<IndexColumn id="536" sequence="0" ascending="true"/>
+</Index>
+<Index table="541" name="Users_Idx_HashedId" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="543" sequence="0" ascending="true"/>
+</Index>
+<Index table="541" name="Users_Idx_Replace" schema="" database="">
+<IndexColumn id="545" sequence="0" ascending="true"/>
+</Index>
+<Index table="551" name="EntityTypes_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="556" sequence="0" ascending="true"/>
+</Index>
+<Index table="551" name="EntityTypes_Idx_SchemaName" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="553" sequence="0" ascending="true"/>
+<IndexColumn id="554" sequence="1" ascending="true"/>
+</Index>
+<Index table="563" name="Entities_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="566" sequence="0" ascending="true"/>
+</Index>
+<Index table="563" name="Entities_Idx_HashedId" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="567" sequence="0" ascending="true"/>
+</Index>
+<Index table="572" name="URLPatterns_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="574" sequence="0" ascending="true"/>
+</Index>
+<Index table="572" name="URLPatterns_Idx_PatternTypeId" schema="" database="">
+<IndexColumn id="573" sequence="1" ascending="true"/>
+<IndexColumn id="575" sequence="0" ascending="true"/>
+</Index>
+<Index table="582" name="URLs_Idx_LinkBase" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="584" sequence="0" ascending="true"/>
+</Index>
+<Index table="582" name="URLs_Idx_PatternURL" schema="" database="">
+<IndexColumn id="583" sequence="1" ascending="true"/>
+<IndexColumn id="585" sequence="0" ascending="true"/>
+</Index>
+<Index table="590" name="EntityURLs_Idx_URLEntityTypeId" schema="" database="">
+<IndexColumn id="591" sequence="1" ascending="true"/>
+<IndexColumn id="592" sequence="2" ascending="true"/>
+<IndexColumn id="593" sequence="0" ascending="true"/>
+</Index>
+<Index table="601" name="Designs_Idx_NameVersion" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="603" sequence="0" ascending="true"/>
+<IndexColumn id="604" sequence="1" ascending="true"/>
+</Index>
+<Index table="612" name="URLPublishedStatus_Idx_DesignURL" schema="" database="">
+<IndexColumn id="613" sequence="1" ascending="true"/>
+<IndexColumn id="614" sequence="0" ascending="true"/>
+</Index>
+<Index table="612" name="URLPublishedStatus_Idx_StatusURL" schema="" database="">
+<IndexColumn id="613" sequence="1" ascending="true"/>
+<IndexColumn id="615" sequence="0" ascending="true"/>
+</Index>
+<Index table="612" name="URLPublishedStatus_Idx_StatusDesignURL" schema="" database="">
+<IndexColumn id="613" sequence="2" ascending="true"/>
+<IndexColumn id="614" sequence="1" ascending="true"/>
+<IndexColumn id="615" sequence="0" ascending="true"/>
+</Index>
+<Index table="624" name="EntityRelatedProducts_Idx_RelatedEntityRelation" schema="" database="">
+<IndexColumn id="625" sequence="2" ascending="true"/>
+<IndexColumn id="626" sequence="3" ascending="true"/>
+<IndexColumn id="627" sequence="4" ascending="true"/>
+<IndexColumn id="629" sequence="0" ascending="true"/>
+<IndexColumn id="630" sequence="1" ascending="true"/>
+</Index>
+<Index table="624" name="EntityRelatedProducts_Idx_RelatedRelationEntity" schema="" database="">
+<IndexColumn id="625" sequence="3" ascending="true"/>
+<IndexColumn id="626" sequence="4" ascending="true"/>
+<IndexColumn id="627" sequence="2" ascending="true"/>
+<IndexColumn id="629" sequence="0" ascending="true"/>
+<IndexColumn id="630" sequence="1" ascending="true"/>
+</Index>
+<Index table="624" name="EntityRelatedEntities_Idx_OriginalRelatedEntity" schema="" database="">
+<IndexColumn id="629" sequence="0" ascending="true"/>
+<IndexColumn id="631" sequence="1" ascending="true"/>
+</Index>
+<Index table="632" name="IdentifierTypeName_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="634" sequence="0" ascending="true"/>
+</Index>
+<Index table="632" name="IdentifierTypeName_Idx_Value" schema="" database="">
+<IndexColumn id="635" sequence="0" ascending="true"/>
+<IndexColumn id="636" sequence="1" ascending="true"/>
+</Index>
+<Index table="643" name="ProductOriginMessages_Idx_OriginMessageProduct" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="644" sequence="2" ascending="true"/>
+<IndexColumn id="645" sequence="0" ascending="true"/>
+<IndexColumn id="646" sequence="1" ascending="true"/>
+</Index>
+<Index table="669" name="Pages_Idx_Name" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="671" sequence="0" ascending="true"/>
+</Index>
+<Index table="677" name="PageURLs_Idx_URL" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="680" sequence="0" ascending="true"/>
+</Index>
+<Index table="686" name="UserCredentials_Idx_LoginType" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="689" sequence="1" ascending="true"/>
+<IndexColumn id="690" sequence="0" ascending="true"/>
+</Index>
+<Index table="696" name="UserRecordReferences_Idx_ReferenceOrigin" schema="" database="">
+<Option name="unique" class="Boolean" value="false"/>
+<IndexColumn id="697" sequence="1" ascending="true"/>
+<IndexColumn id="698" sequence="0" ascending="true"/>
+</Index>
+<Index table="696" name="UserRecordReferences_Idx_UserOrigin" schema="" database="">
+<Option name="unique" class="Boolean" value="true"/>
+<IndexColumn id="697" sequence="1" ascending="true"/>
+<IndexColumn id="699" sequence="0" ascending="true"/>
+</Index>
+<Index table="701" name="UserName_Idx_FirstName" schema="" database="">
+<IndexColumn id="703" sequence="0" ascending="true"/>
+</Index>
+<Index table="701" name="UserName_Idx_LastName" schema="" database="">
+<IndexColumn id="704" sequence="0" ascending="true"/>
+</Index>
+<Constraint table="0" name="Origins_PK" type="PrimKey">
+<ConstraintColumn id="1"/>
+</Constraint>
+<Constraint table="12" name="TypesInterchange_PK" type="PrimKey">
+<ConstraintColumn id="13"/>
+</Constraint>
+<Constraint table="17" name="Products_PK" type="PrimKey">
+<ConstraintColumn id="18"/>
+</Constraint>
+<Constraint table="26" name="ProductRecordReferences_PK" type="PrimKey">
+<ConstraintColumn id="27"/>
+<ConstraintColumn id="28"/>
+</Constraint>
+<Constraint table="32" name="OriginMessages_PK" type="PrimKey">
+<ConstraintColumn id="33"/>
+<ConstraintColumn id="34"/>
+</Constraint>
+<Constraint table="42" name="MessageStatus_PK" type="PrimKey">
+<ConstraintColumn id="43"/>
+<ConstraintColumn id="44"/>
+</Constraint>
+<Constraint table="48" name="ProductIdentifiers_PK" type="PrimKey">
+<ConstraintColumn id="49"/>
+<ConstraintColumn id="50"/>
+<ConstraintColumn id="51"/>
+</Constraint>
+<Constraint table="53" name="ProductForm_PK" type="PrimKey">
+<ConstraintColumn id="54"/>
+</Constraint>
+<Constraint table="64" name="ProductFormFeatures_PK" type="PrimKey">
+<ConstraintColumn id="65"/>
+<ConstraintColumn id="66"/>
+</Constraint>
+<Constraint table="69" name="ProductFormContentTypes_PK" type="PrimKey">
+<ConstraintColumn id="70"/>
+<ConstraintColumn id="71"/>
+</Constraint>
+<Constraint table="72" name="ProductFormMeasures_PK" type="PrimKey">
+<ConstraintColumn id="73"/>
+<ConstraintColumn id="74"/>
+</Constraint>
+<Constraint table="77" name="ProductFormEpubTechnicalProtections_PK" type="PrimKey">
+<ConstraintColumn id="78"/>
+<ConstraintColumn id="79"/>
+</Constraint>
+<Constraint table="80" name="ProductFormEpubUsageConstraints_PK" type="PrimKey">
+<ConstraintColumn id="81"/>
+<ConstraintColumn id="82"/>
+</Constraint>
+<Constraint table="85" name="ProductFormEpubUsageConstraintLimits_PK" type="PrimKey">
+<ConstraintColumn id="86"/>
+<ConstraintColumn id="87"/>
+<ConstraintColumn id="88"/>
+</Constraint>
+<Constraint table="90" name="Collections_PK" type="PrimKey">
+<ConstraintColumn id="91"/>
+</Constraint>
+<Constraint table="101" name="CollectionIdentifiers_PK" type="PrimKey">
+<ConstraintColumn id="102"/>
+<ConstraintColumn id="103"/>
+</Constraint>
+<Constraint table="106" name="CollectionTitles_PK" type="PrimKey">
+<ConstraintColumn id="107"/>
+<ConstraintColumn id="108"/>
+</Constraint>
+<Constraint table="114" name="CollectionTitleElements_PK" type="PrimKey">
+<ConstraintColumn id="115"/>
+<ConstraintColumn id="116"/>
+<ConstraintColumn id="117"/>
+</Constraint>
+<Constraint table="126" name="ProductCollections_PK" type="PrimKey">
+<ConstraintColumn id="127"/>
+<ConstraintColumn id="128"/>
+</Constraint>
+<Constraint table="130" name="ProductTitleElements_PK" type="PrimKey">
+<ConstraintColumn id="131"/>
+<ConstraintColumn id="132"/>
+<ConstraintColumn id="133"/>
+</Constraint>
+<Constraint table="142" name="ProductTitles_PK" type="PrimKey">
+<ConstraintColumn id="143"/>
+<ConstraintColumn id="144"/>
+</Constraint>
+<Constraint table="150" name="ProductContributors_PK" type="PrimKey">
+<ConstraintColumn id="151"/>
+<ConstraintColumn id="152"/>
+</Constraint>
+<Constraint table="156" name="Contributors_PK" type="PrimKey">
+<ConstraintColumn id="157"/>
+</Constraint>
+<Constraint table="177" name="ContributorIdentifiers_PK" type="PrimKey">
+<ConstraintColumn id="178"/>
+<ConstraintColumn id="179"/>
+</Constraint>
+<Constraint table="182" name="ContributorDates_PK" type="PrimKey">
+<ConstraintColumn id="183"/>
+<ConstraintColumn id="184"/>
+</Constraint>
+<Constraint table="190" name="ContributorWebsites_PK" type="PrimKey">
+<ConstraintColumn id="191"/>
+<ConstraintColumn id="192"/>
+</Constraint>
+<Constraint table="198" name="EntityTexts_PK" type="PrimKey">
+<ConstraintColumn id="199"/>
+<ConstraintColumn id="200"/>
+<ConstraintColumn id="201"/>
+<ConstraintColumn id="202"/>
+</Constraint>
+<Constraint table="214" name="ContributorPlaces_PK" type="PrimKey">
+<ConstraintColumn id="215"/>
+<ConstraintColumn id="216"/>
+</Constraint>
+<Constraint table="219" name="ProductEditions_PK" type="PrimKey">
+<ConstraintColumn id="220"/>
+</Constraint>
+<Constraint table="225" name="ProductLanguages_PK" type="PrimKey">
+<ConstraintColumn id="226"/>
+<ConstraintColumn id="227"/>
+</Constraint>
+<Constraint table="231" name="ProductExtents_PK" type="PrimKey">
+<ConstraintColumn id="232"/>
+<ConstraintColumn id="233"/>
+</Constraint>
+<Constraint table="237" name="ProductIllustrations_PK" type="PrimKey">
+<ConstraintColumn id="238"/>
+</Constraint>
+<Constraint table="242" name="ProductSubjects_PK" type="PrimKey">
+<ConstraintColumn id="243"/>
+<ConstraintColumn id="244"/>
+</Constraint>
+<Constraint table="248" name="Subjects_PK" type="PrimKey">
+<ConstraintColumn id="249"/>
+</Constraint>
+<Constraint table="259" name="SubjectIdentifiers_PK" type="PrimKey">
+<ConstraintColumn id="260"/>
+<ConstraintColumn id="261"/>
+</Constraint>
+<Constraint table="265" name="ProductAudiences_PK" type="PrimKey">
+<ConstraintColumn id="266"/>
+<ConstraintColumn id="267"/>
+</Constraint>
+<Constraint table="268" name="ProductAudienceRanges_PK" type="PrimKey">
+<ConstraintColumn id="269"/>
+<ConstraintColumn id="270"/>
+</Constraint>
+<Constraint table="274" name="EntityTextAudiences_PK" type="PrimKey">
+<ConstraintColumn id="275"/>
+<ConstraintColumn id="276"/>
+<ConstraintColumn id="277"/>
+<ConstraintColumn id="278"/>
+<ConstraintColumn id="279"/>
+</Constraint>
+<Constraint table="280" name="EntityTextDates_PK" type="PrimKey">
+<ConstraintColumn id="281"/>
+<ConstraintColumn id="282"/>
+<ConstraintColumn id="283"/>
+<ConstraintColumn id="284"/>
+<ConstraintColumn id="285"/>
+</Constraint>
+<Constraint table="291" name="EntityResources_PK" type="PrimKey">
+<ConstraintColumn id="292"/>
+<ConstraintColumn id="293"/>
+<ConstraintColumn id="294"/>
+<ConstraintColumn id="295"/>
+</Constraint>
+<Constraint table="304" name="EntityResourceAudiences_PK" type="PrimKey">
+<ConstraintColumn id="305"/>
+<ConstraintColumn id="306"/>
+<ConstraintColumn id="307"/>
+<ConstraintColumn id="308"/>
+<ConstraintColumn id="309"/>
+</Constraint>
+<Constraint table="310" name="EntityResourceFeatures_PK" type="PrimKey">
+<ConstraintColumn id="311"/>
+<ConstraintColumn id="312"/>
+<ConstraintColumn id="313"/>
+<ConstraintColumn id="314"/>
+<ConstraintColumn id="315"/>
+</Constraint>
+<Constraint table="318" name="ProductContents_PK" type="PrimKey">
+<ConstraintColumn id="319"/>
+<ConstraintColumn id="320"/>
+</Constraint>
+<Constraint table="326" name="ProductContentContributors_PK" type="PrimKey">
+<ConstraintColumn id="327"/>
+<ConstraintColumn id="328"/>
+<ConstraintColumn id="329"/>
+</Constraint>
+<Constraint table="333" name="ProductContentTitles_PK" type="PrimKey">
+<ConstraintColumn id="334"/>
+<ConstraintColumn id="335"/>
+<ConstraintColumn id="336"/>
+</Constraint>
+<Constraint table="342" name="ProductContentTitleElements_PK" type="PrimKey">
+<ConstraintColumn id="343"/>
+<ConstraintColumn id="344"/>
+<ConstraintColumn id="345"/>
+<ConstraintColumn id="346"/>
+</Constraint>
+<Constraint table="355" name="Imprints_PK" type="PrimKey">
+<ConstraintColumn id="356"/>
+</Constraint>
+<Constraint table="366" name="ImprintIdentifiers_PK" type="PrimKey">
+<ConstraintColumn id="367"/>
+<ConstraintColumn id="368"/>
+</Constraint>
+<Constraint table="371" name="ProductImprints_PK" type="PrimKey">
+<ConstraintColumn id="372"/>
+<ConstraintColumn id="373"/>
+</Constraint>
+<Constraint table="376" name="Publishers_PK" type="PrimKey">
+<ConstraintColumn id="377"/>
+</Constraint>
+<Constraint table="387" name="PublisherIdentifiers_PK" type="PrimKey">
+<ConstraintColumn id="388"/>
+<ConstraintColumn id="389"/>
+</Constraint>
+<Constraint table="392" name="ProductPublishers_PK" type="PrimKey">
+<ConstraintColumn id="393"/>
+<ConstraintColumn id="394"/>
+</Constraint>
+<Constraint table="398" name="PublisherWebsites_PK" type="PrimKey">
+<ConstraintColumn id="399"/>
+<ConstraintColumn id="400"/>
+</Constraint>
+<Constraint table="406" name="ProductPublication_PK" type="PrimKey">
+<ConstraintColumn id="407"/>
+</Constraint>
+<Constraint table="410" name="ProductRelatedWorks_PK" type="PrimKey">
+<ConstraintColumn id="411"/>
+<ConstraintColumn id="412"/>
+<ConstraintColumn id="413"/>
+</Constraint>
+<Constraint table="415" name="PK_CodeTables_1" type="PrimKey">
+<ConstraintColumn id="416"/>
+</Constraint>
+<Constraint table="430" name="PK_CodeTablesONIX30Char2_PK" type="PrimKey">
+<ConstraintColumn id="431"/>
+<ConstraintColumn id="432"/>
+</Constraint>
+<Constraint table="436" name="PK_CodeTablesONIX30Char2Language_PK" type="PrimKey">
+<ConstraintColumn id="437"/>
+<ConstraintColumn id="438"/>
+<ConstraintColumn id="439"/>
+</Constraint>
+<Constraint table="442" name="PK_CodeTablesONIX30Char3_PK" type="PrimKey">
+<ConstraintColumn id="443"/>
+<ConstraintColumn id="444"/>
+</Constraint>
+<Constraint table="448" name="PK_CodeTablesONIX30Char3Language_PK" type="PrimKey">
+<ConstraintColumn id="449"/>
+<ConstraintColumn id="450"/>
+<ConstraintColumn id="451"/>
+</Constraint>
+<Constraint table="454" name="PK_CodeTablesONIX30Char4_PK" type="PrimKey">
+<ConstraintColumn id="455"/>
+<ConstraintColumn id="456"/>
+</Constraint>
+<Constraint table="460" name="PK_CodeTablesONIX30Char3Language_PK_1" type="PrimKey">
+<ConstraintColumn id="461"/>
+<ConstraintColumn id="462"/>
+<ConstraintColumn id="463"/>
+</Constraint>
+<Constraint table="466" name="CodeTableLanguageISO639_2_B_OK" type="PrimKey">
+<ConstraintColumn id="467"/>
+</Constraint>
+<Constraint table="472" name="ProductSupplyMarket_PK" type="PrimKey">
+<ConstraintColumn id="473"/>
+</Constraint>
+<Constraint table="488" name="ProductSupplyPublishingDetail_PK" type="PrimKey">
+<ConstraintColumn id="489"/>
+</Constraint>
+<Constraint table="496" name="ProductSupplyPublishingDetailDates_PK" type="PrimKey">
+<ConstraintColumn id="497"/>
+<ConstraintColumn id="498"/>
+</Constraint>
+<Constraint table="504" name="ProductSupplyDetail_PK" type="PrimKey">
+<ConstraintColumn id="505"/>
+</Constraint>
+<Constraint table="513" name="ProductSupplyDetailPrice_PK" type="PrimKey">
+<ConstraintColumn id="514"/>
+</Constraint>
+<Constraint table="521" name="EntitySnapshotRatings_PK" type="PrimKey">
+<ConstraintColumn id="522"/>
+<ConstraintColumn id="523"/>
+</Constraint>
+<Constraint table="531" name="EntityRatings_PK" type="PrimKey">
+<ConstraintColumn id="532"/>
+<ConstraintColumn id="533"/>
+<ConstraintColumn id="534"/>
+</Constraint>
+<Constraint table="541" name="Users_PK" type="PrimKey">
+<ConstraintColumn id="542"/>
+</Constraint>
+<Constraint table="551" name="EntityTypes_PK" type="PrimKey">
+<ConstraintColumn id="552"/>
+</Constraint>
+<Constraint table="563" name="Entities_PK" type="PrimKey">
+<ConstraintColumn id="564"/>
+<ConstraintColumn id="565"/>
+</Constraint>
+<Constraint table="572" name="EntityTypesURLPatterns_PK" type="PrimKey">
+<ConstraintColumn id="573"/>
+</Constraint>
+<Constraint table="582" name="PublishedURLs_PK" type="PrimKey">
+<ConstraintColumn id="583"/>
+</Constraint>
+<Constraint table="590" name="EntityURLs_PK" type="PrimKey">
+<ConstraintColumn id="591"/>
+<ConstraintColumn id="592"/>
+<ConstraintColumn id="593"/>
+</Constraint>
+<Constraint table="597" name="EntityTypeURLPatterns_PK" type="PrimKey">
+<ConstraintColumn id="598"/>
+<ConstraintColumn id="599"/>
+</Constraint>
+<Constraint table="601" name="Designs_PK" type="PrimKey">
+<ConstraintColumn id="602"/>
+</Constraint>
+<Constraint table="612" name="URLPublishedStatus_PK" type="PrimKey">
+<ConstraintColumn id="613"/>
+<ConstraintColumn id="614"/>
+</Constraint>
+<Constraint table="617" name="EntityTypeURLPatternSelectors_PK" type="PrimKey">
+<ConstraintColumn id="618"/>
+<ConstraintColumn id="619"/>
+<ConstraintColumn id="620"/>
+</Constraint>
+<Constraint table="624" name="EntityRelatedProducts_PK" type="PrimKey">
+<ConstraintColumn id="625"/>
+<ConstraintColumn id="626"/>
+<ConstraintColumn id="627"/>
+<ConstraintColumn id="628"/>
+</Constraint>
+<Constraint table="632" name="IdentifierTypeName_PK " type="PrimKey">
+<ConstraintColumn id="633"/>
+</Constraint>
+<Constraint table="643" name="ProductOriginMessages_PK" type="PrimKey">
+<ConstraintColumn id="644"/>
+<ConstraintColumn id="645"/>
+<ConstraintColumn id="646"/>
+</Constraint>
+<Constraint table="647" name="CodeTablesONIX30Char1_PK" type="PrimKey">
+<ConstraintColumn id="648"/>
+<ConstraintColumn id="649"/>
+</Constraint>
+<Constraint table="653" name="CodeTablesRegion_PK" type="PrimKey">
+<ConstraintColumn id="654"/>
+</Constraint>
+<Constraint table="658" name="CodeTablesONIX30Char1Language_PK" type="PrimKey">
+<ConstraintColumn id="659"/>
+<ConstraintColumn id="660"/>
+<ConstraintColumn id="661"/>
+</Constraint>
+<Constraint table="664" name="CodeTablesRegionLanguage_PK" type="PrimKey">
+<ConstraintColumn id="665"/>
+<ConstraintColumn id="666"/>
+</Constraint>
+<Constraint table="669" name="Pages_PK" type="PrimKey">
+<ConstraintColumn id="670"/>
+</Constraint>
+<Constraint table="677" name="PageURLs_PK" type="PrimKey">
+<ConstraintColumn id="678"/>
+<ConstraintColumn id="679"/>
+</Constraint>
+<Constraint table="686" name="UserCredentials_PK" type="PrimKey">
+<ConstraintColumn id="687"/>
+<ConstraintColumn id="688"/>
+</Constraint>
+<Constraint table="696" name="UserRecordReferences_PK" type="PrimKey">
+<ConstraintColumn id="697"/>
+<ConstraintColumn id="698"/>
+</Constraint>
+<Constraint table="701" name="UserName_PK" type="PrimKey">
+<ConstraintColumn id="702"/>
+</Constraint>
+<Sheet name="Product Control" id="838" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="85" visible="false">2510,530,271,141</Place>
+<Place id="722" visible="false">500,0,0,0</Place>
+<Place id="77" visible="false">2480,170,281,111</Place>
+<Place id="32" visible="true">430,410,261,231</Place>
+<Place id="42" visible="true">60,440,291,161</Place>
+<Place id="727" visible="false">500,0,0,0</Place>
+<Place id="643" visible="true">780,431,241,131</Place>
+<Place id="17" visible="true">1140,221,271,191</Place>
+<Place id="719" visible="true" options="430.0,410.0,261.0,231.0,780.0,431.0,241.0,131.0,3,691.0,590.0,910.0,590.0,910.0,562.0">591,16,0,0</Place>
+<Place id="53" visible="false">1820,251,261,270</Place>
+<Place id="714" visible="true" options="1140.0,221.0,271.0,191.0,780.0,81.0,291.0,230.0,3,1260.0,221.0,1260.0,190.0,1071.0,190.0">422,15,0,0</Place>
+<Place id="726" visible="false">500,0,0,0</Place>
+<Place id="718" visible="true" options="70.0,150.0,301.0,131.0,60.0,440.0,291.0,161.0,2,170.0,281.0,170.0,440.0">314,-24,0,0</Place>
+<Place id="26" visible="true">780,81,291,230</Place>
+<Place id="716" visible="true" options="410.0,60.0,301.0,291.0,430.0,410.0,261.0,231.0,2,570.0,351.0,570.0,410.0">367,-28,0,0</Place>
+<Place id="717" visible="true" options="60.0,440.0,291.0,161.0,430.0,410.0,261.0,231.0,4,220.0,440.0,220.0,380.0,480.0,380.0,480.0,410.0">531,16,0,0</Place>
+<Place id="0" visible="true">410,60,301,291</Place>
+<Place id="48" visible="true">1150,471,251,181</Place>
+<Place id="12" visible="true">70,150,301,131</Place>
+<Place id="836" visible="true">780,31,111,41</Place>
+<Place id="64" visible="false">2150,320,241,151</Place>
+<Place id="715" visible="true" options="410.0,60.0,301.0,291.0,780.0,81.0,291.0,230.0,3,711.0,330.0,950.0,330.0,950.0,311.0">666,14,0,0</Place>
+<Place id="794" visible="true" options="1140.0,221.0,271.0,191.0,780.0,431.0,241.0,131.0,3,1140.0,380.0,880.0,380.0,880.0,431.0">366,-12,0,0</Place>
+<Place id="69" visible="false">2140,170,271,111</Place>
+<Place id="720" visible="true" options="1140.0,221.0,271.0,191.0,1150.0,471.0,251.0,181.0,2,1250.0,412.0,1250.0,471.0">594,-8,0,0</Place>
+<Place id="725" visible="false">500,0,0,0</Place>
+<Place id="713" visible="true" options="70.0,150.0,301.0,131.0,410.0,60.0,301.0,291.0,3,210.0,150.0,210.0,120.0,410.0,120.0">496,-12,0,0</Place>
+<Place id="724" visible="false">500,0,0,0</Place>
+<Place id="80" visible="false">2480,340,271,141</Place>
+<Place id="835" visible="true">50,31,171,41</Place>
+<Place id="721" visible="false">500,0,0,0</Place>
+<Place id="72" visible="false">2140,510,281,161</Place>
+<Place id="723" visible="false">500,0,0,0</Place>
+<Region background="16119285" text="">40,20,701,651</Region>
+<Region background="15663086" text="">760,21,681,651</Region>
+</Sheet>
+<Sheet name="Block 1" id="839" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="150" visible="true">900,414,291,175</Place>
+<Place id="748" visible="true" options="1430.0,870.0,261.0,191.0,2142.0,1310.0,271.0,91.0,4,1691.0,1000.0,1910.0,1000.0,1910.0,1360.0,2142.0,1360.0">875,-15,0,0</Place>
+<Place id="732" visible="true" options="1430.0,870.0,261.0,191.0,780.0,1500.0,311.0,121.0,4,1430.0,960.0,1280.0,960.0,1280.0,1570.0,1091.0,1570.0">889,-18,0,0</Place>
+<Place id="237" visible="true">1311,180,271,141</Place>
+<Place id="214" visible="true">80,480,261,141</Place>
+<Place id="77" visible="true">350,730,250,120</Place>
+<Place id="231" visible="true">1611,170,281,151</Place>
+<Place id="727" visible="true" options="1430.0,870.0,261.0,191.0,660.0,810.0,291.0,241.0,2,1430.0,890.0,951.0,890.0">355,12,0,0</Place>
+<Place id="737" visible="true" options="430.0,66.0,321.0,445.0,50.0,280.0,281.0,181.0,3,430.0,250.0,130.0,250.0,130.0,280.0">475,-15,0,0</Place>
+<Place id="809" visible="true">770,290,291,101</Place>
+<Place id="182" visible="true">860,20,361,241</Place>
+<Place id="130" visible="true">1440,1450,281,301</Place>
+<Place id="736" visible="true" options="430.0,66.0,321.0,445.0,860.0,20.0,361.0,241.0,3,670.0,66.0,670.0,50.0,860.0,50.0">529,-15,0,0</Place>
+<Place id="17" visible="true">1430,870,261,191</Place>
+<Place id="726" visible="true" options="660.0,810.0,291.0,241.0,20.0,920.0,251.0,160.0,4,660.0,930.0,465.5,930.0,466.0,930.0,271.0,930.0">412,10,0,0</Place>
+<Place id="219" visible="true">1940,320,251,161</Place>
+<Place id="812" visible="true">1399,40,312,71</Place>
+<Place id="746" visible="true" options="1940.0,650.0,271.0,261.0,2250.0,970.0,251.0,171.0,3,2211.0,860.0,2380.0,860.0,2380.0,970.0">460,-12,0,0</Place>
+<Place id="813" visible="true">2100,607,312,41</Place>
+<Place id="735" visible="true" options="430.0,66.0,321.0,445.0,20.0,36.0,251.0,161.0,3,430.0,230.0,130.0,230.0,130.0,197.0">462,9,0,0</Place>
+<Place id="734" visible="true" options="1430.0,870.0,261.0,191.0,1410.0,1180.0,321.0,221.0,2,1570.0,1061.0,1570.0,1180.0">671,-31,0,0</Place>
+<Place id="106" visible="true">350,1560,371,201</Place>
+<Place id="807" visible="true">1370,1767,441,41</Place>
+<Place id="745" visible="true" options="1940.0,650.0,271.0,261.0,1950.0,1010.0,271.0,161.0,2,2090.0,911.0,2090.0,1010.0">86,-77,0,12</Place>
+<Place id="731" visible="true" options="360.0,1230.0,321.0,291.0,780.0,1500.0,311.0,121.0,3,681.0,1390.0,970.0,1390.0,970.0,1500.0">436,13,2,0</Place>
+<Place id="248" visible="true">1940,650,271,261</Place>
+<Place id="80" visible="true">20,920,251,160</Place>
+<Place id="101" visible="true">10,1240,251,161</Place>
+<Place id="811" visible="true">2000,240,351,71</Place>
+<Place id="749" visible="true" options="1430.0,870.0,261.0,191.0,2192.0,1430.0,291.0,231.0,4,1691.0,1040.0,1890.0,1040.0,1890.0,1540.0,2192.0,1540.0">873,-141,0,162</Place>
+<Place id="723" visible="true" options="660.0,810.0,291.0,241.0,990.0,690.0,241.0,170.0,3,820.0,810.0,820.0,770.0,990.0,770.0">457,-12,0,0</Place>
+<Place id="90" visible="true">360,1230,321,291</Place>
+<Place id="741" visible="true" options="1430.0,870.0,261.0,191.0,1940.0,320.0,251.0,161.0,3,1650.0,870.0,1650.0,420.0,1940.0,420.0">831,-14,45,0</Place>
+<Place id="733" visible="true" options="1410.0,1180.0,321.0,221.0,1440.0,1450.0,281.0,301.0,2,1570.0,1401.0,1570.0,1450.0">358,-13,0,0</Place>
+<Place id="739" visible="true" options="1430.0,870.0,261.0,191.0,900.0,414.0,291.0,175.0,3,1480.0,870.0,1480.0,510.0,1191.0,510.0">762,-21,0,0</Place>
+<Place id="744" visible="true" options="1430.0,870.0,261.0,191.0,1611.0,170.0,281.0,151.0,2,1620.0,870.0,1620.0,321.0">954,80,0,0</Place>
+<Place id="743" visible="true" options="1430.0,870.0,261.0,191.0,1311.0,180.0,271.0,141.0,2,1530.0,870.0,1530.0,321.0">956,-39,0,0</Place>
+<Place id="85" visible="true">20,720,311,160</Place>
+<Place id="114" visible="true">20,1490,281,311</Place>
+<Place id="722" visible="true" options="660.0,810.0,291.0,241.0,350.0,730.0,250.0,120.0,4,690.0,810.0,690.0,710.0,490.0,710.0,490.0,730.0">653,25,0,14</Place>
+<Place id="814" visible="true">2230,720,291,101</Place>
+<Place id="738" visible="true" options="430.0,66.0,321.0,445.0,900.0,414.0,291.0,175.0,5,640.0,511.0,640.0,550.0,830.0,550.0,830.0,550.0,900.0,550.0">544,8,0,7</Place>
+<Place id="156" visible="true">430,66,321,445</Place>
+<Place id="805" visible="true">10,665,371,41</Place>
+<Place id="126" visible="true">780,1500,311,121</Place>
+<Place id="729" visible="true" options="360.0,1230.0,321.0,291.0,350.0,1560.0,371.0,201.0,2,520.0,1521.0,520.0,1560.0">508,7,0,0</Place>
+<Place id="742" visible="true" options="1430.0,870.0,261.0,191.0,2200.0,390.0,251.0,161.0,4,1691.0,940.0,1780.0,940.0,1780.0,510.0,2200.0,510.0">911,15,0,0</Place>
+<Place id="268" visible="true">2192,1430,291,231</Place>
+<Place id="810" visible="true">690,1290,291,101</Place>
+<Place id="265" visible="true">2142,1310,271,91</Place>
+<Place id="190" visible="true">50,280,281,181</Place>
+<Place id="808" visible="true">290,20,341,41</Place>
+<Place id="53" visible="true">660,810,291,241</Place>
+<Place id="225" visible="true">2200,390,251,161</Place>
+<Place id="64" visible="true">990,690,241,170</Place>
+<Place id="740" visible="true" options="430.0,66.0,321.0,445.0,80.0,480.0,261.0,141.0,3,570.0,511.0,570.0,550.0,341.0,550.0">518,-17,0,0</Place>
+<Place id="69" visible="true">370,980,241,150</Place>
+<Place id="198" visible="false">1350,80,351,341</Place>
+<Place id="725" visible="true" options="660.0,810.0,291.0,241.0,980.0,940.0,261.0,170.0,3,951.0,920.0,1090.0,920.0,1090.0,940.0">842,-11,12,0</Place>
+<Place id="806" visible="true">720,1230,331,41</Place>
+<Place id="242" visible="true">1950,1010,271,161</Place>
+<Place id="815" visible="true">2042,1220,441,41</Place>
+<Place id="724" visible="true" options="660.0,810.0,291.0,241.0,370.0,980.0,241.0,150.0,3,660.0,960.0,470.0,960.0,470.0,980.0">557,11,-4,0</Place>
+<Place id="728" visible="true" options="360.0,1230.0,321.0,291.0,10.0,1240.0,251.0,161.0,3,360.0,1450.0,100.0,1450.0,100.0,1401.0">376,15,0,0</Place>
+<Place id="72" visible="true">980,940,261,170</Place>
+<Place id="721" visible="true" options="20.0,920.0,251.0,160.0,20.0,720.0,311.0,160.0,2,140.0,920.0,140.0,880.0">525,146,0,0</Place>
+<Place id="259" visible="true">2250,970,251,171</Place>
+<Place id="747" visible="true" options="1430.0,870.0,261.0,191.0,1950.0,1010.0,271.0,161.0,3,1691.0,960.0,2070.0,960.0,2070.0,1010.0">655,12,0,0</Place>
+<Place id="142" visible="true">1410,1180,321,221</Place>
+<Place id="730" visible="true" options="350.0,1560.0,371.0,201.0,20.0,1490.0,281.0,311.0,3,530.0,1761.0,530.0,1780.0,301.0,1780.0">171,-14,0,0</Place>
+<Place id="177" visible="true">20,36,251,161</Place>
+<Region background="16119285" text="">0,660,1251,521</Region>
+<Region background="16119285" text="">0,1210,1251,601</Region>
+<Region background="16119285" text="">1300,1160,551,651</Region>
+<Region background="16119285" text="">10,10,1241,631</Region>
+<Region background="16119285" text="">1920,220,551,341</Region>
+<Region background="16119285" text="">1920,600,611,591</Region>
+<Region background="16119285" text="">1881,1210,650,601</Region>
+<Region background="16119285" text="">1290,20,621,341</Region>
+</Sheet>
+<Sheet name="Block 2" id="840" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="816" visible="true">40,30,611,81</Place>
+<Place id="751" visible="true" options="370.0,120.0,331.0,471.0,20.0,340.0,331.0,291.0,5,370.0,310.0,297.0,310.0,297.0,310.0,150.0,310.0,150.0,340.0">383,-11,0,0</Place>
+<Place id="291" visible="true">780,115,321,421</Place>
+<Place id="752" visible="true" options="780.0,115.0,321.0,421.0,1200.0,114.0,251.0,141.0,3,1101.0,300.0,1390.0,300.0,1390.0,255.0">487,-11,0,0</Place>
+<Place id="156" visible="false">870,660,290,460</Place>
+<Place id="198" visible="true">370,120,331,471</Place>
+<Place id="304" visible="true">1200,114,251,141</Place>
+<Place id="830" visible="true">10,660,421,341</Place>
+<Place id="274" visible="true">60,120,251,141</Place>
+<Place id="376" visible="false">1180,900,270,230</Place>
+<Place id="17" visible="false">10,660,261,181</Place>
+<Place id="753" visible="true" options="780.0,115.0,321.0,421.0,1200.0,370.0,251.0,181.0,3,1101.0,330.0,1390.0,330.0,1390.0,370.0">516,12,0,0</Place>
+<Place id="750" visible="true" options="370.0,120.0,331.0,471.0,60.0,120.0,251.0,141.0,3,370.0,290.0,140.0,290.0,140.0,261.0">389,11,0,0</Place>
+<Place id="563" visible="true">610,680,250,210</Place>
+<Place id="248" visible="false">580,660,260,260</Place>
+<Place id="818" visible="true">450,916,751,81</Place>
+<Place id="790" visible="true" options="610.0,680.0,250.0,210.0,780.0,115.0,321.0,421.0,2,810.0,680.0,810.0,536.0">534,56,0,0</Place>
+<Place id="789" visible="true" options="610.0,680.0,250.0,210.0,370.0,120.0,331.0,471.0,2,650.0,680.0,650.0,591.0">523,-26,0,0</Place>
+<Place id="817" visible="true">780,30,611,81</Place>
+<Place id="310" visible="true">1200,370,251,181</Place>
+<Place id="355" visible="false">1180,660,270,230</Place>
+<Place id="90" visible="false">300,660,250,300</Place>
+<Place id="280" visible="true">20,340,331,291</Place>
+<Region background="16119285" text="">10,10,721,631</Region>
+<Region background="16119285" text="">750,10,731,631</Region>
+</Sheet>
+<Sheet name="Block 3" id="841" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="342" visible="true">370,350,321,301</Place>
+<Place id="756" visible="true" options="730.0,240.0,281.0,191.0,430.0,80.0,251.0,201.0,3,880.0,240.0,880.0,180.0,681.0,180.0">210,-1,0,-14</Place>
+<Place id="755" visible="true" options="30.0,80.0,290.0,441.0,430.0,80.0,251.0,201.0,3,320.0,310.0,620.0,310.0,620.0,281.0">476,-11,0,0</Place>
+<Place id="333" visible="true">730,480,291,251</Place>
+<Place id="758" visible="true" options="730.0,480.0,291.0,251.0,370.0,350.0,321.0,301.0,3,730.0,680.0,520.0,680.0,520.0,651.0">615,-16,-3,0</Place>
+<Place id="735" visible="true" options="30.0,80.0,290.0,441.0,50.0,570.0,240.0,170.0,2,160.0,521.0,160.0,570.0">483,-27,0,0</Place>
+<Place id="734" visible="false">500,0,0,0</Place>
+<Place id="156" visible="true">30,80,290,441</Place>
+<Place id="819" visible="true">220,30,371,41</Place>
+<Place id="130" visible="false">100,670,270,290</Place>
+<Place id="17" visible="true">1110,380,261,201</Place>
+<Place id="326" visible="true">430,80,251,201</Place>
+<Place id="318" visible="true">730,240,281,191</Place>
+<Place id="757" visible="true" options="730.0,240.0,281.0,191.0,730.0,480.0,291.0,251.0,2,880.0,431.0,880.0,480.0">500,0,0,0</Place>
+<Place id="754" visible="true" options="1110.0,380.0,261.0,201.0,730.0,240.0,281.0,191.0,3,1230.0,380.0,1230.0,330.0,1011.0,330.0">546,6,0,-11</Place>
+<Place id="733" visible="false">500,0,0,0</Place>
+<Place id="142" visible="false">380,670,270,200</Place>
+<Place id="177" visible="true">50,570,240,170</Place>
+<Region background="16119285" text="">10,10,1061,751</Region>
+</Sheet>
+<Sheet name="Block 4" id="842" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="759" visible="true" options="350.0,90.0,281.0,231.0,30.0,150.0,251.0,161.0,3,350.0,100.0,120.0,100.0,120.0,150.0">435,-15,0,0</Place>
+<Place id="392" visible="true">690,360,261,161</Place>
+<Place id="387" visible="true">30,360,251,161</Place>
+<Place id="376" visible="true">350,360,281,231</Place>
+<Place id="766" visible="true" options="1030.0,560.0,261.0,191.0,630.0,650.0,281.0,121.0,3,1030.0,620.0,750.0,620.0,750.0,650.0">512,-14,0,0</Place>
+<Place id="371" visible="true">690,150,261,141</Place>
+<Place id="17" visible="true">1030,560,261,191</Place>
+<Place id="763" visible="true" options="1030.0,560.0,261.0,191.0,690.0,360.0,261.0,161.0,3,1150.0,560.0,1150.0,440.0,951.0,440.0">609,1,0,-12</Place>
+<Place id="366" visible="true">30,150,251,161</Place>
+<Place id="398" visible="true">30,610,281,191</Place>
+<Place id="820" visible="true">60,20,371,41</Place>
+<Place id="764" visible="true" options="350.0,360.0,281.0,231.0,690.0,360.0,261.0,161.0,3,631.0,550.0,840.0,550.0,840.0,521.0">575,13,0,0</Place>
+<Place id="765" visible="true" options="350.0,360.0,281.0,231.0,30.0,610.0,281.0,191.0,3,350.0,580.0,110.0,580.0,110.0,610.0">470,-13,0,0</Place>
+<Place id="760" visible="true" options="350.0,90.0,281.0,231.0,690.0,150.0,261.0,141.0,3,631.0,120.0,820.0,120.0,820.0,150.0">543,-12,0,0</Place>
+<Place id="406" visible="true">630,650,281,121</Place>
+<Place id="761" visible="true" options="1030.0,560.0,261.0,191.0,690.0,150.0,261.0,141.0,3,1180.0,560.0,1180.0,200.0,951.0,200.0">775,-4,0,-23</Place>
+<Place id="762" visible="true" options="350.0,360.0,281.0,231.0,30.0,360.0,251.0,161.0,3,350.0,560.0,110.0,560.0,110.0,521.0">397,11,0,0</Place>
+<Place id="355" visible="true">350,90,281,231</Place>
+<Region background="16119285" text="">10,10,971,811</Region>
+</Sheet>
+<Sheet name="Block 5" id="843" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="624" visible="true">66,320,281,251</Place>
+<Place id="792" visible="true" options="620.0,330.0,250.0,210.0,66.0,320.0,281.0,251.0,2,620.0,470.0,347.0,470.0">399,-16,0,0</Place>
+<Place id="791" visible="true" options="620.0,330.0,250.0,210.0,66.0,320.0,281.0,251.0,4,620.0,400.0,370.0,400.0,370.0,400.0,347.0,400.0">431,15,0,0</Place>
+<Place id="410" visible="true">66,82,281,131</Place>
+<Place id="793" visible="true" options="610.0,70.0,251.0,191.0,66.0,82.0,281.0,131.0,2,610.0,170.0,347.0,170.0">444,-14,0,0</Place>
+<Place id="831" visible="true">26,270,431,41</Place>
+<Place id="821" visible="true">26,22,401,41</Place>
+<Place id="17" visible="true">610,70,251,191</Place>
+<Place id="767" visible="true" options="610.0,70.0,251.0,191.0,66.0,82.0,281.0,131.0,4,610.0,130.0,370.0,130.0,370.0,130.0,347.0,130.0">456,13,0,0</Place>
+<Place id="563" visible="true">620,330,250,210</Place>
+<Place id="834" visible="true">870,70,361,171</Place>
+<Place id="833" visible="true">100,596,751,195</Place>
+<Place id="832" visible="true">880,330,421,341</Place>
+<Region background="16119285" text="">16,12,461,231</Region>
+<Region background="16119285" text="">16,260,461,331</Region>
+</Sheet>
+<Sheet name="Block 6" id="844" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="488" visible="true">490,510,331,211</Place>
+<Place id="824" visible="true">890,20,311,41</Place>
+<Place id="778" visible="true" options="930.0,90.0,271.0,201.0,940.0,370.0,261.0,181.0,2,1060.0,291.0,1060.0,370.0">500,0,0,0</Place>
+<Place id="775" visible="true" options="580.0,150.0,251.0,191.0,490.0,510.0,331.0,211.0,4,680.0,341.0,680.0,454.0,680.0,454.0,680.0,510.0">500,0,0,0</Place>
+<Place id="496" visible="true">30,500,371,171</Place>
+<Place id="823" visible="true">27,450,514,41</Place>
+<Place id="774" visible="true" options="580.0,150.0,251.0,191.0,40.0,60.0,341.0,341.0,3,630.0,150.0,630.0,120.0,381.0,120.0">412,15,0,0</Place>
+<Place id="822" visible="true">20,16,311,41</Place>
+<Place id="504" visible="true">930,90,271,201</Place>
+<Place id="513" visible="true">940,370,261,181</Place>
+<Place id="776" visible="true" options="490.0,510.0,331.0,211.0,30.0,500.0,371.0,171.0,3,490.0,690.0,150.0,690.0,150.0,671.0">529,-16,0,0</Place>
+<Place id="777" visible="true" options="580.0,150.0,251.0,191.0,930.0,90.0,271.0,201.0,3,680.0,150.0,680.0,130.0,930.0,130.0">581,-16,0,0</Place>
+<Place id="17" visible="true">580,150,251,191</Place>
+<Place id="472" visible="true">40,60,341,341</Place>
+<Region background="16119285" text="">10,10,441,411</Region>
+<Region background="16119285" text="">10,440,851,311</Region>
+<Region background="16119285" text="">880,10,351,581</Region>
+</Sheet>
+<Sheet name="Product Extras" id="845" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="17" visible="false">490,190,261,191</Place>
+<Place id="563" visible="true">510,180,250,220</Place>
+<Place id="779" visible="true" options="660.0,430.0,291.0,191.0,50.0,350.0,271.0,211.0,4,660.0,480.0,360.0,480.0,360.0,480.0,321.0,480.0">359,-15,0,0</Place>
+<Place id="541" visible="true">660,430,291,191</Place>
+<Place id="521" visible="true">50,80,251,211</Place>
+<Place id="531" visible="true">50,350,271,211</Place>
+<Place id="801" visible="true" options="510.0,180.0,250.0,220.0,50.0,350.0,271.0,211.0,3,620.0,400.0,620.0,430.0,321.0,430.0">595,12,0,0</Place>
+<Place id="800" visible="true" options="510.0,180.0,250.0,220.0,50.0,80.0,251.0,211.0,3,590.0,180.0,590.0,140.0,301.0,140.0">428,11,0,0</Place>
+<Place id="825" visible="true">20,20,381,41</Place>
+<Region background="16119285" text="">10,10,411,571</Region>
+</Sheet>
+<Sheet name="Users" id="846" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="804" visible="true" options="540.0,170.0,291.0,201.0,540.0,450.0,291.0,241.0,2,690.0,371.0,690.0,450.0">500,0,0,0</Place>
+<Place id="701" visible="true">540,450,291,241</Place>
+<Place id="541" visible="true">540,170,291,201</Place>
+<Place id="803" visible="true" options="540.0,170.0,291.0,201.0,60.0,350.0,271.0,151.0,3,540.0,320.0,190.0,320.0,190.0,350.0">507,14,0,0</Place>
+<Place id="686" visible="true">60,60,311,221</Place>
+<Place id="696" visible="true">60,350,271,151</Place>
+<Place id="802" visible="true" options="540.0,170.0,291.0,201.0,60.0,60.0,311.0,221.0,3,680.0,170.0,680.0,120.0,371.0,120.0">443,16,0,0</Place>
+</Sheet>
+<Sheet name="Pages" id="847" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="799" visible="true" options="80.0,90.0,261.0,201.0,500.0,110.0,251.0,201.0,2,341.0,200.0,500.0,200.0">566,-13,0,0</Place>
+<Place id="837" visible="true">30,20,351,51</Place>
+<Place id="677" visible="true">500,110,251,201</Place>
+<Place id="669" visible="true">80,90,261,201</Place>
+</Sheet>
+<Sheet name="Publishing" id="848" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="551" visible="true">670,40,301,231</Place>
+<Place id="597" visible="true">1030,110,251,151</Place>
+<Place id="784" visible="true" options="670.0,40.0,301.0,231.0,1030.0,110.0,251.0,151.0,3,971.0,80.0,1160.0,80.0,1160.0,110.0">587,-13,0,0</Place>
+<Place id="601" visible="true">340,760,261,231</Place>
+<Place id="826" visible="true">120,760,211,131</Place>
+<Place id="612" visible="true">680,700,261,131</Place>
+<Place id="827" visible="true">10,70,211,161</Place>
+<Place id="783" visible="true" options="1030.0,330.0,261.0,211.0,640.0,390.0,301.0,241.0,3,1180.0,541.0,1180.0,580.0,941.0,580.0">593,10,0,0</Place>
+<Place id="617" visible="true">1360,190,300,261</Place>
+<Place id="828" visible="true">10,10,231,51</Place>
+<Place id="563" visible="true">240,50,271,211</Place>
+<Place id="782" visible="true" options="640.0,390.0,301.0,241.0,260.0,330.0,281.0,191.0,3,770.0,390.0,770.0,360.0,541.0,360.0">462,10,0,0</Place>
+<Place id="781" visible="true" options="240.0,50.0,271.0,211.0,260.0,330.0,281.0,191.0,4,390.0,261.0,390.0,295.5,390.0,296.0,390.0,330.0">500,0,0,0</Place>
+<Place id="786" visible="true" options="640.0,390.0,301.0,241.0,680.0,700.0,261.0,131.0,2,810.0,631.0,810.0,700.0">500,0,0,0</Place>
+<Place id="590" visible="true">260,330,281,191</Place>
+<Place id="787" visible="true" options="340.0,760.0,261.0,231.0,680.0,700.0,261.0,131.0,3,440.0,760.0,440.0,730.0,680.0,730.0">581,-11,0,0</Place>
+<Place id="582" visible="true">640,390,301,241</Place>
+<Place id="785" visible="true" options="1030.0,330.0,261.0,211.0,1030.0,110.0,251.0,151.0,2,1180.0,330.0,1180.0,261.0">500,0,0,0</Place>
+<Place id="780" visible="true" options="670.0,40.0,301.0,231.0,240.0,50.0,271.0,211.0,4,670.0,120.0,590.5,120.0,591.0,120.0,511.0,120.0">471,10,0,0</Place>
+<Place id="572" visible="true">1030,330,261,211</Place>
+<Place id="788" visible="true" options="1030.0,110.0,251.0,151.0,1360.0,190.0,300.0,261.0,3,1281.0,160.0,1480.0,160.0,1480.0,190.0">860,-14,2,0</Place>
+</Sheet>
+<Sheet name="Code Tables" id="849" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true" disp_null="true">
+<Place id="796" visible="true" options="60.0,760.0,291.0,161.0,440.0,840.0,281.0,151.0,3,150.0,921.0,150.0,950.0,440.0,950.0">529,12,0,0</Place>
+<Place id="653" visible="true">60,760,291,161</Place>
+<Place id="795" visible="true" options="790.0,700.0,291.0,161.0,1160.0,670.0,281.0,151.0,3,1081.0,840.0,1330.0,840.0,1330.0,821.0">798,13,2,1</Place>
+<Place id="664" visible="true">440,840,281,151</Place>
+<Place id="768" visible="true" options="770.0,60.0,291.0,161.0,1160.0,30.0,281.0,151.0,3,1061.0,200.0,1350.0,200.0,1350.0,181.0">722,15,4,0</Place>
+<Place id="769" visible="true" options="460.0,200.0,291.0,371.0,770.0,60.0,291.0,161.0,3,550.0,200.0,550.0,150.0,770.0,150.0">492,-13,0,0</Place>
+<Place id="770" visible="true" options="460.0,200.0,291.0,371.0,800.0,310.0,291.0,161.0,3,751.0,280.0,940.0,280.0,940.0,310.0">628,-17,3,0</Place>
+<Place id="647" visible="true">790,700,291,161</Place>
+<Place id="772" visible="true" options="460.0,200.0,291.0,371.0,790.0,510.0,291.0,161.0,3,580.0,571.0,580.0,620.0,790.0,620.0">465,16,0,0</Place>
+<Place id="430" visible="true">770,60,291,161</Place>
+<Place id="771" visible="true" options="800.0,310.0,291.0,161.0,1160.0,250.0,281.0,151.0,3,1091.0,420.0,1330.0,420.0,1330.0,401.0">852,16,2,0</Place>
+<Place id="415" visible="true">460,200,291,371</Place>
+<Place id="448" visible="true">1160,250,281,151</Place>
+<Place id="798" visible="true" options="460.0,200.0,291.0,371.0,10.0,130.0,421.0,351.0,4,490.0,200.0,490.0,110.0,220.0,110.0,220.0,130.0">518,14,0,0</Place>
+<Place id="658" visible="true">1160,670,281,151</Place>
+<Place id="797" visible="true" options="460.0,200.0,291.0,371.0,790.0,700.0,291.0,161.0,3,500.0,571.0,500.0,810.0,790.0,810.0">753,-16,0,0</Place>
+<Place id="442" visible="true">800,310,291,161</Place>
+<Place id="773" visible="true" options="790.0,510.0,291.0,161.0,1160.0,470.0,281.0,151.0,3,1081.0,640.0,1320.0,640.0,1320.0,621.0">837,12,2,0</Place>
+<Place id="632" visible="true">10,130,421,351</Place>
+<Place id="460" visible="true">1160,470,281,151</Place>
+<Place id="454" visible="true">790,510,291,161</Place>
+<Place id="829" visible="true">10,10,311,51</Place>
+<Place id="466" visible="true">40,510,351,181</Place>
+<Place id="436" visible="true">1160,30,281,151</Place>
+</Sheet>
+<Settings sheet="849" zoom="1.0"/>
+</Diagram>
