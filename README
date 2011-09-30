@@ -1,0 +1,19 @@
+En este repositorio se guarda toda la informacion relacionada
+con el manejo del Catalogo. Esto incluye:
+
+- Creacion del esquema de base de datos
+- Scripts de Exportacion masiva de informacion desde Oracle
+- Scripts de Importacion masiva de informacion a Postgres
+- Programas de extraccion de actualizaciones desde Oracle
+  - ONIX
+  - Usuarios
+  - Ordenes
+  - Cotizaciones
+  - Etc
+- Programas de importacion de actualizaciones a Postgres
+  - ONIX
+  - Usuarios
+  - Ordenes
+  - Cotizaciones
+  - Etc
+
