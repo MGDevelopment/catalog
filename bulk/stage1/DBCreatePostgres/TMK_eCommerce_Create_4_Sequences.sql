@@ -20,8 +20,8 @@ CREATE SEQUENCE Collections_CollectionId_SEQ            MINVALUE 1 MAXVALUE 2147
 /*
  * BLOCK 2 - Supporting Text and Resources
  */
-CREATE SEQUENCE EntryTexts_EntryId_SEQ                  MINVALUE 1 MAXVALUE 2147483647;
-CREATE SEQUENCE EntryResources_EntryId_SEQ              MINVALUE 1 MAXVALUE 2147483647;
+CREATE SEQUENCE EntityTexts_EntryId_SEQ                 MINVALUE 1 MAXVALUE 2147483647;
+CREATE SEQUENCE EntityResources_EntryId_SEQ             MINVALUE 1 MAXVALUE 2147483647;
 
 /*
  * BLOCK 4 - Publisher
@@ -30,9 +30,9 @@ CREATE SEQUENCE Publishers_PublisherId_SEQ              MINVALUE 1 MAXVALUE 2147
 CREATE SEQUENCE Imprints_ImprintId_SEQ                  MINVALUE 1 MAXVALUE 2147483647;
 
 /*
- * Product Extras
+ * Entity Extras
  */
-CREATE SEQUENCE ProductRatings_RatingId_SEQ             MINVALUE 1 MAXVALUE 2147483647;
+CREATE SEQUENCE EntityRatings_RatingId_SEQ              MINVALUE 1 MAXVALUE 2147483647;
 
 /*
  * Users
@@ -50,7 +50,13 @@ CREATE SEQUENCE Pages_PageId_SEQ                        MINVALUE 1 MAXVALUE 2147
  */
 CREATE SEQUENCE URLs_URLId_SEQ                          MINVALUE 1 MAXVALUE 2147483647;
 CREATE SEQUENCE URLPatterns_PatternId_SEQ               MINVALUE 1 MAXVALUE 2147483647;
+
+/*
+ * Content
+ */
 CREATE SEQUENCE Designs_DesignId_SEQ                    MINVALUE 1 MAXVALUE 2147483647;
+CREATE SEQUENCE Stores_StoreId_SEQ                      MINVALUE 1 MAXVALUE 2147483647;
+CREATE SEQUENCE DesignDocuments_DocumentId_SEQ          MINVALUE 1 MAXVALUE 2147483647;
 
 /*
  * Code Tables

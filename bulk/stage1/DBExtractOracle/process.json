@@ -19,6 +19,7 @@
         "step.default"      : "export"
     },
     "macros"                : {
+        "StoreId"           : "1",
         "OriginId"          : "1",
         "MessageId"         : "0",
         "URLPatternId"      : "1",
@@ -589,7 +590,23 @@ Para continuar indique el parametro -s 2.
             "program"       : "\\usr\\local\\wbin\\gawk.exe",
             "params"        : "-f awk/URLs.awk -v patternId={{URLPatternId}} ",
             "input"         : "data/EntityURLs.extract.uniq",
-            "output"        : "data/URLs.txt" }
+            "output"        : "data/URLs.txt" },
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        //
+        // Exchange Rates
+        //
+        {   "name"          : "Exchange Rates-------------------",
+            "type"          : "label" },
+        {   "name"          : "ExchangeRates.extract",
+            "output"        : "data/ExchangeRates.tmp" },
+        {   "name"          : "ExchangeRates.generate",
+            "type"          : "program",
+            "program"       : "\\usr\\local\\wbin\\gawk.exe",
+            "params"        : "-f awk/ExchangeRates.awk",
+            "input"         : "data/ExchangeRates.tmp",
+            "output"        : "data/ExchangeRates.txt" }
 
     ]
 }

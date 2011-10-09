@@ -44,6 +44,7 @@
         {   "name"          : "EntityTexts" },
         {   "name"          : "EntitySnapshotRatings" },
         {   "name"          : "EntityURLs" },
+        {   "name"          : "ExchangeRates" },
         {   "name"          : "ImprintIdentifiers" },
         {   "name"          : "Imprints" },
         {   "name"          : "ProductAudienceRanges" },

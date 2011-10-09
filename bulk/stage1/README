@@ -13,3 +13,5 @@ La importacion de Etapa 1 requiere la ejecucion de cuatro pasos:
 
 4) Importacion de datos a Postgres (DBImportPostgres)
 
+5) Fixup de datos de Postgres (DBFixupPostgres)
+

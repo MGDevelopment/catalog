@@ -36,8 +36,8 @@ checkErrors "create_out_4.txt"
 # 3) delete temporary grant commands
 #
 touch create_grant.sql && rm -f create_grant.sql
-psql -c "SELECT table_name FROM information_schema.tables WHERE table_schema = 'ecommerce'" -q -t ecommerce | awk 'NF == 1 { printf "GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLE %s TO eCommerce;\n", $1; }' >> create_grant.sql
-psql -c "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'ecommerce'" -q -t ecommerce | awk 'NF == 1 { printf "GRANT USAGE, SELECT, UPDATE ON SEQUENCE %s TO eCommerce;\n", $1; }' >> create_grant.sql
+psql -c "SELECT table_name FROM information_schema.tables WHERE table_schema = 'ecommerce'" -q -t ecommerce | awk 'NF == 1 { printf "GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLE eCommerce.%s TO eCommerce;\n", $1; }' >> create_grant.sql
+psql -c "SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'ecommerce'" -q -t ecommerce | awk 'NF == 1 { printf "GRANT USAGE, SELECT, UPDATE ON SEQUENCE eCommerce.%s TO eCommerce;\n", $1; }' >> create_grant.sql
 echo "STEP 5 - Granting Privileges"
 (echo "SET search_path TO eCommerce;"; cat create_grant.sql) | psql ecommerce postgres > create_out_5.txt 2>&1
 checkErrors "create_out_5.txt"
