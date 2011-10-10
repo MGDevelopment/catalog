@@ -50,7 +50,7 @@ function emmit() {
         analizeISBN();
 
         # reduce duplicated isbns
-        reduceISBN();
+        reduceByType("I");
 
         # put preferred code first
         setPreferred();
@@ -59,7 +59,7 @@ function emmit() {
         setInOrder("I");
     } else {
         # reduce duplicated isbns
-        reduceISBN();
+        reduceByType("I");
 
         # put preferred code first
         setPreferred();
@@ -69,6 +69,10 @@ function emmit() {
     #
     # IMPORTANT: code "-" is used to mark "don't emmit"
     #
+    reduceByType("Y");
+    reduceByType("B");
+    reduceByType("S");
+    reduceByType("O");
     setInOrder("Y,B,S,O");
 
     # emmit the codes
@@ -124,12 +128,12 @@ function analizeISBN() {
     # if more... do nothing
 }
 
-function reduceISBN() {
+function reduceByType(typeToReduce) {
 
     # scan the isbn list changing type for those duplicated
     seen = "";
     for(k = 0; k < count; k++) {
-        if (codes[k] != "I") {
+        if (codes[k] != typeToReduce) {
             continue;
         };
         tmp = "[" values[k] "]";
