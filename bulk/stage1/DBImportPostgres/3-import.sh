@@ -39,8 +39,8 @@ while read TABLE; do
     echo "importing $TABLE"
 
     # create the import commmand
-    echo '\\encoding ISO-8859-1'                                                > $DIR_DBCMD/$TABLE.input
-    echo '\\copy '"$TABLE from $DIR_DATA/$TABLE.txt "'with null as ''\\null''' >> $DIR_DBCMD/$TABLE.input
+    echo '\\encoding ISO-8859-1'                                                               > $DIR_DBCMD/$TABLE.input
+    echo '\\copy '$TABLE' from '"'"$DIR_DATA/$TABLE.txt"'"' with null as e'"'"'\\\\null'"'"'' >> $DIR_DBCMD/$TABLE.input
 
     # run the command
     psql ecommerce ecommerce < $DIR_DBCMD/$TABLE.input > $DIR_DBCMD/$TABLE.output 2>&1
