@@ -63,4 +63,7 @@ echo "STEP 9 - Loading Other Code Tables"
 (echo "SET search_path TO eCommerce;"; cat TMK_eCommerce_Create_9_Other_CodeTables.sql) | psql ecommerce postgres > create_out_9.txt 2>&1
 checkErrors "create_out_9.txt"
 
+# load IdentifierTypes (only for SQLite3)
+echo "STEP 10 - Loading IdentifierTypes - N/A"
+
 echo "DONE!"

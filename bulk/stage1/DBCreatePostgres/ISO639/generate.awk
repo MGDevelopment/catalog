@@ -4,6 +4,10 @@ BEGIN {
     printf " *\n";
     printf " * Generated from the ISO-639-2 code list. Do not edit.\n";
     printf " *\n";
+    printf " * MANTENER ESTE ARCHIVO EN SINCRONIA CON\n";
+    printf " *\n";
+    printf " *         ../DBCreateSQLite3/TMK_eCommerce_Create_7_Languages.sql\n";
+    printf " *\n";
     printf " */\n";
     printf "\n";
     printf "\n";

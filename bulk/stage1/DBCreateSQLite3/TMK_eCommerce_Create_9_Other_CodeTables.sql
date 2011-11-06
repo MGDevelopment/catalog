@@ -1,3 +1,4 @@
+.output TMK_eCommerce_Create_10_Renumber.txt
 /****************************************************************
  *
  * Load other code tables and complete other needed codes (specialy
@@ -5,7 +6,7 @@
  *
  * MANTENER ESTE ARCHIVO EN SINCRONIA CON
  *
- *         ../DBCreateSQLite3/TMK_eCommerce_Create_9_Other_CodeTables.sql
+ *         ../DBCreatePostgres/TMK_eCommerce_Create_9_Other_CodeTables.sql
  *
  ****************************************************************/
 
@@ -14,9 +15,9 @@
 --
 -- ONIX derived types
 --
-INSERT INTO IdentifierTypes(IdentifierTypeId, Name, CodeTableId, Value,
-                        FlagProprietary, Description,
-                        FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
+---- INSERT INTO IdentifierTypes(IdentifierTypeId, Name, CodeTableId, Value,
+----                         FlagProprietary, Description,
+----                         FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
 SELECT          nextval('IdentifierTypes_IdentifierTypeId_SEQ')
                                     AS IdentifierTypeId,
                 CT.TableDomain || '.' || CT.TableName || '.' || CT2.CodeValue
@@ -39,9 +40,9 @@ SELECT          nextval('IdentifierTypes_IdentifierTypeId_SEQ')
 --
 -- value for ISSN on list 5
 --
-INSERT INTO IdentifierTypes(IdentifierTypeId, Name, CodeTableId, Value,
-                        FlagProprietary, Description,
-                        FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
+---- INSERT INTO IdentifierTypes(IdentifierTypeId, Name, CodeTableId, Value,
+----                         FlagProprietary, Description,
+----                         FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
 SELECT          nextval('IdentifierTypes_IdentifierTypeId_SEQ')
                                     AS IdentifierTypeId,
                 CT.TableDomain || '.' || CT.TableName || '.' || 'YS'
@@ -62,9 +63,9 @@ SELECT          nextval('IdentifierTypes_IdentifierTypeId_SEQ')
 --
 -- com.ilhsa proprietary types
 --
-INSERT INTO IdentifierTypes(IdentifierTypeId, Name, CodeTableId, Value,
-                        FlagProprietary, Description,
-                        FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
+---- INSERT INTO IdentifierTypes(IdentifierTypeId, Name, CodeTableId, Value,
+----                         FlagProprietary, Description,
+----                         FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
 SELECT          nextval('IdentifierTypes_IdentifierTypeId_SEQ')
                                     AS IdentifierTypeId,
                 CT.TableDomain || '.' || CT.TableName || '.' || 'com.ilhsa'

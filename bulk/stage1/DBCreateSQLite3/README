@@ -1,0 +1,20 @@
+Estos scripts se encargan de crear el esquema de base de datos y de
+insertar los registros minimos para que el sistema funcione.
+
+La duracion total del proceso es de 10 minutos aproximadamente.
+
+Los archivos:
+
+- TMK_eCommerce_Create_3_Objects.sql
+- TMK_eCommerce_Create_6_InitialData.sql
+- TMK_eCommerce_Create_7_Languages.sql
+- TMK_eCommerce_Create_8_ONIX_CodeTables.sql
+- TMK_eCommerce_Create_9_Other_CodeTables.sql
+
+se deben tomar de DBCreatePostgres ya que es el punto en donde son mantenidos.
+
+1) TMK_eCommerce_Drop.sh - permite destruir la base de datos para reiniciar el
+   proceso de generacion.
+
+2) TMK_eCommerce_Create.sh - crea la db, esquema y carga los datos de base.
+

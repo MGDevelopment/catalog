@@ -2,10 +2,6 @@
  *
  * data for Product Control
  *
- * MANTENER ESTE ARCHIVO EN SINCRONIA CON
- *
- *         ../DBCreateSQLite3/TMK_eCommerce_Create_6_InitialData.sql
- *
  *********************************************************************************/
 
 --
@@ -550,7 +546,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'PAGE'                          AS EntityType,
         P.PageId                        AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + P.PageId * 256 + LENGTH(DUG.URLName)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Home Page Cannonical'
@@ -585,7 +581,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'comments' THEN            'content,comments,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated
@@ -599,7 +595,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'PROD'                          AS EntityType,
         -1                              AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + LENGTH(DUG.URLName)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Product Cannonical'
@@ -639,7 +635,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'relatedProducts' THEN     'related,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated
@@ -652,7 +648,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'SUBJ'                          AS EntityType,
         -1                              AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + LENGTH(DUG.URLName) + (random() % 1048576)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Subject Cannonical'
@@ -717,7 +713,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'comments' THEN            'comments,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated
@@ -730,7 +726,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'CONT'                          AS EntityType,
         -1                              AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + LENGTH(DUG.URLName)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Contributor Cannonical'
@@ -755,7 +751,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'urls' THEN                'content,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated
@@ -768,7 +764,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'IMPR'                          AS EntityType,
         -1                              AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + LENGTH(DUG.URLName)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Contributor Cannonical'
@@ -793,7 +789,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'urls' THEN                'content,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated
@@ -806,7 +802,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'PUBL'                          AS EntityType,
         -1                              AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + LENGTH(DUG.URLName)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Contributor Cannonical'
@@ -831,7 +827,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'urls' THEN                'content,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated
@@ -844,7 +840,7 @@ INSERT INTO DesignDocuments(DesignId, EntityType, EntityId, DocumentId, Document
 SELECT  DUG.DesignId                    AS DesignId,
         'COLL'                          AS EntityType,
         -1                              AS EntityId,
-        nextval('DesignDocuments_DocumentId_SEQ')
+        DUG.DesignId * 65536 + LENGTH(DUG.URLName) + (random() % 1048576)
                                         AS DocumentId,
         CASE DUG.URLName
             WHEN 'canonnical' THEN          'Collection Cannonical'
@@ -904,7 +900,7 @@ SELECT  DUG.DesignId                    AS DesignId,
             WHEN 'pagingTitleDesc' THEN     'content,all'
         END                             AS TagList,
         CASE
-            WHEN POSITION('{{page}}' IN DUG.URLPattern) > 0 THEN
+            WHEN DUG.URLPattern LIKE '%{{page}}%' THEN
                                             true
             ELSE                            false
         END                             AS FlagPaginated

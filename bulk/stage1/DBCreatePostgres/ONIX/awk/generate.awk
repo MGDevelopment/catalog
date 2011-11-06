@@ -4,6 +4,10 @@ BEGIN {
     printf " *\n";
     printf " * FILE GENERATED FROM THE HTML ONIX LISTS - DO NOT EDIT\n";
     printf " *\n";
+    printf " * MANTENER ESTE ARCHIVO EN SINCRONIA CON\n";
+    printf " *\n";
+    printf " *         ../DBCreateSQLite3/TMK_eCommerce_Create_8_ONIX_CodeTables.sql\n";
+    printf " *\n";
     printf " */\n";
     printf "\n";
 }
