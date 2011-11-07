@@ -3,7 +3,7 @@ en el sitio para ver la informacion detallada de los pasos a ejecutar).
 
 La importacion de Etapa 1 requiere la ejecucion de cuatro pasos:
 
-1) Creacion de la base de datos en Postgres (DBCreatePostgres)
+1) Creacion de la base de datos en Postgres (DBCreatePostgres) o SQLite3 (DBCreateSQLite3)
 
 2) Se deben revisar los IDs de algunas entidades y actualizar la configuracion
    del proceso de exportacion de Oracle (paso 3) ya que el mismo debe emitir
@@ -11,7 +11,7 @@ La importacion de Etapa 1 requiere la ejecucion de cuatro pasos:
 
 3) Exportacion de datos desde Oracle (DBExportOracle)
 
-4) Importacion de datos a Postgres (DBImportPostgres)
+4) Importacion de datos a Postgres (DBImportPostgres) o SQLite3 (DBImportSQLite3)
 
-5) Fixup de datos de Postgres (DBFixupPostgres)
+5) Fixup de datos de Postgres (DBFixupPostgres) o SQLite3 (DBFixupSQLite3)
 

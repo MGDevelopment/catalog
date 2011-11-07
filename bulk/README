@@ -6,9 +6,9 @@ la funcionalidad desde el sistema actual.
 Cada etapa tendra una combinacion de las siguientes tareas:
 
 - exportacion de Oracle
-- creacion de esquema en Postgres
-- importacion de datos en Postgres
-- generacion adicional de datos en Postgres
+- creacion de esquema en Postgres/SQLite3
+- importacion de datos en Postgres/SQLite3
+- generacion adicional de datos en Postgres/SQLite3
   Esto cubre datos necesarios propios del esquema (ej: nuevos URLs)
 - generacion adicional de datos nuevo sistema
   Esto cubre datos necesarios propios del nuevo sistema (ej: base de
