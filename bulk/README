@@ -16,5 +16,6 @@ Cada etapa tendra una combinacion de las siguientes tareas:
 
 Las etapas definidas son:
 
+- stage0 - primera salida (contenido estatico en IIS)
 - stage1 - importacion inicial para generacion de contenido
 

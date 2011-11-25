@@ -17,7 +17,7 @@ BEGIN {
     printf "                       DataTableName, DataTableSchema, DataTableCodeField, DataTableNameField,\n";
     printf "                       FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)\n";
     printf "    VALUES(nextval('CodeTables_CodeTableId_SEQ'), 'ONIX', '74', 'Language code - ISO 639-2/B',\n";
-    printf "           true, false, 'CodeTableLanguageISO639_2_B', 'eCommerce', 'LanguageCode', 'Name',\n";
+    printf "           true, false, 'CodeTableLanguageISO639_2_B', 'eCommerce', 'LanguageCode2', 'Name',\n";
     printf "           false, CURRENT_TIMESTAMP, NULL, NULL);\n";
     printf "\n";
     printf "\n";

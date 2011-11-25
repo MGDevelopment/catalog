@@ -10,7 +10,7 @@ INSERT INTO CodeTables(CodeTableId, TableDomain, TableName, TableDescription,
                        DataTableName, DataTableSchema, DataTableCodeField, DataTableNameField,
                        FlagDeleted, CreationDate, LastUpdateDate, DeletionDate)
     VALUES(nextval('CodeTables_CodeTableId_SEQ'), 'ONIX', '74', 'Language code - ISO 639-2/B',
-           true, false, 'CodeTableLanguageISO639_2_B', 'eCommerce', 'LanguageCode', 'Name',
+           true, false, 'CodeTableLanguageISO639_2_B', 'eCommerce', 'LanguageCode2', 'Name',
            false, CURRENT_TIMESTAMP, NULL, NULL);
 
 
