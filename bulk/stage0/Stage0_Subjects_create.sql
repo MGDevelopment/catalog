@@ -24,3 +24,10 @@ ALTER TABLE Stage0_Subjects
 
 COMMIT;
 
+CREATE SEQUENCE Stage0_Subjects_seq
+ START WITH     1000        ------ verify initial value
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+
+COMMIT;
