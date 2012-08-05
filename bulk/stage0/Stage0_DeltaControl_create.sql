@@ -6,14 +6,14 @@ CREATE TABLE Stage0_DeltaControl(
 )
 TABLESPACE DATOSSMALL;
 
-CREATE INDEX Stage0_DeltaControl_PK_Idx
+CREATE UNIQUE INDEX Stage0_DeltaControl_PK_Idx
     ON Stage0_DeltaControl(EntityType)
     TABLESPACE INDICESSMALL;
 
 ALTER TABLE Stage0_DeltaControl
     ADD CONSTRAINT Stage0_DeltaControl_PK
-        PRIMARY KEY(EntityType)
-        USING INDEX Stage0_DeltaControl_PK_Idx;
+    PRIMARY KEY(EntityType)
+    USING INDEX TABLESPACE INDICESSMALL;
 
 COMMIT;
 
